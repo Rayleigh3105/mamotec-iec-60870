@@ -5,4 +5,4 @@ set CLIDIR=%BATDIR%..\cli-app\build\libs\*
 set LIBDIR=%BATDIR%..\build\libs\*
 @echo on
 
-java -cp "%LIBDIR%;%CLIDIR%" org.openmuc.j60870.app.ConsoleClient %*
+java -cp "%LIBDIR%;%CLIDIR%" org.mamotec.j60870.app.ConsoleClient %*

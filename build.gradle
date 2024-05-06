@@ -20,7 +20,7 @@ apply from: "gitlabRelease.gradle"
 
 asciidoctor {
     backends = ["pdf", "html5"]
-    attributes "stylesheet": "openmuc-asciidoc.css",
+    attributes "stylesheet": "mamotec-asciidoc.css",
             "toc2": "left",
             "sampleSrc": file("src/sample/java"),
             "source-highlighter": "coderay",
@@ -253,8 +253,8 @@ configure(repositoryProjects) {
 
                     developers {
                         developer {
-                            id "openmuc"
-                            name "OpenMUC Team"
+                            id "mamotec"
+                            name "mamotec Team"
                         }
                     }
                 }

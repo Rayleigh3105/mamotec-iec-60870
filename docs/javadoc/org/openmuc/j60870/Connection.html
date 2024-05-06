@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.openmuc.j60870</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.mamotec.j60870</a></div>
 <h2 title="Class Connection" class="title">Class Connection</h2>
 </div>
 <div class="contentContainer">
@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>org.openmuc.j60870.Connection</li>
+<li>org.mamotec.j60870.Connection</li>
 </ul>
 </li>
 </ul>
@@ -140,10 +140,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 extends java.lang.Object
 implements java.lang.AutoCloseable</pre>
 <div class="block">Represents an open connection to a specific 60870 server. It is created either through an instance of
- <a href="ClientConnectionBuilder.html" title="class in org.openmuc.j60870"><code>ClientConnectionBuilder</code></a> or passed to <a href="ServerEventListener.html" title="interface in org.openmuc.j60870"><code>ServerEventListener</code></a>. Once it has been closed it cannot be opened
+ <a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><code>ClientConnectionBuilder</code></a> or passed to <a href="ServerEventListener.html" title="interface in org.mamotec.j60870"><code>ServerEventListener</code></a>. Once it has been closed it cannot be opened
  again. A newly created connection has successfully build up a TCP/IP connection to the server. Before receiving ASDUs
  or sending commands one has to call <a href="#startDataTransfer(org.openmuc.j60870.ConnectionEventListener)"><code>startDataTransfer(ConnectionEventListener)</code></a>. Afterwards
- incoming ASDUs are forwarded to the <a href="ConnectionEventListener.html" title="interface in org.openmuc.j60870"><code>ConnectionEventListener</code></a>. Incoming ASDUs are queued so that
+ incoming ASDUs are forwarded to the <a href="ConnectionEventListener.html" title="interface in org.mamotec.j60870"><code>ConnectionEventListener</code></a>. Incoming ASDUs are queued so that
  <a href="ConnectionEventListener.html#newASdu(org.openmuc.j60870.Connection,org.openmuc.j60870.ASdu)"><code>ConnectionEventListener.newASdu(Connection connection, ASdu)</code></a> is never called simultaneously for the same connection.
 
  <p>
@@ -176,17 +176,17 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ackFileOrSection(int,int,org.openmuc.j60870.ie.IeNameOfFile,org.openmuc.j60870.ie.IeNameOfSection,org.openmuc.j60870.ie.IeAckFileOrSectionQualifier)">ackFileOrSection</a></span>&#8203;(int&nbsp;commonAddress,
                 int&nbsp;informationObjectAddress,
-                <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-                <a href="ie/IeAckFileOrSectionQualifier.html" title="class in org.openmuc.j60870.ie">IeAckFileOrSectionQualifier</a>&nbsp;qualifier)</code></th>
+                <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+                <a href="ie/IeAckFileOrSectionQualifier.html" title="class in org.mamotec.j60870.ie">IeAckFileOrSectionQualifier</a>&nbsp;qualifier)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#bitStringCommand(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeBinaryStateInformation)">bitStringCommand</a></span>&#8203;(int&nbsp;commonAddress,
-                <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                 int&nbsp;informationObjectAddress,
-                <a href="ie/IeBinaryStateInformation.html" title="class in org.openmuc.j60870.ie">IeBinaryStateInformation</a>&nbsp;binaryStateInformation)</code></th>
+                <a href="ie/IeBinaryStateInformation.html" title="class in org.mamotec.j60870.ie">IeBinaryStateInformation</a>&nbsp;binaryStateInformation)</code></th>
 <td class="colLast">
 <div class="block">Sends a bitstring of 32 bit (C_BO_NA_1, TI: 51).</div>
 </td>
@@ -194,10 +194,10 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#bitStringCommandWithTimeTag(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeBinaryStateInformation,org.openmuc.j60870.ie.IeTime56)">bitStringCommandWithTimeTag</a></span>&#8203;(int&nbsp;commonAddress,
-                           <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                           <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                            int&nbsp;informationObjectAddress,
-                           <a href="ie/IeBinaryStateInformation.html" title="class in org.openmuc.j60870.ie">IeBinaryStateInformation</a>&nbsp;binaryStateInformation,
-                           <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
+                           <a href="ie/IeBinaryStateInformation.html" title="class in org.mamotec.j60870.ie">IeBinaryStateInformation</a>&nbsp;binaryStateInformation,
+                           <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
 <td class="colLast">
 <div class="block">Sends a bitstring of 32 bit with time tag CP56Time2a (C_BO_TA_1, TI: 64).</div>
 </td>
@@ -205,11 +205,11 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#callOrSelectFiles(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeNameOfFile,org.openmuc.j60870.ie.IeNameOfSection,org.openmuc.j60870.ie.IeSelectAndCallQualifier)">callOrSelectFiles</a></span>&#8203;(int&nbsp;commonAddress,
-                 <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                 <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                  int&nbsp;informationObjectAddress,
-                 <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                 <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-                 <a href="ie/IeSelectAndCallQualifier.html" title="class in org.openmuc.j60870.ie">IeSelectAndCallQualifier</a>&nbsp;qualifier)</code></th>
+                 <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                 <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+                 <a href="ie/IeSelectAndCallQualifier.html" title="class in org.mamotec.j60870.ie">IeSelectAndCallQualifier</a>&nbsp;qualifier)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
@@ -222,8 +222,8 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#counterInterrogation(int,org.openmuc.j60870.CauseOfTransmission,org.openmuc.j60870.ie.IeQualifierOfCounterInterrogation)">counterInterrogation</a></span>&#8203;(int&nbsp;commonAddress,
-                    <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
-                    <a href="ie/IeQualifierOfCounterInterrogation.html" title="class in org.openmuc.j60870.ie">IeQualifierOfCounterInterrogation</a>&nbsp;qualifier)</code></th>
+                    <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
+                    <a href="ie/IeQualifierOfCounterInterrogation.html" title="class in org.mamotec.j60870.ie">IeQualifierOfCounterInterrogation</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a counter interrogation command (C_CI_NA_1, TI: 101).</div>
 </td>
@@ -231,8 +231,8 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#delayAcquisitionCommand(int,org.openmuc.j60870.CauseOfTransmission,org.openmuc.j60870.ie.IeTime16)">delayAcquisitionCommand</a></span>&#8203;(int&nbsp;commonAddress,
-                       <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
-                       <a href="ie/IeTime16.html" title="class in org.openmuc.j60870.ie">IeTime16</a>&nbsp;time)</code></th>
+                       <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
+                       <a href="ie/IeTime16.html" title="class in org.mamotec.j60870.ie">IeTime16</a>&nbsp;time)</code></th>
 <td class="colLast">
 <div class="block">Sends a delay acquisition command (C_CD_NA_1, TI: 106).</div>
 </td>
@@ -240,9 +240,9 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#doubleCommand(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeDoubleCommand)">doubleCommand</a></span>&#8203;(int&nbsp;commonAddress,
-             <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+             <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
              int&nbsp;informationObjectAddress,
-             <a href="ie/IeDoubleCommand.html" title="class in org.openmuc.j60870.ie">IeDoubleCommand</a>&nbsp;doubleCommand)</code></th>
+             <a href="ie/IeDoubleCommand.html" title="class in org.mamotec.j60870.ie">IeDoubleCommand</a>&nbsp;doubleCommand)</code></th>
 <td class="colLast">
 <div class="block">Sends a double command (C_DC_NA_1, TI: 46).</div>
 </td>
@@ -250,10 +250,10 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#doubleCommandWithTimeTag(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeDoubleCommand,org.openmuc.j60870.ie.IeTime56)">doubleCommandWithTimeTag</a></span>&#8203;(int&nbsp;commonAddress,
-                        <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                        <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                         int&nbsp;informationObjectAddress,
-                        <a href="ie/IeDoubleCommand.html" title="class in org.openmuc.j60870.ie">IeDoubleCommand</a>&nbsp;doubleCommand,
-                        <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
+                        <a href="ie/IeDoubleCommand.html" title="class in org.mamotec.j60870.ie">IeDoubleCommand</a>&nbsp;doubleCommand,
+                        <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
 <td class="colLast">
 <div class="block">Sends a double command with time tag CP56Time2a (C_DC_TA_1, TI: 59).</div>
 </td>
@@ -262,9 +262,9 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fileReady(int,int,org.openmuc.j60870.ie.IeNameOfFile,org.openmuc.j60870.ie.IeLengthOfFileOrSection,org.openmuc.j60870.ie.IeFileReadyQualifier)">fileReady</a></span>&#8203;(int&nbsp;commonAddress,
          int&nbsp;informationObjectAddress,
-         <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-         <a href="ie/IeLengthOfFileOrSection.html" title="class in org.openmuc.j60870.ie">IeLengthOfFileOrSection</a>&nbsp;lengthOfFile,
-         <a href="ie/IeFileReadyQualifier.html" title="class in org.openmuc.j60870.ie">IeFileReadyQualifier</a>&nbsp;qualifier)</code></th>
+         <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+         <a href="ie/IeLengthOfFileOrSection.html" title="class in org.mamotec.j60870.ie">IeLengthOfFileOrSection</a>&nbsp;lengthOfFile,
+         <a href="ie/IeFileReadyQualifier.html" title="class in org.mamotec.j60870.ie">IeFileReadyQualifier</a>&nbsp;qualifier)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
@@ -317,8 +317,8 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#interrogation(int,org.openmuc.j60870.CauseOfTransmission,org.openmuc.j60870.ie.IeQualifierOfInterrogation)">interrogation</a></span>&#8203;(int&nbsp;commonAddress,
-             <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
-             <a href="ie/IeQualifierOfInterrogation.html" title="class in org.openmuc.j60870.ie">IeQualifierOfInterrogation</a>&nbsp;qualifier)</code></th>
+             <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
+             <a href="ie/IeQualifierOfInterrogation.html" title="class in org.mamotec.j60870.ie">IeQualifierOfInterrogation</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends an interrogation command (C_IC_NA_1, TI: 100).</div>
 </td>
@@ -341,18 +341,18 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lastSectionOrSegment(int,int,org.openmuc.j60870.ie.IeNameOfFile,org.openmuc.j60870.ie.IeNameOfSection,org.openmuc.j60870.ie.IeLastSectionOrSegmentQualifier,org.openmuc.j60870.ie.IeChecksum)">lastSectionOrSegment</a></span>&#8203;(int&nbsp;commonAddress,
                     int&nbsp;informationObjectAddress,
-                    <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                    <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-                    <a href="ie/IeLastSectionOrSegmentQualifier.html" title="class in org.openmuc.j60870.ie">IeLastSectionOrSegmentQualifier</a>&nbsp;qualifier,
-                    <a href="ie/IeChecksum.html" title="class in org.openmuc.j60870.ie">IeChecksum</a>&nbsp;checksum)</code></th>
+                    <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                    <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+                    <a href="ie/IeLastSectionOrSegmentQualifier.html" title="class in org.mamotec.j60870.ie">IeLastSectionOrSegmentQualifier</a>&nbsp;qualifier,
+                    <a href="ie/IeChecksum.html" title="class in org.mamotec.j60870.ie">IeChecksum</a>&nbsp;checksum)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterActivation(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeQualifierOfParameterActivation)">parameterActivation</a></span>&#8203;(int&nbsp;commonAddress,
-                   <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                   <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                    int&nbsp;informationObjectAddress,
-                   <a href="ie/IeQualifierOfParameterActivation.html" title="class in org.openmuc.j60870.ie">IeQualifierOfParameterActivation</a>&nbsp;qualifier)</code></th>
+                   <a href="ie/IeQualifierOfParameterActivation.html" title="class in org.mamotec.j60870.ie">IeQualifierOfParameterActivation</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a parameter activation (P_AC_NA_1, TI: 113).</div>
 </td>
@@ -361,8 +361,8 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterNormalizedValueCommand(int,int,org.openmuc.j60870.ie.IeNormalizedValue,org.openmuc.j60870.ie.IeQualifierOfParameterOfMeasuredValues)">parameterNormalizedValueCommand</a></span>&#8203;(int&nbsp;commonAddress,
                                int&nbsp;informationObjectAddress,
-                               <a href="ie/IeNormalizedValue.html" title="class in org.openmuc.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
-                               <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.openmuc.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)</code></th>
+                               <a href="ie/IeNormalizedValue.html" title="class in org.mamotec.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
+                               <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.mamotec.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a parameter of measured values, normalized value (P_ME_NA_1, TI: 110).</div>
 </td>
@@ -371,8 +371,8 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterScaledValueCommand(int,int,org.openmuc.j60870.ie.IeScaledValue,org.openmuc.j60870.ie.IeQualifierOfParameterOfMeasuredValues)">parameterScaledValueCommand</a></span>&#8203;(int&nbsp;commonAddress,
                            int&nbsp;informationObjectAddress,
-                           <a href="ie/IeScaledValue.html" title="class in org.openmuc.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
-                           <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.openmuc.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)</code></th>
+                           <a href="ie/IeScaledValue.html" title="class in org.mamotec.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
+                           <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.mamotec.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a parameter of measured values, scaled value (P_ME_NB_1, TI: 111).</div>
 </td>
@@ -381,8 +381,8 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#parameterShortFloatCommand(int,int,org.openmuc.j60870.ie.IeShortFloat,org.openmuc.j60870.ie.IeQualifierOfParameterOfMeasuredValues)">parameterShortFloatCommand</a></span>&#8203;(int&nbsp;commonAddress,
                           int&nbsp;informationObjectAddress,
-                          <a href="ie/IeShortFloat.html" title="class in org.openmuc.j60870.ie">IeShortFloat</a>&nbsp;shortFloat,
-                          <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.openmuc.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)</code></th>
+                          <a href="ie/IeShortFloat.html" title="class in org.mamotec.j60870.ie">IeShortFloat</a>&nbsp;shortFloat,
+                          <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.mamotec.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a parameter of measured values, short floating point number (P_ME_NC_1, TI: 112).</div>
 </td>
@@ -391,9 +391,9 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#queryLog(int,int,org.openmuc.j60870.ie.IeNameOfFile,org.openmuc.j60870.ie.IeTime56,org.openmuc.j60870.ie.IeTime56)">queryLog</a></span>&#8203;(int&nbsp;commonAddress,
         int&nbsp;informationObjectAddress,
-        <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-        <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;rangeStartTime,
-        <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;rangeEndTime)</code></th>
+        <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+        <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;rangeStartTime,
+        <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;rangeEndTime)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i28" class="altColor">
@@ -407,9 +407,9 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i29" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#regulatingStepCommand(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeRegulatingStepCommand)">regulatingStepCommand</a></span>&#8203;(int&nbsp;commonAddress,
-                     <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                     <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                      int&nbsp;informationObjectAddress,
-                     <a href="ie/IeRegulatingStepCommand.html" title="class in org.openmuc.j60870.ie">IeRegulatingStepCommand</a>&nbsp;regulatingStepCommand)</code></th>
+                     <a href="ie/IeRegulatingStepCommand.html" title="class in org.mamotec.j60870.ie">IeRegulatingStepCommand</a>&nbsp;regulatingStepCommand)</code></th>
 <td class="colLast">
 <div class="block">Sends a regulating step command (C_RC_NA_1, TI: 47).</div>
 </td>
@@ -417,10 +417,10 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i30" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#regulatingStepCommandWithTimeTag(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeRegulatingStepCommand,org.openmuc.j60870.ie.IeTime56)">regulatingStepCommandWithTimeTag</a></span>&#8203;(int&nbsp;commonAddress,
-                                <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                 int&nbsp;informationObjectAddress,
-                                <a href="ie/IeRegulatingStepCommand.html" title="class in org.openmuc.j60870.ie">IeRegulatingStepCommand</a>&nbsp;regulatingStepCommand,
-                                <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
+                                <a href="ie/IeRegulatingStepCommand.html" title="class in org.mamotec.j60870.ie">IeRegulatingStepCommand</a>&nbsp;regulatingStepCommand,
+                                <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
 <td class="colLast">
 <div class="block">Sends a regulating step command with time tag CP56Time2a (C_RC_TA_1, TI: 60).</div>
 </td>
@@ -428,7 +428,7 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i31" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetProcessCommand(int,org.openmuc.j60870.ie.IeQualifierOfResetProcessCommand)">resetProcessCommand</a></span>&#8203;(int&nbsp;commonAddress,
-                   <a href="ie/IeQualifierOfResetProcessCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfResetProcessCommand</a>&nbsp;qualifier)</code></th>
+                   <a href="ie/IeQualifierOfResetProcessCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfResetProcessCommand</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a reset process command (C_RP_NA_1, TI: 105).</div>
 </td>
@@ -437,27 +437,27 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sectionReady(int,int,org.openmuc.j60870.ie.IeNameOfFile,org.openmuc.j60870.ie.IeNameOfSection,org.openmuc.j60870.ie.IeLengthOfFileOrSection,org.openmuc.j60870.ie.IeSectionReadyQualifier)">sectionReady</a></span>&#8203;(int&nbsp;commonAddress,
             int&nbsp;informationObjectAddress,
-            <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-            <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-            <a href="ie/IeLengthOfFileOrSection.html" title="class in org.openmuc.j60870.ie">IeLengthOfFileOrSection</a>&nbsp;lengthOfSection,
-            <a href="ie/IeSectionReadyQualifier.html" title="class in org.openmuc.j60870.ie">IeSectionReadyQualifier</a>&nbsp;qualifier)</code></th>
+            <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+            <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+            <a href="ie/IeLengthOfFileOrSection.html" title="class in org.mamotec.j60870.ie">IeLengthOfFileOrSection</a>&nbsp;lengthOfSection,
+            <a href="ie/IeSectionReadyQualifier.html" title="class in org.mamotec.j60870.ie">IeSectionReadyQualifier</a>&nbsp;qualifier)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i33" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#send(org.openmuc.j60870.ASdu)">send</a></span>&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#send(org.openmuc.j60870.ASdu)">send</a></span>&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i34" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendActivationTermination(org.openmuc.j60870.ASdu)">sendActivationTermination</a></span>&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendActivationTermination(org.openmuc.j60870.ASdu)">sendActivationTermination</a></span>&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu)</code></th>
 <td class="colLast">
 <div class="block">Send activation termination with given aSdu.</div>
 </td>
 </tr>
 <tr id="i35" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendActivationTermination(org.openmuc.j60870.ASdu,int)">sendActivationTermination</a></span>&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendActivationTermination(org.openmuc.j60870.ASdu,int)">sendActivationTermination</a></span>&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu,
                          int&nbsp;stationAddress)</code></th>
 <td class="colLast">
 <div class="block">Send activation termination with given aSdu.</div>
@@ -465,14 +465,14 @@ implements java.lang.AutoCloseable</pre>
 </tr>
 <tr id="i36" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendConfirmation(org.openmuc.j60870.ASdu)">sendConfirmation</a></span>&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendConfirmation(org.openmuc.j60870.ASdu)">sendConfirmation</a></span>&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu)</code></th>
 <td class="colLast">
 <div class="block">Send response with given aSdu.</div>
 </td>
 </tr>
 <tr id="i37" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendConfirmation(org.openmuc.j60870.ASdu,int)">sendConfirmation</a></span>&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendConfirmation(org.openmuc.j60870.ASdu,int)">sendConfirmation</a></span>&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu,
                 int&nbsp;stationAddress)</code></th>
 <td class="colLast">
 <div class="block">Send response with given aSdu.</div>
@@ -480,7 +480,7 @@ implements java.lang.AutoCloseable</pre>
 </tr>
 <tr id="i38" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendConfirmation(org.openmuc.j60870.ASdu,int,boolean)">sendConfirmation</a></span>&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendConfirmation(org.openmuc.j60870.ASdu,int,boolean)">sendConfirmation</a></span>&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu,
                 int&nbsp;stationAddress,
                 boolean&nbsp;isNegativeConfirm)</code></th>
 <td class="colLast">
@@ -489,10 +489,10 @@ implements java.lang.AutoCloseable</pre>
 </tr>
 <tr id="i39" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendConfirmation(org.openmuc.j60870.ASdu,int,boolean,org.openmuc.j60870.CauseOfTransmission)">sendConfirmation</a></span>&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendConfirmation(org.openmuc.j60870.ASdu,int,boolean,org.openmuc.j60870.CauseOfTransmission)">sendConfirmation</a></span>&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu,
                 int&nbsp;stationAddress,
                 boolean&nbsp;isNegativeConfirm,
-                <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot)</code></th>
+                <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot)</code></th>
 <td class="colLast">
 <div class="block">Send response with given aSdu.</div>
 </td>
@@ -501,21 +501,21 @@ implements java.lang.AutoCloseable</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendDirectory(int,int,org.openmuc.j60870.ie.InformationElement%5B%5D%5B%5D)">sendDirectory</a></span>&#8203;(int&nbsp;commonAddress,
              int&nbsp;informationObjectAddress,
-             <a href="ie/InformationElement.html" title="class in org.openmuc.j60870.ie">InformationElement</a>[][]&nbsp;directory)</code></th>
+             <a href="ie/InformationElement.html" title="class in org.mamotec.j60870.ie">InformationElement</a>[][]&nbsp;directory)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i41" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sendSegment(int,int,org.openmuc.j60870.ie.IeNameOfFile,org.openmuc.j60870.ie.IeNameOfSection,org.openmuc.j60870.ie.IeFileSegment)">sendSegment</a></span>&#8203;(int&nbsp;commonAddress,
            int&nbsp;informationObjectAddress,
-           <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-           <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-           <a href="ie/IeFileSegment.html" title="class in org.openmuc.j60870.ie">IeFileSegment</a>&nbsp;segment)</code></th>
+           <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+           <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+           <a href="ie/IeFileSegment.html" title="class in org.mamotec.j60870.ie">IeFileSegment</a>&nbsp;segment)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i42" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setConnectionListener(org.openmuc.j60870.ConnectionEventListener)">setConnectionListener</a></span>&#8203;(<a href="ConnectionEventListener.html" title="interface in org.openmuc.j60870">ConnectionEventListener</a>&nbsp;listener)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setConnectionListener(org.openmuc.j60870.ConnectionEventListener)">setConnectionListener</a></span>&#8203;(<a href="ConnectionEventListener.html" title="interface in org.mamotec.j60870">ConnectionEventListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
 <div class="block">Sets connection listener to be notified of incoming ASDUs and disconnect events.</div>
 </td>
@@ -523,10 +523,10 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i43" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setNormalizedValueCommand(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeNormalizedValue,org.openmuc.j60870.ie.IeQualifierOfSetPointCommand)">setNormalizedValueCommand</a></span>&#8203;(int&nbsp;commonAddress,
-                         <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                         <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                          int&nbsp;informationObjectAddress,
-                         <a href="ie/IeNormalizedValue.html" title="class in org.openmuc.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
-                         <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)</code></th>
+                         <a href="ie/IeNormalizedValue.html" title="class in org.mamotec.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
+                         <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a set-point command, normalized value (C_SE_NA_1, TI: 48).</div>
 </td>
@@ -534,11 +534,11 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i44" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setNormalizedValueCommandWithTimeTag(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeNormalizedValue,org.openmuc.j60870.ie.IeQualifierOfSetPointCommand,org.openmuc.j60870.ie.IeTime56)">setNormalizedValueCommandWithTimeTag</a></span>&#8203;(int&nbsp;commonAddress,
-                                    <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                    <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                     int&nbsp;informationObjectAddress,
-                                    <a href="ie/IeNormalizedValue.html" title="class in org.openmuc.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
-                                    <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
-                                    <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
+                                    <a href="ie/IeNormalizedValue.html" title="class in org.mamotec.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
+                                    <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
+                                    <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
 <td class="colLast">
 <div class="block">Sends a set-point command with time tag CP56Time2a, normalized value (C_SE_TA_1, TI: 61).</div>
 </td>
@@ -553,10 +553,10 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i46" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setScaledValueCommand(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeScaledValue,org.openmuc.j60870.ie.IeQualifierOfSetPointCommand)">setScaledValueCommand</a></span>&#8203;(int&nbsp;commonAddress,
-                     <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                     <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                      int&nbsp;informationObjectAddress,
-                     <a href="ie/IeScaledValue.html" title="class in org.openmuc.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
-                     <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)</code></th>
+                     <a href="ie/IeScaledValue.html" title="class in org.mamotec.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
+                     <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a set-point command, scaled value (C_SE_NB_1, TI: 49).</div>
 </td>
@@ -564,11 +564,11 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i47" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setScaledValueCommandWithTimeTag(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeScaledValue,org.openmuc.j60870.ie.IeQualifierOfSetPointCommand,org.openmuc.j60870.ie.IeTime56)">setScaledValueCommandWithTimeTag</a></span>&#8203;(int&nbsp;commonAddress,
-                                <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                 int&nbsp;informationObjectAddress,
-                                <a href="ie/IeScaledValue.html" title="class in org.openmuc.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
-                                <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
-                                <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
+                                <a href="ie/IeScaledValue.html" title="class in org.mamotec.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
+                                <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
+                                <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
 <td class="colLast">
 <div class="block">Sends a set-point command with time tag CP56Time2a, scaled value (C_SE_TB_1, TI: 62).</div>
 </td>
@@ -576,10 +576,10 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i48" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setShortFloatCommand(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeShortFloat,org.openmuc.j60870.ie.IeQualifierOfSetPointCommand)">setShortFloatCommand</a></span>&#8203;(int&nbsp;commonAddress,
-                    <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                    <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                     int&nbsp;informationObjectAddress,
-                    <a href="ie/IeShortFloat.html" title="class in org.openmuc.j60870.ie">IeShortFloat</a>&nbsp;floatVal,
-                    <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)</code></th>
+                    <a href="ie/IeShortFloat.html" title="class in org.mamotec.j60870.ie">IeShortFloat</a>&nbsp;floatVal,
+                    <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)</code></th>
 <td class="colLast">
 <div class="block">Sends a set-point command, short floating point number (C_SE_NC_1, TI: 50).</div>
 </td>
@@ -587,11 +587,11 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i49" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setShortFloatCommandWithTimeTag(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeShortFloat,org.openmuc.j60870.ie.IeQualifierOfSetPointCommand,org.openmuc.j60870.ie.IeTime56)">setShortFloatCommandWithTimeTag</a></span>&#8203;(int&nbsp;commonAddress,
-                               <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                               <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                int&nbsp;informationObjectAddress,
-                               <a href="ie/IeShortFloat.html" title="class in org.openmuc.j60870.ie">IeShortFloat</a>&nbsp;shortFloat,
-                               <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
-                               <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
+                               <a href="ie/IeShortFloat.html" title="class in org.mamotec.j60870.ie">IeShortFloat</a>&nbsp;shortFloat,
+                               <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
+                               <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
 <td class="colLast">
 <div class="block">Sends a set-point command with time tag CP56Time2a, short floating point number (C_SE_TC_1, TI: 63).</div>
 </td>
@@ -599,9 +599,9 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i50" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#singleCommand(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeSingleCommand)">singleCommand</a></span>&#8203;(int&nbsp;commonAddress,
-             <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+             <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
              int&nbsp;informationObjectAddress,
-             <a href="ie/IeSingleCommand.html" title="class in org.openmuc.j60870.ie">IeSingleCommand</a>&nbsp;singleCommand)</code></th>
+             <a href="ie/IeSingleCommand.html" title="class in org.mamotec.j60870.ie">IeSingleCommand</a>&nbsp;singleCommand)</code></th>
 <td class="colLast">
 <div class="block">Sends a single command (C_SC_NA_1, TI: 45).</div>
 </td>
@@ -609,10 +609,10 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i51" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#singleCommandWithTimeTag(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeSingleCommand,org.openmuc.j60870.ie.IeTime56)">singleCommandWithTimeTag</a></span>&#8203;(int&nbsp;commonAddress,
-                        <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                        <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                         int&nbsp;informationObjectAddress,
-                        <a href="ie/IeSingleCommand.html" title="class in org.openmuc.j60870.ie">IeSingleCommand</a>&nbsp;singleCommand,
-                        <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
+                        <a href="ie/IeSingleCommand.html" title="class in org.mamotec.j60870.ie">IeSingleCommand</a>&nbsp;singleCommand,
+                        <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)</code></th>
 <td class="colLast">
 <div class="block">Sends a single command with time tag CP56Time2a (C_SC_TA_1, TI: 58).</div>
 </td>
@@ -624,7 +624,7 @@ implements java.lang.AutoCloseable</pre>
 </tr>
 <tr id="i53" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startDataTransfer(org.openmuc.j60870.ConnectionEventListener)">startDataTransfer</a></span>&#8203;(<a href="ConnectionEventListener.html" title="interface in org.openmuc.j60870">ConnectionEventListener</a>&nbsp;listener)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#startDataTransfer(org.openmuc.j60870.ConnectionEventListener)">startDataTransfer</a></span>&#8203;(<a href="ConnectionEventListener.html" title="interface in org.mamotec.j60870">ConnectionEventListener</a>&nbsp;listener)</code></th>
 <td class="colLast">
 <div class="block">Starts a connection.</div>
 </td>
@@ -639,7 +639,7 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i55" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#synchronizeClocks(int,org.openmuc.j60870.ie.IeTime56)">synchronizeClocks</a></span>&#8203;(int&nbsp;commonAddress,
-                 <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;time)</code></th>
+                 <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;time)</code></th>
 <td class="colLast">
 <div class="block">Sends a clock synchronization command (C_CS_NA_1, TI: 103).</div>
 </td>
@@ -654,8 +654,8 @@ implements java.lang.AutoCloseable</pre>
 <tr id="i57" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#testCommandWithTimeTag(int,org.openmuc.j60870.ie.IeTestSequenceCounter,org.openmuc.j60870.ie.IeTime56)">testCommandWithTimeTag</a></span>&#8203;(int&nbsp;commonAddress,
-                      <a href="ie/IeTestSequenceCounter.html" title="class in org.openmuc.j60870.ie">IeTestSequenceCounter</a>&nbsp;testSequenceCounter,
-                      <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;time)</code></th>
+                      <a href="ie/IeTestSequenceCounter.html" title="class in org.mamotec.j60870.ie">IeTestSequenceCounter</a>&nbsp;testSequenceCounter,
+                      <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;time)</code></th>
 <td class="colLast">
 <div class="block">Sends a test command with time tag CP56Time2a (C_TS_TA_1, TI: 107).</div>
 </td>
@@ -716,7 +716,7 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>startDataTransfer</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;startDataTransfer&#8203;(<a href="ConnectionEventListener.html" title="interface in org.openmuc.j60870">ConnectionEventListener</a>&nbsp;listener)
+<pre class="methodSignature">public&nbsp;void&nbsp;startDataTransfer&#8203;(<a href="ConnectionEventListener.html" title="interface in org.mamotec.j60870">ConnectionEventListener</a>&nbsp;listener)
                        throws java.io.IOException</pre>
 <div class="block">Starts a connection. Sends a STARTDT act and waits for a STARTDT con. If successful a new thread will be started
  that listens for incoming ASDUs and notifies the given ASduListener.</div>
@@ -734,7 +734,7 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>setConnectionListener</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setConnectionListener&#8203;(<a href="ConnectionEventListener.html" title="interface in org.openmuc.j60870">ConnectionEventListener</a>&nbsp;listener)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;setConnectionListener&#8203;(<a href="ConnectionEventListener.html" title="interface in org.mamotec.j60870">ConnectionEventListener</a>&nbsp;listener)</pre>
 <div class="block">Sets connection listener to be notified of incoming ASDUs and disconnect events.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -830,7 +830,7 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>send</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;send&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu)
+<pre class="methodSignature">public&nbsp;void&nbsp;send&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu)
           throws java.io.IOException,
                  java.lang.IllegalArgumentException</pre>
 <dl>
@@ -846,7 +846,7 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sendConfirmation</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;sendConfirmation&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu)
+<pre class="methodSignature">public&nbsp;void&nbsp;sendConfirmation&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu)
                       throws java.io.IOException</pre>
 <div class="block">Send response with given aSdu. Common ASDU address of given ASDU is used as station address.</div>
 <dl>
@@ -863,7 +863,7 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sendConfirmation</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;sendConfirmation&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu,
+<pre class="methodSignature">public&nbsp;void&nbsp;sendConfirmation&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu,
                              int&nbsp;stationAddress)
                       throws java.io.IOException</pre>
 <div class="block">Send response with given aSdu. Given station address is used as Common ASDU Address, if we response to broadcast
@@ -883,7 +883,7 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sendConfirmation</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;sendConfirmation&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu,
+<pre class="methodSignature">public&nbsp;void&nbsp;sendConfirmation&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu,
                              int&nbsp;stationAddress,
                              boolean&nbsp;isNegativeConfirm)
                       throws java.io.IOException</pre>
@@ -905,10 +905,10 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sendConfirmation</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;sendConfirmation&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu,
+<pre class="methodSignature">public&nbsp;void&nbsp;sendConfirmation&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu,
                              int&nbsp;stationAddress,
                              boolean&nbsp;isNegativeConfirm,
-                             <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot)
+                             <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot)
                       throws java.io.IOException</pre>
 <div class="block">Send response with given aSdu. Given station address is used as Common ASDU Address, if we response to broadcast
  else given Common ASDU Address of aSdu.</div>
@@ -931,7 +931,7 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sendActivationTermination</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;sendActivationTermination&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu,
+<pre class="methodSignature">public&nbsp;void&nbsp;sendActivationTermination&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu,
                                       int&nbsp;stationAddress)
                                throws java.io.IOException</pre>
 <div class="block">Send activation termination with given aSdu. Given station address is used as Common ASDU Address, if we response
@@ -951,7 +951,7 @@ implements java.lang.AutoCloseable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>sendActivationTermination</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;sendActivationTermination&#8203;(<a href="ASdu.html" title="class in org.openmuc.j60870">ASdu</a>&nbsp;aSdu)
+<pre class="methodSignature">public&nbsp;void&nbsp;sendActivationTermination&#8203;(<a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu)
                                throws java.io.IOException</pre>
 <div class="block">Send activation termination with given aSdu. Common ASDU address of given ASDU is used as station address.</div>
 <dl>
@@ -969,9 +969,9 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>singleCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;singleCommand&#8203;(int&nbsp;commonAddress,
-                          <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                          <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                           int&nbsp;informationObjectAddress,
-                          <a href="ie/IeSingleCommand.html" title="class in org.openmuc.j60870.ie">IeSingleCommand</a>&nbsp;singleCommand)
+                          <a href="ie/IeSingleCommand.html" title="class in org.mamotec.j60870.ie">IeSingleCommand</a>&nbsp;singleCommand)
                    throws java.io.IOException</pre>
 <div class="block">Sends a single command (C_SC_NA_1, TI: 45).</div>
 <dl>
@@ -992,10 +992,10 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>singleCommandWithTimeTag</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;singleCommandWithTimeTag&#8203;(int&nbsp;commonAddress,
-                                     <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                     <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                      int&nbsp;informationObjectAddress,
-                                     <a href="ie/IeSingleCommand.html" title="class in org.openmuc.j60870.ie">IeSingleCommand</a>&nbsp;singleCommand,
-                                     <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)
+                                     <a href="ie/IeSingleCommand.html" title="class in org.mamotec.j60870.ie">IeSingleCommand</a>&nbsp;singleCommand,
+                                     <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)
                               throws java.io.IOException</pre>
 <div class="block">Sends a single command with time tag CP56Time2a (C_SC_TA_1, TI: 58).</div>
 <dl>
@@ -1017,9 +1017,9 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>doubleCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;doubleCommand&#8203;(int&nbsp;commonAddress,
-                          <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                          <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                           int&nbsp;informationObjectAddress,
-                          <a href="ie/IeDoubleCommand.html" title="class in org.openmuc.j60870.ie">IeDoubleCommand</a>&nbsp;doubleCommand)
+                          <a href="ie/IeDoubleCommand.html" title="class in org.mamotec.j60870.ie">IeDoubleCommand</a>&nbsp;doubleCommand)
                    throws java.io.IOException</pre>
 <div class="block">Sends a double command (C_DC_NA_1, TI: 46).</div>
 <dl>
@@ -1040,10 +1040,10 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>doubleCommandWithTimeTag</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;doubleCommandWithTimeTag&#8203;(int&nbsp;commonAddress,
-                                     <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                     <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                      int&nbsp;informationObjectAddress,
-                                     <a href="ie/IeDoubleCommand.html" title="class in org.openmuc.j60870.ie">IeDoubleCommand</a>&nbsp;doubleCommand,
-                                     <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)
+                                     <a href="ie/IeDoubleCommand.html" title="class in org.mamotec.j60870.ie">IeDoubleCommand</a>&nbsp;doubleCommand,
+                                     <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)
                               throws java.io.IOException</pre>
 <div class="block">Sends a double command with time tag CP56Time2a (C_DC_TA_1, TI: 59).</div>
 <dl>
@@ -1065,9 +1065,9 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>regulatingStepCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;regulatingStepCommand&#8203;(int&nbsp;commonAddress,
-                                  <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                  <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                   int&nbsp;informationObjectAddress,
-                                  <a href="ie/IeRegulatingStepCommand.html" title="class in org.openmuc.j60870.ie">IeRegulatingStepCommand</a>&nbsp;regulatingStepCommand)
+                                  <a href="ie/IeRegulatingStepCommand.html" title="class in org.mamotec.j60870.ie">IeRegulatingStepCommand</a>&nbsp;regulatingStepCommand)
                            throws java.io.IOException</pre>
 <div class="block">Sends a regulating step command (C_RC_NA_1, TI: 47).</div>
 <dl>
@@ -1088,10 +1088,10 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>regulatingStepCommandWithTimeTag</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;regulatingStepCommandWithTimeTag&#8203;(int&nbsp;commonAddress,
-                                             <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                             <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                              int&nbsp;informationObjectAddress,
-                                             <a href="ie/IeRegulatingStepCommand.html" title="class in org.openmuc.j60870.ie">IeRegulatingStepCommand</a>&nbsp;regulatingStepCommand,
-                                             <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)
+                                             <a href="ie/IeRegulatingStepCommand.html" title="class in org.mamotec.j60870.ie">IeRegulatingStepCommand</a>&nbsp;regulatingStepCommand,
+                                             <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)
                                       throws java.io.IOException</pre>
 <div class="block">Sends a regulating step command with time tag CP56Time2a (C_RC_TA_1, TI: 60).</div>
 <dl>
@@ -1113,10 +1113,10 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>setNormalizedValueCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setNormalizedValueCommand&#8203;(int&nbsp;commonAddress,
-                                      <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                      <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                       int&nbsp;informationObjectAddress,
-                                      <a href="ie/IeNormalizedValue.html" title="class in org.openmuc.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
-                                      <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)
+                                      <a href="ie/IeNormalizedValue.html" title="class in org.mamotec.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
+                                      <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)
                                throws java.io.IOException</pre>
 <div class="block">Sends a set-point command, normalized value (C_SE_NA_1, TI: 48).</div>
 <dl>
@@ -1138,11 +1138,11 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>setNormalizedValueCommandWithTimeTag</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setNormalizedValueCommandWithTimeTag&#8203;(int&nbsp;commonAddress,
-                                                 <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                                 <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                                  int&nbsp;informationObjectAddress,
-                                                 <a href="ie/IeNormalizedValue.html" title="class in org.openmuc.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
-                                                 <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
-                                                 <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)
+                                                 <a href="ie/IeNormalizedValue.html" title="class in org.mamotec.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
+                                                 <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
+                                                 <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)
                                           throws java.io.IOException</pre>
 <div class="block">Sends a set-point command with time tag CP56Time2a, normalized value (C_SE_TA_1, TI: 61).</div>
 <dl>
@@ -1165,10 +1165,10 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>setScaledValueCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setScaledValueCommand&#8203;(int&nbsp;commonAddress,
-                                  <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                  <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                   int&nbsp;informationObjectAddress,
-                                  <a href="ie/IeScaledValue.html" title="class in org.openmuc.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
-                                  <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)
+                                  <a href="ie/IeScaledValue.html" title="class in org.mamotec.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
+                                  <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)
                            throws java.io.IOException</pre>
 <div class="block">Sends a set-point command, scaled value (C_SE_NB_1, TI: 49).</div>
 <dl>
@@ -1190,11 +1190,11 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>setScaledValueCommandWithTimeTag</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setScaledValueCommandWithTimeTag&#8203;(int&nbsp;commonAddress,
-                                             <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                             <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                              int&nbsp;informationObjectAddress,
-                                             <a href="ie/IeScaledValue.html" title="class in org.openmuc.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
-                                             <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
-                                             <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)
+                                             <a href="ie/IeScaledValue.html" title="class in org.mamotec.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
+                                             <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
+                                             <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)
                                       throws java.io.IOException</pre>
 <div class="block">Sends a set-point command with time tag CP56Time2a, scaled value (C_SE_TB_1, TI: 62).</div>
 <dl>
@@ -1217,10 +1217,10 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>setShortFloatCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setShortFloatCommand&#8203;(int&nbsp;commonAddress,
-                                 <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                 <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                  int&nbsp;informationObjectAddress,
-                                 <a href="ie/IeShortFloat.html" title="class in org.openmuc.j60870.ie">IeShortFloat</a>&nbsp;floatVal,
-                                 <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)
+                                 <a href="ie/IeShortFloat.html" title="class in org.mamotec.j60870.ie">IeShortFloat</a>&nbsp;floatVal,
+                                 <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier)
                           throws java.io.IOException</pre>
 <div class="block">Sends a set-point command, short floating point number (C_SE_NC_1, TI: 50).</div>
 <dl>
@@ -1242,11 +1242,11 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>setShortFloatCommandWithTimeTag</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setShortFloatCommandWithTimeTag&#8203;(int&nbsp;commonAddress,
-                                            <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                            <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                             int&nbsp;informationObjectAddress,
-                                            <a href="ie/IeShortFloat.html" title="class in org.openmuc.j60870.ie">IeShortFloat</a>&nbsp;shortFloat,
-                                            <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
-                                            <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)
+                                            <a href="ie/IeShortFloat.html" title="class in org.mamotec.j60870.ie">IeShortFloat</a>&nbsp;shortFloat,
+                                            <a href="ie/IeQualifierOfSetPointCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfSetPointCommand</a>&nbsp;qualifier,
+                                            <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)
                                      throws java.io.IOException</pre>
 <div class="block">Sends a set-point command with time tag CP56Time2a, short floating point number (C_SE_TC_1, TI: 63).</div>
 <dl>
@@ -1269,9 +1269,9 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>bitStringCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;bitStringCommand&#8203;(int&nbsp;commonAddress,
-                             <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                             <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                              int&nbsp;informationObjectAddress,
-                             <a href="ie/IeBinaryStateInformation.html" title="class in org.openmuc.j60870.ie">IeBinaryStateInformation</a>&nbsp;binaryStateInformation)
+                             <a href="ie/IeBinaryStateInformation.html" title="class in org.mamotec.j60870.ie">IeBinaryStateInformation</a>&nbsp;binaryStateInformation)
                       throws java.io.IOException</pre>
 <div class="block">Sends a bitstring of 32 bit (C_BO_NA_1, TI: 51).</div>
 <dl>
@@ -1292,10 +1292,10 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>bitStringCommandWithTimeTag</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;bitStringCommandWithTimeTag&#8203;(int&nbsp;commonAddress,
-                                        <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                        <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                         int&nbsp;informationObjectAddress,
-                                        <a href="ie/IeBinaryStateInformation.html" title="class in org.openmuc.j60870.ie">IeBinaryStateInformation</a>&nbsp;binaryStateInformation,
-                                        <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;timeTag)
+                                        <a href="ie/IeBinaryStateInformation.html" title="class in org.mamotec.j60870.ie">IeBinaryStateInformation</a>&nbsp;binaryStateInformation,
+                                        <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;timeTag)
                                  throws java.io.IOException</pre>
 <div class="block">Sends a bitstring of 32 bit with time tag CP56Time2a (C_BO_TA_1, TI: 64).</div>
 <dl>
@@ -1317,8 +1317,8 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>interrogation</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;interrogation&#8203;(int&nbsp;commonAddress,
-                          <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
-                          <a href="ie/IeQualifierOfInterrogation.html" title="class in org.openmuc.j60870.ie">IeQualifierOfInterrogation</a>&nbsp;qualifier)
+                          <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
+                          <a href="ie/IeQualifierOfInterrogation.html" title="class in org.mamotec.j60870.ie">IeQualifierOfInterrogation</a>&nbsp;qualifier)
                    throws java.io.IOException</pre>
 <div class="block">Sends an interrogation command (C_IC_NA_1, TI: 100).</div>
 <dl>
@@ -1338,8 +1338,8 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>counterInterrogation</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;counterInterrogation&#8203;(int&nbsp;commonAddress,
-                                 <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
-                                 <a href="ie/IeQualifierOfCounterInterrogation.html" title="class in org.openmuc.j60870.ie">IeQualifierOfCounterInterrogation</a>&nbsp;qualifier)
+                                 <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                 <a href="ie/IeQualifierOfCounterInterrogation.html" title="class in org.mamotec.j60870.ie">IeQualifierOfCounterInterrogation</a>&nbsp;qualifier)
                           throws java.io.IOException</pre>
 <div class="block">Sends a counter interrogation command (C_CI_NA_1, TI: 101).</div>
 <dl>
@@ -1378,7 +1378,7 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>synchronizeClocks</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;synchronizeClocks&#8203;(int&nbsp;commonAddress,
-                              <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;time)
+                              <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;time)
                        throws java.io.IOException</pre>
 <div class="block">Sends a clock synchronization command (C_CS_NA_1, TI: 103).</div>
 <dl>
@@ -1414,7 +1414,7 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>resetProcessCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;resetProcessCommand&#8203;(int&nbsp;commonAddress,
-                                <a href="ie/IeQualifierOfResetProcessCommand.html" title="class in org.openmuc.j60870.ie">IeQualifierOfResetProcessCommand</a>&nbsp;qualifier)
+                                <a href="ie/IeQualifierOfResetProcessCommand.html" title="class in org.mamotec.j60870.ie">IeQualifierOfResetProcessCommand</a>&nbsp;qualifier)
                          throws java.io.IOException</pre>
 <div class="block">Sends a reset process command (C_RP_NA_1, TI: 105).</div>
 <dl>
@@ -1433,8 +1433,8 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>delayAcquisitionCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;delayAcquisitionCommand&#8203;(int&nbsp;commonAddress,
-                                    <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
-                                    <a href="ie/IeTime16.html" title="class in org.openmuc.j60870.ie">IeTime16</a>&nbsp;time)
+                                    <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                    <a href="ie/IeTime16.html" title="class in org.mamotec.j60870.ie">IeTime16</a>&nbsp;time)
                              throws java.io.IOException</pre>
 <div class="block">Sends a delay acquisition command (C_CD_NA_1, TI: 106).</div>
 <dl>
@@ -1454,8 +1454,8 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>testCommandWithTimeTag</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;testCommandWithTimeTag&#8203;(int&nbsp;commonAddress,
-                                   <a href="ie/IeTestSequenceCounter.html" title="class in org.openmuc.j60870.ie">IeTestSequenceCounter</a>&nbsp;testSequenceCounter,
-                                   <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;time)
+                                   <a href="ie/IeTestSequenceCounter.html" title="class in org.mamotec.j60870.ie">IeTestSequenceCounter</a>&nbsp;testSequenceCounter,
+                                   <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;time)
                             throws java.io.IOException</pre>
 <div class="block">Sends a test command with time tag CP56Time2a (C_TS_TA_1, TI: 107).</div>
 <dl>
@@ -1476,8 +1476,8 @@ implements java.lang.AutoCloseable</pre>
 <h4>parameterNormalizedValueCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;parameterNormalizedValueCommand&#8203;(int&nbsp;commonAddress,
                                             int&nbsp;informationObjectAddress,
-                                            <a href="ie/IeNormalizedValue.html" title="class in org.openmuc.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
-                                            <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.openmuc.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)
+                                            <a href="ie/IeNormalizedValue.html" title="class in org.mamotec.j60870.ie">IeNormalizedValue</a>&nbsp;normalizedValue,
+                                            <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.mamotec.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)
                                      throws java.io.IOException</pre>
 <div class="block">Sends a parameter of measured values, normalized value (P_ME_NA_1, TI: 110).</div>
 <dl>
@@ -1499,8 +1499,8 @@ implements java.lang.AutoCloseable</pre>
 <h4>parameterScaledValueCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;parameterScaledValueCommand&#8203;(int&nbsp;commonAddress,
                                         int&nbsp;informationObjectAddress,
-                                        <a href="ie/IeScaledValue.html" title="class in org.openmuc.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
-                                        <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.openmuc.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)
+                                        <a href="ie/IeScaledValue.html" title="class in org.mamotec.j60870.ie">IeScaledValue</a>&nbsp;scaledValue,
+                                        <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.mamotec.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)
                                  throws java.io.IOException</pre>
 <div class="block">Sends a parameter of measured values, scaled value (P_ME_NB_1, TI: 111).</div>
 <dl>
@@ -1522,8 +1522,8 @@ implements java.lang.AutoCloseable</pre>
 <h4>parameterShortFloatCommand</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;parameterShortFloatCommand&#8203;(int&nbsp;commonAddress,
                                        int&nbsp;informationObjectAddress,
-                                       <a href="ie/IeShortFloat.html" title="class in org.openmuc.j60870.ie">IeShortFloat</a>&nbsp;shortFloat,
-                                       <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.openmuc.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)
+                                       <a href="ie/IeShortFloat.html" title="class in org.mamotec.j60870.ie">IeShortFloat</a>&nbsp;shortFloat,
+                                       <a href="ie/IeQualifierOfParameterOfMeasuredValues.html" title="class in org.mamotec.j60870.ie">IeQualifierOfParameterOfMeasuredValues</a>&nbsp;qualifier)
                                 throws java.io.IOException</pre>
 <div class="block">Sends a parameter of measured values, short floating point number (P_ME_NC_1, TI: 112).</div>
 <dl>
@@ -1544,9 +1544,9 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>parameterActivation</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;parameterActivation&#8203;(int&nbsp;commonAddress,
-                                <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                                <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                                 int&nbsp;informationObjectAddress,
-                                <a href="ie/IeQualifierOfParameterActivation.html" title="class in org.openmuc.j60870.ie">IeQualifierOfParameterActivation</a>&nbsp;qualifier)
+                                <a href="ie/IeQualifierOfParameterActivation.html" title="class in org.mamotec.j60870.ie">IeQualifierOfParameterActivation</a>&nbsp;qualifier)
                          throws java.io.IOException</pre>
 <div class="block">Sends a parameter activation (P_AC_NA_1, TI: 113).</div>
 <dl>
@@ -1568,9 +1568,9 @@ implements java.lang.AutoCloseable</pre>
 <h4>fileReady</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;fileReady&#8203;(int&nbsp;commonAddress,
                       int&nbsp;informationObjectAddress,
-                      <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                      <a href="ie/IeLengthOfFileOrSection.html" title="class in org.openmuc.j60870.ie">IeLengthOfFileOrSection</a>&nbsp;lengthOfFile,
-                      <a href="ie/IeFileReadyQualifier.html" title="class in org.openmuc.j60870.ie">IeFileReadyQualifier</a>&nbsp;qualifier)
+                      <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                      <a href="ie/IeLengthOfFileOrSection.html" title="class in org.mamotec.j60870.ie">IeLengthOfFileOrSection</a>&nbsp;lengthOfFile,
+                      <a href="ie/IeFileReadyQualifier.html" title="class in org.mamotec.j60870.ie">IeFileReadyQualifier</a>&nbsp;qualifier)
                throws java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1586,10 +1586,10 @@ implements java.lang.AutoCloseable</pre>
 <h4>sectionReady</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;sectionReady&#8203;(int&nbsp;commonAddress,
                          int&nbsp;informationObjectAddress,
-                         <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                         <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-                         <a href="ie/IeLengthOfFileOrSection.html" title="class in org.openmuc.j60870.ie">IeLengthOfFileOrSection</a>&nbsp;lengthOfSection,
-                         <a href="ie/IeSectionReadyQualifier.html" title="class in org.openmuc.j60870.ie">IeSectionReadyQualifier</a>&nbsp;qualifier)
+                         <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                         <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+                         <a href="ie/IeLengthOfFileOrSection.html" title="class in org.mamotec.j60870.ie">IeLengthOfFileOrSection</a>&nbsp;lengthOfSection,
+                         <a href="ie/IeSectionReadyQualifier.html" title="class in org.mamotec.j60870.ie">IeSectionReadyQualifier</a>&nbsp;qualifier)
                   throws java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1604,11 +1604,11 @@ implements java.lang.AutoCloseable</pre>
 <li class="blockList">
 <h4>callOrSelectFiles</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;callOrSelectFiles&#8203;(int&nbsp;commonAddress,
-                              <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;cot,
+                              <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;cot,
                               int&nbsp;informationObjectAddress,
-                              <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                              <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-                              <a href="ie/IeSelectAndCallQualifier.html" title="class in org.openmuc.j60870.ie">IeSelectAndCallQualifier</a>&nbsp;qualifier)
+                              <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                              <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+                              <a href="ie/IeSelectAndCallQualifier.html" title="class in org.mamotec.j60870.ie">IeSelectAndCallQualifier</a>&nbsp;qualifier)
                        throws java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1624,10 +1624,10 @@ implements java.lang.AutoCloseable</pre>
 <h4>lastSectionOrSegment</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;lastSectionOrSegment&#8203;(int&nbsp;commonAddress,
                                  int&nbsp;informationObjectAddress,
-                                 <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                                 <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-                                 <a href="ie/IeLastSectionOrSegmentQualifier.html" title="class in org.openmuc.j60870.ie">IeLastSectionOrSegmentQualifier</a>&nbsp;qualifier,
-                                 <a href="ie/IeChecksum.html" title="class in org.openmuc.j60870.ie">IeChecksum</a>&nbsp;checksum)
+                                 <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                                 <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+                                 <a href="ie/IeLastSectionOrSegmentQualifier.html" title="class in org.mamotec.j60870.ie">IeLastSectionOrSegmentQualifier</a>&nbsp;qualifier,
+                                 <a href="ie/IeChecksum.html" title="class in org.mamotec.j60870.ie">IeChecksum</a>&nbsp;checksum)
                           throws java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1643,9 +1643,9 @@ implements java.lang.AutoCloseable</pre>
 <h4>ackFileOrSection</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;ackFileOrSection&#8203;(int&nbsp;commonAddress,
                              int&nbsp;informationObjectAddress,
-                             <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                             <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-                             <a href="ie/IeAckFileOrSectionQualifier.html" title="class in org.openmuc.j60870.ie">IeAckFileOrSectionQualifier</a>&nbsp;qualifier)
+                             <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                             <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+                             <a href="ie/IeAckFileOrSectionQualifier.html" title="class in org.mamotec.j60870.ie">IeAckFileOrSectionQualifier</a>&nbsp;qualifier)
                       throws java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1661,9 +1661,9 @@ implements java.lang.AutoCloseable</pre>
 <h4>sendSegment</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;sendSegment&#8203;(int&nbsp;commonAddress,
                         int&nbsp;informationObjectAddress,
-                        <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                        <a href="ie/IeNameOfSection.html" title="class in org.openmuc.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
-                        <a href="ie/IeFileSegment.html" title="class in org.openmuc.j60870.ie">IeFileSegment</a>&nbsp;segment)
+                        <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                        <a href="ie/IeNameOfSection.html" title="class in org.mamotec.j60870.ie">IeNameOfSection</a>&nbsp;nameOfSection,
+                        <a href="ie/IeFileSegment.html" title="class in org.mamotec.j60870.ie">IeFileSegment</a>&nbsp;segment)
                  throws java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1679,7 +1679,7 @@ implements java.lang.AutoCloseable</pre>
 <h4>sendDirectory</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;sendDirectory&#8203;(int&nbsp;commonAddress,
                           int&nbsp;informationObjectAddress,
-                          <a href="ie/InformationElement.html" title="class in org.openmuc.j60870.ie">InformationElement</a>[][]&nbsp;directory)
+                          <a href="ie/InformationElement.html" title="class in org.mamotec.j60870.ie">InformationElement</a>[][]&nbsp;directory)
                    throws java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1695,9 +1695,9 @@ implements java.lang.AutoCloseable</pre>
 <h4>queryLog</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;queryLog&#8203;(int&nbsp;commonAddress,
                      int&nbsp;informationObjectAddress,
-                     <a href="ie/IeNameOfFile.html" title="class in org.openmuc.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
-                     <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;rangeStartTime,
-                     <a href="ie/IeTime56.html" title="class in org.openmuc.j60870.ie">IeTime56</a>&nbsp;rangeEndTime)
+                     <a href="ie/IeNameOfFile.html" title="class in org.mamotec.j60870.ie">IeNameOfFile</a>&nbsp;nameOfFile,
+                     <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;rangeStartTime,
+                     <a href="ie/IeTime56.html" title="class in org.mamotec.j60870.ie">IeTime56</a>&nbsp;rangeEndTime)
               throws java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>

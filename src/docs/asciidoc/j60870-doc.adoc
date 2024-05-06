@@ -22,7 +22,7 @@ found in the folder /build/libs.
 
 The easiest way to get started is by taking a look at the code of the
 console client and the sample server which can be found here:
-cli-app/src/main/java/org/openmuc/j60870/app/ . These applications in
+cli-app/src/main/java/org/mamotec/j60870/app/ . These applications in
 combination with the javadoc should satisfy most of your documentation
 needs.
 

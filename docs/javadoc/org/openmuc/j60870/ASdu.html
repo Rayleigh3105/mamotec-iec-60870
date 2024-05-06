@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.openmuc.j60870</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.mamotec.j60870</a></div>
 <h2 title="Class ASdu" class="title">Class ASdu</h2>
 </div>
 <div class="contentContainer">
@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>org.openmuc.j60870.ASdu</li>
+<li>org.mamotec.j60870.ASdu</li>
 </ul>
 </li>
 </ul>
@@ -139,11 +139,11 @@ extends java.lang.Object</pre>
  Objects. The Data Unit Identifier contains:
 
  <ul>
- <li><a href="ASduType.html" title="enum in org.openmuc.j60870"><code>ASduType</code></a> (1 byte)</li>
+ <li><a href="ASduType.html" title="enum in org.mamotec.j60870"><code>ASduType</code></a> (1 byte)</li>
  <li>Variable Structure Qualifier (1 byte) - specifies how many Information Objects and Information Element sets are
  part of the ASDU.</li>
  <li>Cause of Transmission (COT, 1 or 2 bytes) - The first byte codes the actual
- <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870"><code>CauseOfTransmission</code></a>, a bit indicating whether the message was sent for test purposes only
+ <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870"><code>CauseOfTransmission</code></a>, a bit indicating whether the message was sent for test purposes only
  and a bit indicating whether a confirmation message is positive or negative. The optional second byte of the Cause of
  Transmission field is the Originator Address. It is the address of the originating controlling station so that
  responses can be routed back to it.</li>
@@ -174,10 +174,10 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.openmuc.j60870.ASduType,boolean,int,org.openmuc.j60870.CauseOfTransmission,boolean,boolean,int,int,byte%5B%5D)">ASdu</a></span>&#8203;(<a href="ASduType.html" title="enum in org.openmuc.j60870">ASduType</a>&nbsp;typeId,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.openmuc.j60870.ASduType,boolean,int,org.openmuc.j60870.CauseOfTransmission,boolean,boolean,int,int,byte%5B%5D)">ASdu</a></span>&#8203;(<a href="ASduType.html" title="enum in org.mamotec.j60870">ASduType</a>&nbsp;typeId,
     boolean&nbsp;isSequenceOfElements,
     int&nbsp;sequenceLength,
-    <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;causeOfTransmission,
+    <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;causeOfTransmission,
     boolean&nbsp;test,
     boolean&nbsp;negativeConfirm,
     int&nbsp;originatorAddress,
@@ -188,14 +188,14 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.openmuc.j60870.ASduType,boolean,org.openmuc.j60870.CauseOfTransmission,boolean,boolean,int,int,org.openmuc.j60870.ie.InformationObject...)">ASdu</a></span>&#8203;(<a href="ASduType.html" title="enum in org.openmuc.j60870">ASduType</a>&nbsp;typeId,
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(org.openmuc.j60870.ASduType,boolean,org.openmuc.j60870.CauseOfTransmission,boolean,boolean,int,int,org.openmuc.j60870.ie.InformationObject...)">ASdu</a></span>&#8203;(<a href="ASduType.html" title="enum in org.mamotec.j60870">ASduType</a>&nbsp;typeId,
     boolean&nbsp;isSequenceOfElements,
-    <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;causeOfTransmission,
+    <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;causeOfTransmission,
     boolean&nbsp;test,
     boolean&nbsp;negativeConfirm,
     int&nbsp;originatorAddress,
     int&nbsp;commonAddress,
-    <a href="ie/InformationObject.html" title="class in org.openmuc.j60870.ie">InformationObject</a>...&nbsp;informationObjects)</code></th>
+    <a href="ie/InformationObject.html" title="class in org.mamotec.j60870.ie">InformationObject</a>...&nbsp;informationObjects)</code></th>
 <td class="colLast">
 <div class="block">Use this constructor to create standardized ASDUs.</div>
 </td>
@@ -219,7 +219,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a></code></td>
+<td class="colFirst"><code><a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCauseOfTransmission()">getCauseOfTransmission</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -229,7 +229,7 @@ extends java.lang.Object</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code><a href="ie/InformationObject.html" title="class in org.openmuc.j60870.ie">InformationObject</a>[]</code></td>
+<td class="colFirst"><code><a href="ie/InformationObject.html" title="class in org.mamotec.j60870.ie">InformationObject</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInformationObjects()">getInformationObjects</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -249,7 +249,7 @@ extends java.lang.Object</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code><a href="ASduType.html" title="enum in org.openmuc.j60870">ASduType</a></code></td>
+<td class="colFirst"><code><a href="ASduType.html" title="enum in org.mamotec.j60870">ASduType</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTypeIdentification()">getTypeIdentification</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -303,14 +303,14 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>ASdu</h4>
-<pre>public&nbsp;ASdu&#8203;(<a href="ASduType.html" title="enum in org.openmuc.j60870">ASduType</a>&nbsp;typeId,
+<pre>public&nbsp;ASdu&#8203;(<a href="ASduType.html" title="enum in org.mamotec.j60870">ASduType</a>&nbsp;typeId,
             boolean&nbsp;isSequenceOfElements,
-            <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;causeOfTransmission,
+            <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;causeOfTransmission,
             boolean&nbsp;test,
             boolean&nbsp;negativeConfirm,
             int&nbsp;originatorAddress,
             int&nbsp;commonAddress,
-            <a href="ie/InformationObject.html" title="class in org.openmuc.j60870.ie">InformationObject</a>...&nbsp;informationObjects)</pre>
+            <a href="ie/InformationObject.html" title="class in org.mamotec.j60870.ie">InformationObject</a>...&nbsp;informationObjects)</pre>
 <div class="block">Use this constructor to create standardized ASDUs.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -333,10 +333,10 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ASdu</h4>
-<pre>public&nbsp;ASdu&#8203;(<a href="ASduType.html" title="enum in org.openmuc.j60870">ASduType</a>&nbsp;typeId,
+<pre>public&nbsp;ASdu&#8203;(<a href="ASduType.html" title="enum in org.mamotec.j60870">ASduType</a>&nbsp;typeId,
             boolean&nbsp;isSequenceOfElements,
             int&nbsp;sequenceLength,
-            <a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;causeOfTransmission,
+            <a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;causeOfTransmission,
             boolean&nbsp;test,
             boolean&nbsp;negativeConfirm,
             int&nbsp;originatorAddress,
@@ -376,7 +376,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getTypeIdentification</h4>
-<pre class="methodSignature">public&nbsp;<a href="ASduType.html" title="enum in org.openmuc.j60870">ASduType</a>&nbsp;getTypeIdentification()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ASduType.html" title="enum in org.mamotec.j60870">ASduType</a>&nbsp;getTypeIdentification()</pre>
 </li>
 </ul>
 <a id="isSequenceOfElements()">
@@ -403,7 +403,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getCauseOfTransmission</h4>
-<pre class="methodSignature">public&nbsp;<a href="CauseOfTransmission.html" title="enum in org.openmuc.j60870">CauseOfTransmission</a>&nbsp;getCauseOfTransmission()</pre>
+<pre class="methodSignature">public&nbsp;<a href="CauseOfTransmission.html" title="enum in org.mamotec.j60870">CauseOfTransmission</a>&nbsp;getCauseOfTransmission()</pre>
 </li>
 </ul>
 <a id="isTestFrame()">
@@ -448,7 +448,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getInformationObjects</h4>
-<pre class="methodSignature">public&nbsp;<a href="ie/InformationObject.html" title="class in org.openmuc.j60870.ie">InformationObject</a>[]&nbsp;getInformationObjects()</pre>
+<pre class="methodSignature">public&nbsp;<a href="ie/InformationObject.html" title="class in org.mamotec.j60870.ie">InformationObject</a>[]&nbsp;getInformationObjects()</pre>
 </li>
 </ul>
 <a id="getPrivateInformation()">

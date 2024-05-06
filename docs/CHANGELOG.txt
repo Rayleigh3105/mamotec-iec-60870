@@ -25,11 +25,11 @@ v1.6.1 20-July-2023
 v1.6.0 23-June-2023
 -------------------
 - removed deprecated methods:
-  * org.openmuc.j60870.Connection#waitForStartDT
-  * org.openmuc.j60870.Connection#startDataTransfer(ConnectionEventListener listener, int timeout),
-    replaced by org.openmuc.j60870.Connection#startDataTransfer(ConnectionEventListener listener)
+  * org.mamotec.j60870.Connection#waitForStartDT
+  * org.mamotec.j60870.Connection#startDataTransfer(ConnectionEventListener listener, int timeout),
+    replaced by org.mamotec.j60870.Connection#startDataTransfer(ConnectionEventListener listener)
 - fixed missing S-frame confirmation while StopDT
-- fixes missing org.openmuc.j60870.ConnectionEventListener#connectionClosed(Connection connection, IOException) event while StopDT state
+- fixes missing org.mamotec.j60870.ConnectionEventListener#connectionClosed(Connection connection, IOException) event while StopDT state
 - added check for t2 < t1 and t3 > t1
 - updated junit to 4.13.2, because of CVE-2020-15250
 - CLI app:
@@ -39,7 +39,7 @@ v1.6.0 23-June-2023
 v1.5.0 02-Aug-2022
 ------------------
 - set minimum Java version to 1.8
-- added org.openmuc.j60870.ConnectionEventListener#dataTransferStateChanged(Connection, boolean) it
+- added org.mamotec.j60870.ConnectionEventListener#dataTransferStateChanged(Connection, boolean) it
   notifies if STARTDT ACT or STOPDT ACT was handled
 - added sendConfirmation with Cause of transmission parameter
 - added server connection setting for a IP whitelist  
@@ -60,11 +60,11 @@ v1.4.0 19-Jun-2020
   * added sendStopDataTransfer()
 - added parameter k (set maximum number of outstanding IPDuS)
 - added setConnectionTimeout (t0)
-- added org.openmuc.j60870.Connection#sendResponse with station address parameter
+- added org.mamotec.j60870.Connection#sendResponse with station address parameter
 - set methods to deprecated
-  * org.openmuc.j60870.Connection#waitForStartDT, will be removed
-  * org.openmuc.j60870.Connection#startDataTransfer(ConnectionEventListener listener, int timeout),
-    will be replaced by org.openmuc.j60870.Connection#startDataTransfer(ConnectionEventListener listener)
+  * org.mamotec.j60870.Connection#waitForStartDT, will be removed
+  * org.mamotec.j60870.Connection#startDataTransfer(ConnectionEventListener listener, int timeout),
+    will be replaced by org.mamotec.j60870.Connection#startDataTransfer(ConnectionEventListener listener)
 - fixed TimeoutTask not working after start bug
 - fixed continue sending while waiting for acknowledgement
 - CLI app
@@ -78,7 +78,7 @@ v1.3.1 11-Jun-2019
 
 v1.3.0 29-Mar-2019
 ------------------
-- moved IE objects to separate package: org.openmuc.j60870.ie
+- moved IE objects to separate package: org.mamotec.j60870.ie
 - renamed TypeId to ApduType
 - Builder: call build() instead of connect
 - reduced the number of active threads of a connection

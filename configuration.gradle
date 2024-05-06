@@ -2,7 +2,7 @@ project.ext {
 
     cfgVersion = "1.6.4"
 
-    cfgGroup = "org.openmuc"
+    cfgGroup = "org.mamotec"
 
     cfgCopyDependencies = false
 
@@ -99,7 +99,7 @@ dependencies {
 jar {
     manifest {
         name = "j60870"
-        instruction "Export-Package", "!org.openmuc.j60870.internal.internal.*,*"
+        instruction "Export-Package", "!org.mamotec.j60870.internal.internal.*,*"
     }
 }
 
