@@ -5,7 +5,9 @@ import org.mamotec.common.cli.CliParameterBuilder;
 import org.mamotec.common.cli.CliParser;
 import org.mamotec.common.cli.IntCliParameter;
 import org.mamotec.common.cli.StringCliParameter;
+import org.mamotec.responder.adapter.OpenEMSAdapter;
 import org.mamotec.responder.client.Client;
+import org.mamotec.responder.utils.ModbusSerialUtils;
 
 /**
  * A client/master application to access IEC 60870-5-104 servers/slaves.
@@ -35,9 +37,6 @@ public final class Responder {
 	}
 
 	private static void logStartOfResponder() {
-
-		Logger.log("### Starting Responder ###\n", "\nHost Address: ", hostParam.getValue(), "\nPort:         ",
-				String.valueOf(portParam.getValue()));
-
+		Logger.log("### Starting Responder ###\n" + "\nHost Address: " + hostParam.getValue() + "\nPort:         " + portParam.getValue());
 	}
 }

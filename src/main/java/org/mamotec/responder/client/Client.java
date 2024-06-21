@@ -71,15 +71,15 @@ public class Client {
 				}
 			}
 
-			syncronizeClocks();
+			synchronizeClocks();
 
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
 	}
 
-	private void syncronizeClocks() {
-		// Syncronize clocks every hour
+	private void synchronizeClocks() {
+		// Synchronize clocks every hour
 		Runnable hourlyTask = () -> {
 			System.out.println("Syncronizing clocks...");
 			try {
