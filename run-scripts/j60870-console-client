@@ -2,7 +2,7 @@
 
 JARS_LOCATION_APP="../cli-app/build/libs"
 JARS_LOCATION_LIB="../build/libs-all"
-MAIN_CLASS="org.openmuc.j60870.app.ConsoleClient"
+MAIN_CLASS="org.mamotec.j60870.app.ConsoleClient"
 SYSPROPS=""
 PARAMS=""
 

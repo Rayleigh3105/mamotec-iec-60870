@@ -21,6 +21,7 @@
 package org.mamotec.common.cli;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,9 +43,9 @@ public class CliParser {
         commandLineParameterGroups.add(new ParameterGroup(groupName.toLowerCase(), parameters));
     }
 
-    public void addParameters(List<CliParameter> parameters) {
+    public void addParameters(CliParameter... parameters) {
         commandLineParameterGroups.clear();
-        commandLineParameterGroups.add(new ParameterGroup("", parameters));
+        commandLineParameterGroups.add(new ParameterGroup("", Arrays.asList(parameters)));
     }
 
     public String getSelectedGroup() {
