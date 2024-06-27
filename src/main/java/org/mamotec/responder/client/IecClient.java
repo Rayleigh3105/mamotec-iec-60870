@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Client {
+public class IecClient {
 
 	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -36,7 +36,7 @@ public class Client {
 	private final IntCliParameter messageFragmentTimeout;
 
 
-	public Client(CliParser cliParserParam, String[] argsParam, StringCliParameter hostParam, IntCliParameter portParam, IntCliParameter commonAddrParam,
+	public IecClient(CliParser cliParserParam, String[] argsParam, StringCliParameter hostParam, IntCliParameter portParam, IntCliParameter commonAddrParam,
 			IntCliParameter startDtRetries, IntCliParameter connectionTimeout, IntCliParameter messageFragmentTimeout) {
 		cliParser = cliParserParam;
 		args = argsParam;
@@ -89,5 +89,9 @@ public class Client {
 			}
 		};
 		scheduler.scheduleAtFixedRate(hourlyTask, 1, 1, TimeUnit.SECONDS);
+	}
+
+	public Connection getConnection() {
+		return connection;
 	}
 }

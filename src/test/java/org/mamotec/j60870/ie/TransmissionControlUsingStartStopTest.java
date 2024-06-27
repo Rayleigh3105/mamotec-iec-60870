@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.*;
-import static org.mamotec.j60870.ClientServerITest.getAvailablePort;
+import static org.mamotec.j60870.IecClientServerITest.getAvailablePort;
 
 public class TransmissionControlUsingStartStopTest {
 

@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.Assert.*;
 
 @FixMethodOrder(MethodSorters.JVM)
-public class ClientServerITest {
+public class IecClientServerITest {
 
     private static final int MIN_PORT_NUMBER = 2024;
     private static final int MAX_PORT_NUMBER = 65535;

@@ -513,7 +513,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_supported_information_elements">5.1. Supported information Elements</a></li>
 <li><a href="#_supported_asdu_types_client_and_server">5.2. Supported ASDu types (Client and Server)</a></li>
-<li><a href="#_in_client_connection_implemented_commands">5.3. In client connection implemented commands</a></li>
+<li><a href="#_in_client_connection_implemented_commands">5.3. In iecClient connection implemented commands</a></li>
 </ul>
 </li>
 <li><a href="#_develop_j60870">6. Develop j60870</a></li>
@@ -527,12 +527,12 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sectionbody">
 <div class="paragraph">
 <p>j60870 is an implementation of the IEC 60870-5-104 protocol standard
-for client (i.e. master or controlling station) and server (i.e. slave
+for iecClient (i.e. master or controlling station) and server (i.e. slave
 or controlled station) applications.</p>
 </div>
 <div class="paragraph">
-<p>You can use j60870 to program your individual client or server
-applications. A simple console client is part of the library. You can
+<p>You can use j60870 to program your individual iecClient or server
+applications. A simple console iecClient is part of the library. You can
 execute it using the scripts found in the folder "run-scripts".</p>
 </div>
 </div>
@@ -551,13 +551,13 @@ found in the folder /build/libs.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The easiest way to get started is by taking a look at the code of the
-console client and the sample server which can be found here:
+console iecClient and the sample server which can be found here:
 cli-app/src/main/java/org/openmuc/j60870/app/ . These applications in
 combination with the javadoc should satisfy most of your documentation
 needs.</p>
 </div>
 <div class="paragraph">
-<p>Here is a short summary of the steps to get a client running:</p>
+<p>Here is a short summary of the steps to get a iecClient running:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -566,7 +566,7 @@ needs.</p>
 </li>
 <li>
 <p>Connect to the server using ClientConnectionBuilder.build() which
-returns the connection. The client is now connected to the server
+returns the connection. The iecClient is now connected to the server
 via TCP/IP.</p>
 </li>
 <li>
@@ -600,10 +600,10 @@ to cast a particular Information Element to.</p>
 <p><strong>OA</strong> - Originator Address</p>
 </li>
 <li>
-<p><strong>Monitor direction</strong> - direction from server to client</p>
+<p><strong>Monitor direction</strong> - direction from server to iecClient</p>
 </li>
 <li>
-<p><strong>Control direction</strong> - direction from client to server</p>
+<p><strong>Control direction</strong> - direction from iecClient to server</p>
 </li>
 <li>
 <p><strong>CON</strong> - confirmation message</p>
@@ -613,7 +613,7 @@ to cast a particular Information Element to.</p>
 </li>
 <li>
 <p><strong>STARTDT ACT</strong> - Start data tranfer message. Needs to be sent by the
-client before information messages may be exchanged between client
+iecClient before information messages may be exchanged between iecClient
 and server.</p>
 </li>
 </ul>
@@ -1086,7 +1086,7 @@ and server.</p>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_in_client_connection_implemented_commands">5.3. In client connection implemented commands</h3>
+<h3 id="_in_client_connection_implemented_commands">5.3. In iecClient connection implemented commands</h3>
 <table class="tableblock frame-none grid-none spread">
 <colgroup>
 <col style="width: 50%;">

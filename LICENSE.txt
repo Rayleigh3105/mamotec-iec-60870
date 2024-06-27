@@ -632,7 +632,7 @@ state the exclusion of warranty; and each file should have at least
 the "copyright" line and a pointer to where the full notice is found.
 
     j60870 is an implementation of the IEC 60870-5-104 protocol standard
-    for client and server applications.
+    for iecClient and server applications.
     Copyright (C) 2014  Fraunhofer Institute for Solar Energy System ISE
 
     This program is free software: you can redistribute it and/or modify

@@ -49,7 +49,7 @@ v1.5.0 02-Aug-2022
 - fixed not closing if max number of connection reached bug
   thanks to Konstantinos Ntermitzoglou from inaccess
 - CLI app: 
- * added Counter Interrogation Command in console client
+ * added Counter Interrogation Command in console iecClient
  * added time to log messages
  * replaced deprecated methods
 
@@ -121,7 +121,7 @@ v1.1.0 06-Jun-2016
 - fixed time conversion to ms of IeTime24 thanks to Juergen Wieferink
   from BTC AG
 - added stopListening() to ServerSap allowing for clean close
-- refactored console client
+- refactored console iecClient
 
 v1.0.0 24-Feb-2016
 ------------------
@@ -145,9 +145,9 @@ v0.8 07-Aug-2014
 
 v0.6 24-Apr-2014
 ----------------
-- added client support for automatic sending of S format APDUs to
+- added iecClient support for automatic sending of S format APDUs to
   confirm incoming I format APDUs
-- added client support for automatic sending of TESTFRCON
+- added iecClient support for automatic sending of TESTFRCON
   messages when TESTFR ACT messages are received.
 
 v0.5 10-Apr-2014

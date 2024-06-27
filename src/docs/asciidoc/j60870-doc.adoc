@@ -6,11 +6,11 @@ include::common-settings.txt[]
 == Intro
 
 j60870 is an implementation of the IEC 60870-5-104 protocol standard
-for client (i.e. master or controlling station) and server (i.e. slave
+for iecClient (i.e. master or controlling station) and server (i.e. slave
 or controlled station) applications.
 
-You can use j60870 to program your individual client or server
-applications. A simple console client is part of the library. You can
+You can use j60870 to program your individual iecClient or server
+applications. A simple console iecClient is part of the library. You can
 execute it using the scripts found in the folder "run-scripts".
 
 == Distribution
@@ -21,17 +21,17 @@ found in the folder /build/libs.
 == Getting Started
 
 The easiest way to get started is by taking a look at the code of the
-console client and the sample server which can be found here:
+console iecClient and the sample server which can be found here:
 cli-app/src/main/java/org/mamotec/j60870/app/ . These applications in
 combination with the javadoc should satisfy most of your documentation
 needs.
 
-Here is a short summary of the steps to get a client running:
+Here is a short summary of the steps to get a iecClient running:
 
 * Create and configure an instance of ClientConnectionBuilder.
 
 * Connect to the server using ClientConnectionBuilder.build() which
-  returns the connection. The client is now connected to the server
+  returns the connection. The iecClient is now connected to the server
   via TCP/IP.
 
 * Initialize the data transfer by calling
@@ -53,16 +53,16 @@ Here is a short summary of the steps to get a client running:
 
 * *OA* - Originator Address 
 
-* *Monitor direction* - direction from server to client
+* *Monitor direction* - direction from server to iecClient
 
-* *Control direction* - direction from client to server
+* *Control direction* - direction from iecClient to server
 
 * *CON* - confirmation message
 
 * *COT* - Cause of transmission
 
 * *STARTDT ACT* - Start data tranfer message. Needs to be sent by the
-   client before information messages may be exchanged between client
+   iecClient before information messages may be exchanged between iecClient
    and server.
 
 == Features
@@ -174,7 +174,7 @@ The usage and description can be seen in the j60870 javadoc.
 |P_ME_NC_1|112|Parameter of measured value, short floating point number 
 |===============================================================================================
 
-=== In client connection implemented commands
+=== In iecClient connection implemented commands
 
 [grid="none", frame="none"]
 |===

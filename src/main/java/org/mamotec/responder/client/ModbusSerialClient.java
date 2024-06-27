@@ -1,26 +1,38 @@
-package org.mamotec.responder.utils;
+package org.mamotec.responder.client;
 
+import com.ghgande.j2mod.modbus.Modbus;
 import com.ghgande.j2mod.modbus.ModbusException;
-import com.ghgande.j2mod.modbus.io.ModbusTCPTransaction;
-import com.ghgande.j2mod.modbus.msg.*;
-import com.ghgande.j2mod.modbus.net.TCPMasterConnection;
+import com.ghgande.j2mod.modbus.io.ModbusSerialTransaction;
+import com.ghgande.j2mod.modbus.msg.ReadCoilsRequest;
+import com.ghgande.j2mod.modbus.msg.ReadCoilsResponse;
+import com.ghgande.j2mod.modbus.msg.ReadInputRegistersRequest;
+import com.ghgande.j2mod.modbus.msg.ReadInputRegistersResponse;
+import com.ghgande.j2mod.modbus.msg.WriteSingleRegisterRequest;
+import com.ghgande.j2mod.modbus.msg.WriteSingleRegisterResponse;
+import com.ghgande.j2mod.modbus.net.SerialConnection;
 import com.ghgande.j2mod.modbus.procimg.SimpleRegister;
+import com.ghgande.j2mod.modbus.util.SerialParameters;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
-public class ModbusTcpUtils {
-	private final TCPMasterConnection connection;
+public class ModbusSerialClient {
+	private final SerialConnection connection;
 
-	private ModbusTCPTransaction transaction;
+	private ModbusSerialTransaction transaction;
 
-	public ModbusTcpUtils(String modbusTcpIp) throws UnknownHostException {
-		InetAddress address = InetAddress.getByName(modbusTcpIp);
-		connection = new TCPMasterConnection(address);
-		connection.setPort(502); // Standard-Modbus-TCP-Port
+	public ModbusSerialClient(String portName) {
+		SerialParameters params = new SerialParameters();
+		params.setPortName(portName);
+		params.setBaudRate(9600);
+		params.setDatabits(8);
+		params.setParity(0);
+		params.setStopbits(0);
+		params.setEncoding(Modbus.SERIAL_ENCODING_RTU);
+		params.setEcho(false);
+
+		connection = new SerialConnection(params);
 		try {
-			connection.connect();
+			connection.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,7 +42,7 @@ public class ModbusTcpUtils {
 		try {
 			ReadCoilsRequest request = new ReadCoilsRequest(address, count);
 			request.setUnitID(unit);
-			transaction = new ModbusTCPTransaction(connection);
+			transaction = new ModbusSerialTransaction(connection);
 			transaction.setRequest(request);
 			transaction.execute();
 
@@ -50,7 +62,7 @@ public class ModbusTcpUtils {
 		try {
 			WriteSingleRegisterRequest request = new WriteSingleRegisterRequest(address, new SimpleRegister(value));
 			request.setUnitID(unit);
-			transaction = new ModbusTCPTransaction(connection);
+			transaction = new ModbusSerialTransaction(connection);
 			transaction.setRequest(request);
 			transaction.execute();
 
@@ -68,13 +80,13 @@ public class ModbusTcpUtils {
 
 			WriteSingleRegisterRequest requestHigh = new WriteSingleRegisterRequest(address, new SimpleRegister(uint16Array[0]));
 			requestHigh.setUnitID(unit);
-			transaction = new ModbusTCPTransaction(connection);
+			transaction = new ModbusSerialTransaction(connection);
 			transaction.setRequest(requestHigh);
 			transaction.execute();
 
 			WriteSingleRegisterRequest requestLow = new WriteSingleRegisterRequest(address + 1, new SimpleRegister(uint16Array[1]));
 			requestLow.setUnitID(unit);
-			transaction = new ModbusTCPTransaction(connection);
+			transaction = new ModbusSerialTransaction(connection);
 			transaction.setRequest(requestLow);
 			transaction.execute();
 
@@ -102,7 +114,7 @@ public class ModbusTcpUtils {
 		try {
 			ReadInputRegistersRequest requestHigh = new ReadInputRegistersRequest(address, 1);
 			requestHigh.setUnitID(unit);
-			transaction = new ModbusTCPTransaction(connection);
+			transaction = new ModbusSerialTransaction(connection);
 			transaction.setRequest(requestHigh);
 			transaction.execute();
 
@@ -111,7 +123,7 @@ public class ModbusTcpUtils {
 
 			ReadInputRegistersRequest requestLow = new ReadInputRegistersRequest(address + 1, 1);
 			requestLow.setUnitID(unit);
-			transaction = new ModbusTCPTransaction(connection);
+			transaction = new ModbusSerialTransaction(connection);
 			transaction.setRequest(requestLow);
 			transaction.execute();
 
@@ -134,7 +146,7 @@ public class ModbusTcpUtils {
 	}
 
 	public void close() {
-		if (connection != null && connection.isConnected()) {
+		if (connection != null && connection.isOpen()) {
 			connection.close();
 		}
 	}

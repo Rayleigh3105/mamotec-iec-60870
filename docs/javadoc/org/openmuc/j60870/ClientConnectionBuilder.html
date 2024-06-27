@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">ClientConnectionBuilder</span>
 extends java.lang.Object</pre>
-<div class="block">The client connection builder is used to connect to IEC 60870-5-104 servers. A client application that wants to
+<div class="block">The iecClient connection builder is used to connect to IEC 60870-5-104 servers. A iecClient application that wants to
  connect to a server should first create an instance of <a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><code>ClientConnectionBuilder</code></a>. Next all the necessary
  configuration parameters can be set. Finally the <a href="#build()"><code>build()</code></a> function is called to
  connect to the server. An instance of <a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><code>ClientConnectionBuilder</code></a> can be used to create an unlimited number of
@@ -172,7 +172,7 @@ extends java.lang.Object</pre>
 <tr class="rowColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.net.InetAddress)">ClientConnectionBuilder</a></span>&#8203;(java.net.InetAddress&nbsp;address)</code></th>
 <td class="colLast">
-<div class="block">Creates a client connection builder that can be used to connect to the given address.</div>
+<div class="block">Creates a iecClient connection builder that can be used to connect to the given address.</div>
 </td>
 </tr>
 </table>
@@ -247,7 +247,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLocalAddress(java.net.InetAddress,int)">setLocalAddress</a></span>&#8203;(java.net.InetAddress&nbsp;address,
                int&nbsp;port)</code></th>
 <td class="colLast">
-<div class="block">Sets the local (client) address and port the socket will connect to.</div>
+<div class="block">Sets the local (iecClient) address and port the socket will connect to.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -353,7 +353,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>ClientConnectionBuilder</h4>
 <pre>public&nbsp;ClientConnectionBuilder&#8203;(java.net.InetAddress&nbsp;address)</pre>
-<div class="block">Creates a client connection builder that can be used to connect to the given address.</div>
+<div class="block">Creates a iecClient connection builder that can be used to connect to the given address.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>address</code> - the address to connect to</dd>
@@ -455,7 +455,7 @@ extends java.lang.Object</pre>
 <h4>setLocalAddress</h4>
 <pre class="methodSignature">public&nbsp;<a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a>&nbsp;setLocalAddress&#8203;(java.net.InetAddress&nbsp;address,
                                                int&nbsp;port)</pre>
-<div class="block">Sets the local (client) address and port the socket will connect to.</div>
+<div class="block">Sets the local (iecClient) address and port the socket will connect to.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>address</code> - the local address the socket is bound to, or null for any local address.</dd>
