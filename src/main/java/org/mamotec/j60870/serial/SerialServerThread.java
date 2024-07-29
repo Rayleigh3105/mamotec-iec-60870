@@ -21,14 +21,8 @@
 package org.mamotec.j60870.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
-import org.mamotec.j60870.ASdu;
-import org.mamotec.j60870.tcp.TcpConnection;
-import org.mamotec.j60870.tcp.TcpConnectionSettings;
-import org.mamotec.j60870.tcp.TcpServerEventListener;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 

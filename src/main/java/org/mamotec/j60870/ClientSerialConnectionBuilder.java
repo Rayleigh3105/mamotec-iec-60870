@@ -102,6 +102,10 @@ public class ClientSerialConnectionBuilder extends SerialBuilder<ClientSerialCon
     public SerialConnection build() throws IOException {
         SerialConnection connection = new SerialConnection(new SerialConnectionSettings(settings));
         connection.open();
+
+        connection.start();
+
+
         return connection;
     }
 

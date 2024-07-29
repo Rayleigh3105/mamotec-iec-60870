@@ -50,9 +50,11 @@ public final class Responder {
 		logStartOfResponder(args);
 
 		SerialConnectionImpl serialConnection = startSerialConnection();
-		IecClient iecClient = new IecClient(serialConnection);
-		iecClient.spinUpClient(new IecClientEventListenerSerial());
-		IecReporter iecReporter = new IecReporter(iecClient);
+		serialConnection.open();
+		serialConnection.start();
+		//IecClient iecClient = new IecClient(serialConnection);
+		//iecClient.spinUpClient(new IecClientEventListenerSerial());
+		// IecReporter iecReporter = new IecReporter(iecClient);
 
 
 		//scheduler.scheduleAtFixedRate(iecReporter::doReport, 1, 5, java.util.concurrent.TimeUnit.SECONDS);
@@ -60,8 +62,6 @@ public final class Responder {
 	}
 
 	private static SerialConnectionImpl startSerialConnection() {
-		SerialServer.Builder builder = SerialServer.builder();
-		builder.setPort()
 		SerialConnectionSettings serialConnectionSettings = new SerialConnectionSettings();
 		serialConnectionSettings.setPortName(portParam.getValue());
 		serialConnectionSettings.setBaudRate(Integer.parseInt(baudRate.getValue()));

@@ -4,6 +4,7 @@ import org.mamotec.j60870.ASdu;
 import org.mamotec.j60870.Connection;
 import org.mamotec.j60870.ie.IeTime56;
 import org.mamotec.responder.client.IecClientEventListenerSerial;
+import org.mamotec.responder.server.IecSerialServerListener;
 
 import java.io.IOException;
 import java.util.EventListener;
@@ -14,6 +15,10 @@ public class SerialConnectionImpl implements Connection {
 
 	public SerialConnectionImpl(SerialConnectionSettings settings) throws IOException {
 		serialConnection = new SerialConnection(settings);
+	}
+
+	public void start() throws IOException {
+		serialConnection.start(new IecSerialServerListener());
 	}
 
 	@Override
