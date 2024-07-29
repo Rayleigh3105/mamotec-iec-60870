@@ -23,6 +23,8 @@ package org.mamotec.j60870;
 import org.mamotec.j60870.ie.InformationObject;
 import org.mamotec.j60870.internal.ExtendedDataInputStream;
 import org.mamotec.j60870.internal.HexUtils;
+import org.mamotec.j60870.serial.SerialConnectionSettings;
+import org.mamotec.j60870.tcp.TcpConnectionSettings;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -128,7 +130,79 @@ public class ASdu {
         this.sequenceLength = sequenceLength;
     }
 
-    static ASdu decode(ExtendedDataInputStream is, ConnectionSettings settings, int aSduLength) throws IOException {
+    static ASdu decode(ExtendedDataInputStream is, TcpConnectionSettings settings, int aSduLength) throws IOException {
+
+        int typeIdCode = is.readUnsignedByte();
+
+        ASduType typeId = ASduType.typeFor(typeIdCode);
+
+        if (typeId == null) {
+            throw new IOException(MessageFormat.format("Unknown Type Identification: {0}", typeIdCode));
+        }
+
+        int currentByte = is.readUnsignedByte();
+
+        boolean isSequenceOfElements = byteHasMask(currentByte, 0x80);
+
+        int numberOfSequenceElements;
+        int numberOfInformationObjects;
+
+        int sequenceLength = currentByte & 0x7f;
+        if (isSequenceOfElements) {
+            numberOfSequenceElements = sequenceLength;
+            numberOfInformationObjects = 1;
+        } else {
+            numberOfInformationObjects = sequenceLength;
+            numberOfSequenceElements = 1;
+        }
+
+        currentByte = is.readUnsignedByte();
+        CauseOfTransmission causeOfTransmission = CauseOfTransmission.causeFor(currentByte & 0x3f);
+        boolean test = byteHasMask(currentByte, 0x80);
+        boolean negativeConfirm = byteHasMask(currentByte, 0x40);
+
+        int originatorAddress;
+        if (settings.getCotFieldLength() == 2) {
+            originatorAddress = is.readUnsignedByte();
+            aSduLength--;
+        } else {
+            originatorAddress = -1;
+        }
+
+        int commonAddress;
+        if (settings.getCommonAddressFieldLength() == 1) {
+            commonAddress = is.readUnsignedByte();
+        } else {
+            commonAddress = is.readUnsignedByte() | (is.readUnsignedByte() << 8);
+
+            aSduLength--;
+        }
+
+        InformationObject[] informationObjects;
+        byte[] privateInformation;
+        if (typeIdCode < 128) {
+
+            informationObjects = new InformationObject[numberOfInformationObjects];
+
+            int ioaFieldLength = settings.getIoaFieldLength();
+            for (int i = 0; i < numberOfInformationObjects; i++) {
+                informationObjects[i] =
+                        InformationObject.decode(is, typeId, numberOfSequenceElements, ioaFieldLength,
+                                settings.getReservedASduTypeDecoder());
+            }
+            return new ASdu(typeId, isSequenceOfElements, causeOfTransmission, test, negativeConfirm, originatorAddress,
+                    commonAddress, informationObjects);
+        } else {
+            privateInformation = new byte[aSduLength - 4];
+            is.readFully(privateInformation);
+
+            return new ASdu(typeId, isSequenceOfElements, sequenceLength, causeOfTransmission, test, negativeConfirm,
+                    originatorAddress, commonAddress, privateInformation);
+        }
+
+    }
+
+    static ASdu decode(ExtendedDataInputStream is, SerialConnectionSettings settings, int aSduLength) throws IOException {
 
         int typeIdCode = is.readUnsignedByte();
 
@@ -244,7 +318,53 @@ public class ASdu {
         return privateInformation;
     }
 
-    int encode(byte[] buffer, int i, ConnectionSettings settings) {
+    int encode(byte[] buffer, int i, TcpConnectionSettings settings) {
+
+        int origi = i;
+
+        buffer[i++] = (byte) aSduType.getId();
+        if (isSequenceOfElements) {
+            buffer[i++] = (byte) (sequenceLength | 0x80);
+        } else {
+            buffer[i++] = (byte) sequenceLength;
+        }
+
+        if (test) {
+            if (negativeConfirm) {
+                buffer[i++] = (byte) (causeOfTransmission.getId() | 0xC0);
+            } else {
+                buffer[i++] = (byte) (causeOfTransmission.getId() | 0x80);
+            }
+        } else {
+            if (negativeConfirm) {
+                buffer[i++] = (byte) (causeOfTransmission.getId() | 0x40);
+            } else {
+                buffer[i++] = (byte) causeOfTransmission.getId();
+            }
+        }
+
+        if (settings.getCotFieldLength() == 2) {
+            buffer[i++] = (byte) originatorAddress;
+        }
+
+        buffer[i++] = (byte) commonAddress;
+
+        if (settings.getCommonAddressFieldLength() == 2) {
+            buffer[i++] = (byte) (commonAddress >> 8);
+        }
+
+        if (informationObjects != null) {
+            for (InformationObject informationObject : informationObjects) {
+                i += informationObject.encode(buffer, i, settings.getIoaFieldLength());
+            }
+        } else {
+            System.arraycopy(privateInformation, 0, buffer, i, privateInformation.length);
+            i += privateInformation.length;
+        }
+        return i - origi;
+    }
+
+    int encode(byte[] buffer, int i, SerialConnectionSettings settings) {
 
         int origi = i;
 

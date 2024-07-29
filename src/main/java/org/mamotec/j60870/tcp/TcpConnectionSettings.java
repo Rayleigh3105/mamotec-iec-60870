@@ -18,12 +18,14 @@
  * along with j60870.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package org.mamotec.j60870;
+package org.mamotec.j60870.tcp;
+
+import org.mamotec.j60870.ReservedASduTypeDecoder;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-class ConnectionSettings {
+public class TcpConnectionSettings {
     private static final ExecutorService threadPool;
     private static volatile int numOpenConnections;
 
@@ -49,7 +51,7 @@ class ConnectionSettings {
     private boolean useSharedThreadPool;
     private ReservedASduTypeDecoder reservedASduTypeDecoder;
 
-    public ConnectionSettings() {
+    public TcpConnectionSettings() {
         this.messageFragmentTimeout = 5_000;
 
         this.cotFieldLength = 2;
@@ -57,7 +59,7 @@ class ConnectionSettings {
         this.ioaFieldLength = 3;
 
         this.connectionTimeout = 30_000;
-        this.maxTimeNoAckReceived = 15_000;
+        this.maxTimeNoAckReceived = 50_000;
         this.maxTimeNoAckSent = 10_000;
         this.maxIdleTime = 20_000;
         this.maxUnconfirmedIPdusReceived = 8;
@@ -66,24 +68,24 @@ class ConnectionSettings {
         this.useSharedThreadPool = false;
     }
 
-    public ConnectionSettings(ConnectionSettings connectionSettings) {
+    public TcpConnectionSettings(TcpConnectionSettings tcpConnectionSettings) {
 
-        messageFragmentTimeout = connectionSettings.messageFragmentTimeout;
 
-        cotFieldLength = connectionSettings.cotFieldLength;
-        commonAddressFieldLength = connectionSettings.commonAddressFieldLength;
-        ioaFieldLength = connectionSettings.ioaFieldLength;
+        cotFieldLength = tcpConnectionSettings.cotFieldLength;
+        commonAddressFieldLength = tcpConnectionSettings.commonAddressFieldLength;
+        ioaFieldLength = tcpConnectionSettings.ioaFieldLength;
+        messageFragmentTimeout = tcpConnectionSettings.messageFragmentTimeout;
 
-        maxTimeNoAckReceived = connectionSettings.maxTimeNoAckReceived;
-        maxTimeNoAckSent = connectionSettings.maxTimeNoAckSent;
-        maxIdleTime = connectionSettings.maxIdleTime;
-        connectionTimeout = connectionSettings.connectionTimeout;
+        maxTimeNoAckReceived = tcpConnectionSettings.maxTimeNoAckReceived;
+        maxTimeNoAckSent = tcpConnectionSettings.maxTimeNoAckSent;
+        maxIdleTime = tcpConnectionSettings.maxIdleTime;
+        connectionTimeout = tcpConnectionSettings.connectionTimeout;
 
-        maxUnconfirmedIPdusReceived = connectionSettings.maxUnconfirmedIPdusReceived;
-        maxNumOfOutstandingIPdus = connectionSettings.maxNumOfOutstandingIPdus;
-        reservedASduTypeDecoder = connectionSettings.reservedASduTypeDecoder;
+        maxUnconfirmedIPdusReceived = tcpConnectionSettings.maxUnconfirmedIPdusReceived;
+        maxNumOfOutstandingIPdus = tcpConnectionSettings.maxNumOfOutstandingIPdus;
+        reservedASduTypeDecoder = tcpConnectionSettings.reservedASduTypeDecoder;
 
-        this.useSharedThreadPool = connectionSettings.useSharedThreadPool;
+        this.useSharedThreadPool = tcpConnectionSettings.useSharedThreadPool;
     }
 
     public static ExecutorService getThreadPool() {

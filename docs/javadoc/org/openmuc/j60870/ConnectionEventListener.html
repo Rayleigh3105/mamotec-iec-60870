@@ -130,10 +130,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public interface <span class="typeNameLabel">ConnectionEventListener</span>
 extends java.util.EventListener</pre>
-<div class="block">The listener interface for receiving incoming ASDUs and connection closed events. The class that is interested in
+<div class="block">The listener interface for receiving incoming ASDUs and tcpConnection closed events. The class that is interested in
  incoming ASDUs implements this interface. The object of that class is registered as a listener through the
  <a href="Connection.html#startDataTransfer(org.openmuc.j60870.ConnectionEventListener)"><code>Connection.startDataTransfer(ConnectionEventListener)</code></a> method. Incoming ASDUs are queued so that
- <a href="#newASdu(org.openmuc.j60870.Connection,org.openmuc.j60870.ASdu)"><code>newASdu(Connection connection, ASdu)</code></a> is never called simultaneously for the same connection.</div>
+ <a href="#newASdu(org.openmuc.j60870.Connection,org.openmuc.j60870.ASdu)"><code>newASdu(Connection tcpConnection, ASdu)</code></a> is never called simultaneously for the same tcpConnection.</div>
 </li>
 </ul>
 </div>
@@ -156,7 +156,7 @@ extends java.util.EventListener</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#connectionClosed(org.openmuc.j60870.Connection,java.io.IOException)">connectionClosed</a></span>&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;connection,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#connectionClosed(org.openmuc.j60870.Connection,java.io.IOException)">connectionClosed</a></span>&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;tcpConnection,
                 java.io.IOException&nbsp;cause)</code></th>
 <td class="colLast">
 <div class="block">Invoked when an IOException occurred while listening for incoming ASDUs.</div>
@@ -164,7 +164,7 @@ extends java.util.EventListener</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#dataTransferStateChanged(org.openmuc.j60870.Connection,boolean)">dataTransferStateChanged</a></span>&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;connection,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#dataTransferStateChanged(org.openmuc.j60870.Connection,boolean)">dataTransferStateChanged</a></span>&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;tcpConnection,
                         boolean&nbsp;stopped)</code></th>
 <td class="colLast">
 <div class="block">Informs when the state of data transfer changed.</div>
@@ -172,7 +172,7 @@ extends java.util.EventListener</pre>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newASdu(org.openmuc.j60870.Connection,org.openmuc.j60870.ASdu)">newASdu</a></span>&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;connection,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newASdu(org.openmuc.j60870.Connection,org.openmuc.j60870.ASdu)">newASdu</a></span>&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;tcpConnection,
        <a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu)</code></th>
 <td class="colLast">
 <div class="block">Invoked when a new ASDU arrives.</div>
@@ -201,7 +201,7 @@ extends java.util.EventListener</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>newASdu</h4>
-<pre class="methodSignature">void&nbsp;newASdu&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;connection,
+<pre class="methodSignature">void&nbsp;newASdu&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;tcpConnection,
              <a href="ASdu.html" title="class in org.mamotec.j60870">ASdu</a>&nbsp;aSdu)</pre>
 <div class="block">Invoked when a new ASDU arrives.</div>
 <dl>
@@ -216,7 +216,7 @@ extends java.util.EventListener</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>connectionClosed</h4>
-<pre class="methodSignature">void&nbsp;connectionClosed&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;connection,
+<pre class="methodSignature">void&nbsp;connectionClosed&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;tcpConnection,
                       java.io.IOException&nbsp;cause)</pre>
 <div class="block">Invoked when an IOException occurred while listening for incoming ASDUs. An IOException implies that the
  <a href="Connection.html" title="class in org.mamotec.j60870"><code>Connection</code></a> that feeds this listener was automatically closed and can no longer be used to send commands
@@ -233,7 +233,7 @@ extends java.util.EventListener</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>dataTransferStateChanged</h4>
-<pre class="methodSignature">void&nbsp;dataTransferStateChanged&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;connection,
+<pre class="methodSignature">void&nbsp;dataTransferStateChanged&#8203;(<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;tcpConnection,
                               boolean&nbsp;stopped)</pre>
 <div class="block">Informs when the state of data transfer changed.</div>
 <dl>

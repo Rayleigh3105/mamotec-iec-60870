@@ -1,28 +1,40 @@
 package org.mamotec.responder;
 
-import org.mamotec.common.Logger;
 import org.mamotec.common.cli.CliParameterBuilder;
+import org.mamotec.common.cli.CliParseException;
 import org.mamotec.common.cli.CliParser;
 import org.mamotec.common.cli.IntCliParameter;
 import org.mamotec.common.cli.StringCliParameter;
+import org.mamotec.common.enums.NeTable;
+import org.mamotec.common.type.ValueHolder;
+import org.mamotec.j60870.ClientConnectionBuilder;
+import org.mamotec.j60870.Connection;
+import org.mamotec.j60870.serial.SerialConnection;
+import org.mamotec.j60870.serial.SerialConnectionImpl;
+import org.mamotec.j60870.serial.SerialConnectionSettings;
+import org.mamotec.j60870.serial.SerialServer;
 import org.mamotec.responder.client.IecClient;
+import org.mamotec.responder.client.IecClientEventListenerSerial;
+import org.mamotec.responder.client.IecClientEventListenerTcp;
 import org.mamotec.responder.reporter.IecReporter;
-import org.mamotec.responder.utils.ActivePowerUtils;
+import org.mamotec.responder.server.IecServer;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+
+import static org.mamotec.common.Logger.log;
 
 /**
  * A client/master application to access IEC 60870-5-104 servers/slaves.
  */
 public final class Responder {
 
-	private static final StringCliParameter hostParam = new CliParameterBuilder("-h").setMandatory().buildStringParameter("host");
+	private static final StringCliParameter hostParam = new CliParameterBuilder("-h").buildStringParameter("host");
 
-	private static final IntCliParameter portParam = new CliParameterBuilder("-p").buildIntParameter("port", 2404);
+	private static final StringCliParameter baudRate = new CliParameterBuilder("-b").setMandatory().buildStringParameter("baudrate");
+
+	private static final StringCliParameter portParam = new CliParameterBuilder("-p").setMandatory().buildStringParameter("port");
 
 	private static final IntCliParameter commonAddrParam = new CliParameterBuilder("-ca").buildIntParameter("common_address", 1);
 
@@ -35,21 +47,43 @@ public final class Responder {
 	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 	public static void main(String[] args) throws IOException {
-		logStartOfResponder();
-		CliParser cliParser = new CliParser("j60870-console-client", "A client/master application to access IEC 60870-5-104 servers/slaves.");
-		cliParser.addParameters(hostParam, portParam, commonAddrParam);
+		logStartOfResponder(args);
 
-		IecClient iecClient = new IecClient(cliParser, args, hostParam, portParam, commonAddrParam, startDtRetries, connectionTimeout, messageFragmentTimeout);
+		SerialConnectionImpl serialConnection = startSerialConnection();
+		IecClient iecClient = new IecClient(serialConnection);
+		iecClient.spinUpClient(new IecClientEventListenerSerial());
 		IecReporter iecReporter = new IecReporter(iecClient);
-		iecClient.spinUpClient();
 
-		scheduler.scheduleAtFixedRate(iecReporter::doReport, 0, 5, TimeUnit.SECONDS);
 
-		// Sent active Power
-		iecClient.getConnection().send(ActivePowerUtils.buildActivePowerAsdu(11f, commonAddrParam.getValue(), iecClient.getConnection()));
+		//scheduler.scheduleAtFixedRate(iecReporter::doReport, 1, 5, java.util.concurrent.TimeUnit.SECONDS);
+
 	}
 
-	private static void logStartOfResponder() {
-		Logger.log("### Starting Responder ###\n" + "\nHost Address: " + hostParam.getValue() + "\nPort:         " + portParam.getValue());
+	private static SerialConnectionImpl startSerialConnection() {
+		SerialServer.Builder builder = SerialServer.builder();
+		builder.setPort()
+		SerialConnectionSettings serialConnectionSettings = new SerialConnectionSettings();
+		serialConnectionSettings.setPortName(portParam.getValue());
+		serialConnectionSettings.setBaudRate(Integer.parseInt(baudRate.getValue()));
+		try {
+			return new SerialConnectionImpl(serialConnectionSettings);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void logStartOfResponder(String[] args) {
+		CliParser cliParser = new CliParser("j60870-console-responder", "A client/master application to access IEC 60870-5-104 servers/slaves.");
+		cliParser.addParameters(hostParam, portParam, commonAddrParam, baudRate);
+
+		try {
+			cliParser.parseArguments(args);
+		} catch (CliParseException e1) {
+			System.err.println("Error parsing command line parameters: " + e1.getMessage());
+			log(cliParser.getUsageString());
+			System.exit(1);
+		}
+
+		log("### Starting Responder ###\n" + "\nHost Address: " + hostParam.getValue() + "\nPort:         " + portParam.getValue() + "\nBaudrate:         " + baudRate.getValue());
 	}
 }

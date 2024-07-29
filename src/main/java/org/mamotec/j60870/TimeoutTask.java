@@ -20,7 +20,7 @@
  */
 package org.mamotec.j60870;
 
-abstract class TimeoutTask implements Comparable<TimeoutTask> {
+public abstract class TimeoutTask implements Comparable<TimeoutTask> {
     private final long timeout;
 
     private long dueTime;
@@ -36,7 +36,7 @@ abstract class TimeoutTask implements Comparable<TimeoutTask> {
         this.dueTime = 0;
     }
 
-    void executeManually() {
+    public void executeManually() {
 
         if (canceled) {
             return;

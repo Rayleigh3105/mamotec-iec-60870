@@ -134,10 +134,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">ClientConnectionBuilder</span>
 extends java.lang.Object</pre>
-<div class="block">The iecClient connection builder is used to connect to IEC 60870-5-104 servers. A iecClient application that wants to
- connect to a server should first create an instance of <a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><code>ClientConnectionBuilder</code></a>. Next all the necessary
+<div class="block">The iecClient tcpConnection builder is used to connect to IEC 60870-5-104 servers. A iecClient application that wants to
+ connect to a tcpServer should first create an instance of <a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><code>ClientConnectionBuilder</code></a>. Next all the necessary
  configuration parameters can be set. Finally the <a href="#build()"><code>build()</code></a> function is called to
- connect to the server. An instance of <a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><code>ClientConnectionBuilder</code></a> can be used to create an unlimited number of
+ connect to the tcpServer. An instance of <a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><code>ClientConnectionBuilder</code></a> can be used to create an unlimited number of
  connections. Changing the parameters of a <a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><code>ClientConnectionBuilder</code></a> has no affect on connections that have
  already been created.
 
@@ -172,7 +172,7 @@ extends java.lang.Object</pre>
 <tr class="rowColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.net.InetAddress)">ClientConnectionBuilder</a></span>&#8203;(java.net.InetAddress&nbsp;address)</code></th>
 <td class="colLast">
-<div class="block">Creates a iecClient connection builder that can be used to connect to the given address.</div>
+<div class="block">Creates a iecClient tcpConnection builder that can be used to connect to the given address.</div>
 </td>
 </tr>
 </table>
@@ -197,7 +197,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="Connection.html" title="class in org.mamotec.j60870">Connection</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#build()">build</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Connects to the server.</div>
+<div class="block">Connects to the tcpServer.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -220,7 +220,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setConnectionTimeout(int)">setConnectionTimeout</a></span>&#8203;(int&nbsp;time_t0)</code></th>
 <td class="colLast">
-<div class="block">Sets connection time out t0, in milliseconds.<br>
+<div class="block">Sets tcpConnection time out t0, in milliseconds.<br>
  t0 (connectionTimeout) must be between 1000ms and 255000ms.</div>
 </td>
 </tr>
@@ -254,7 +254,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxIdleTime(int)">setMaxIdleTime</a></span>&#8203;(int&nbsp;time_t3)</code></th>
 <td class="colLast">
-<div class="block">Sets the maximum time in ms that the connection may be idle before sending a test frame.</div>
+<div class="block">Sets the maximum time in ms that the tcpConnection may be idle before sending a test frame.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
@@ -270,7 +270,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxTimeNoAckReceived(int)">setMaxTimeNoAckReceived</a></span>&#8203;(int&nbsp;time_t1)</code></th>
 <td class="colLast">
 <div class="block">Sets the maximum time in ms that no acknowledgement has been received (for I-Frames or Test-Frames) before
- actively closing the connection.</div>
+ actively closing the tcpConnection.</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
@@ -285,7 +285,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxUnconfirmedIPdusReceived(int)">setMaxUnconfirmedIPdusReceived</a></span>&#8203;(int&nbsp;maxNum)</code></th>
 <td class="colLast">
-<div class="block">Sets the number of unacknowledged I format APDUs received before the connection will automatically send an S
+<div class="block">Sets the number of unacknowledged I format APDUs received before the tcpConnection will automatically send an S
  format APDU to confirm them.</div>
 </td>
 </tr>
@@ -314,7 +314,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSocketFactory(javax.net.SocketFactory)">setSocketFactory</a></span>&#8203;(javax.net.SocketFactory&nbsp;socketFactory)</code></th>
 <td class="colLast">
-<div class="block">Set the socket factory to used to create the socket for the connection.</div>
+<div class="block">Set the socket factory to used to create the socket for the tcpConnection.</div>
 </td>
 </tr>
 <tr id="i16" class="altColor">
@@ -353,7 +353,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>ClientConnectionBuilder</h4>
 <pre>public&nbsp;ClientConnectionBuilder&#8203;(java.net.InetAddress&nbsp;address)</pre>
-<div class="block">Creates a iecClient connection builder that can be used to connect to the given address.</div>
+<div class="block">Creates a iecClient tcpConnection builder that can be used to connect to the given address.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>address</code> - the address to connect to</dd>
@@ -391,7 +391,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setSocketFactory</h4>
 <pre class="methodSignature">public&nbsp;<a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a>&nbsp;setSocketFactory&#8203;(javax.net.SocketFactory&nbsp;socketFactory)</pre>
-<div class="block">Set the socket factory to used to create the socket for the connection. The default is
+<div class="block">Set the socket factory to used to create the socket for the tcpConnection. The default is
  <code>SocketFactory.getDefault()</code>. You could pass an <code>SSLSocketFactory</code> to enable SSL.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -472,7 +472,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setConnectionTimeout</h4>
 <pre class="methodSignature">public&nbsp;<a href="ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a>&nbsp;setConnectionTimeout&#8203;(int&nbsp;time_t0)</pre>
-<div class="block">Sets connection time out t0, in milliseconds.<br>
+<div class="block">Sets tcpConnection time out t0, in milliseconds.<br>
  t0 (connectionTimeout) must be between 1000ms and 255000ms.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -490,13 +490,13 @@ extends java.lang.Object</pre>
 <h4>build</h4>
 <pre class="methodSignature">public&nbsp;<a href="Connection.html" title="class in org.mamotec.j60870">Connection</a>&nbsp;build()
                  throws java.io.IOException</pre>
-<div class="block">Connects to the server. The TCP/IP connection is build up and a <a href="Connection.html" title="class in org.mamotec.j60870"><code>Connection</code></a> object is returned that can be
- used to communicate with the server.</div>
+<div class="block">Connects to the tcpServer. The TCP/IP tcpConnection is build up and a <a href="Connection.html" title="class in org.mamotec.j60870"><code>Connection</code></a> object is returned that can be
+ used to communicate with the tcpServer.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>the <a href="Connection.html" title="class in org.mamotec.j60870"><code>Connection</code></a> object that can be used to communicate with the server.</dd>
+<dd>the <a href="Connection.html" title="class in org.mamotec.j60870"><code>Connection</code></a> object that can be used to communicate with the tcpServer.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if any kind of error occurs during connection build up.</dd>
+<dd><code>java.io.IOException</code> - if any kind of error occurs during tcpConnection build up.</dd>
 </dl>
 </li>
 </ul>
@@ -562,14 +562,14 @@ extends java.lang.Object</pre>
 <h4>setMaxTimeNoAckReceived</h4>
 <pre class="methodSignature">public&nbsp;T&nbsp;setMaxTimeNoAckReceived&#8203;(int&nbsp;time_t1)</pre>
 <div class="block">Sets the maximum time in ms that no acknowledgement has been received (for I-Frames or Test-Frames) before
- actively closing the connection. This timeout is called t1 by the standard.<br>
+ actively closing the tcpConnection. This timeout is called t1 by the standard.<br>
  Default is 15s, minimum is 1s, maximum is 255s.<br>
  t1 (maxTimeNoAckReceived) has to be greater then t2 (maxTimeNoAckSent) and t1 has to be smaller then t3
  (maxIdleTime) (t1 &gt; t2 and t1 &lt; t3)</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>time_t1</code> - the maximum time in ms that no acknowledgement has been received before actively closing the
-            connection.</dd>
+            tcpConnection.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
 </dl>
@@ -602,13 +602,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setMaxIdleTime</h4>
 <pre class="methodSignature">public&nbsp;T&nbsp;setMaxIdleTime&#8203;(int&nbsp;time_t3)</pre>
-<div class="block">Sets the maximum time in ms that the connection may be idle before sending a test frame. This timeout is called
+<div class="block">Sets the maximum time in ms that the tcpConnection may be idle before sending a test frame. This timeout is called
  t3 by the standard.<br>
  Default is 20s, minimum is 1s, maximum is 172800s (48h).<br>
  t3 (maxIdleTime) has to be bigger then t1 (maxTimeNoAckReceived), t3 &gt; t1.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>time_t3</code> - the maximum time in ms that the connection may be idle before sending a test frame.</dd>
+<dd><code>time_t3</code> - the maximum time in ms that the tcpConnection may be idle before sending a test frame.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
 </dl>
@@ -639,12 +639,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setMaxUnconfirmedIPdusReceived</h4>
 <pre class="methodSignature">public&nbsp;T&nbsp;setMaxUnconfirmedIPdusReceived&#8203;(int&nbsp;maxNum)</pre>
-<div class="block">Sets the number of unacknowledged I format APDUs received before the connection will automatically send an S
+<div class="block">Sets the number of unacknowledged I format APDUs received before the tcpConnection will automatically send an S
  format APDU to confirm them. This parameter is called w by the standard. Default is 8, minimum is 1, maximum is
  32767.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>maxNum</code> - the number of unacknowledged I format APDUs received before the connection will automatically send an
+<dd><code>maxNum</code> - the number of unacknowledged I format APDUs received before the tcpConnection will automatically send an
             S format APDU to confirm them.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>

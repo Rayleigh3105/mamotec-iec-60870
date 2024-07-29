@@ -1,70 +1,49 @@
 package org.mamotec.responder.client;
 
-import org.mamotec.common.cli.CliParser;
-import org.mamotec.common.cli.IntCliParameter;
-import org.mamotec.common.cli.StringCliParameter;
-import org.mamotec.j60870.ClientConnectionBuilder;
+import org.mamotec.common.enums.NeTable;
+import org.mamotec.common.type.ValueHolder;
+import org.mamotec.j60870.ASdu;
+import org.mamotec.j60870.ASduType;
+import org.mamotec.j60870.CauseOfTransmission;
 import org.mamotec.j60870.Connection;
+import org.mamotec.j60870.ie.IeShortFloat;
+import org.mamotec.j60870.ie.IeSinglePointWithQuality;
+import org.mamotec.j60870.ie.IeTime24;
 import org.mamotec.j60870.ie.IeTime56;
+import org.mamotec.j60870.ie.InformationElement;
+import org.mamotec.j60870.ie.InformationObject;
+import org.mamotec.responder.utils.ActivePowerUtils;
 
 import java.io.IOException;
-import java.net.InetAddress;
+import java.util.EventListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static org.mamotec.j60870.ASduType.M_ME_TF_1;
+import static org.mamotec.j60870.ASduType.M_SP_NA_1;
 
 public class IecClient {
 
 	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-	private static Connection connection;
+	private static final int START_DT_RETRIES = 1;
 
-	private final CliParser cliParser;
+	private Connection connection = null;
 
-	private final String[] args;
-
-	private final StringCliParameter host;
-
-	private final IntCliParameter port;
-
-	private final IntCliParameter commonAddr;
-
-	private final IntCliParameter startDtRetries;
-
-	private final IntCliParameter connectionTimeout;
-
-	private final IntCliParameter messageFragmentTimeout;
-
-
-	public IecClient(CliParser cliParserParam, String[] argsParam, StringCliParameter hostParam, IntCliParameter portParam, IntCliParameter commonAddrParam,
-			IntCliParameter startDtRetries, IntCliParameter connectionTimeout, IntCliParameter messageFragmentTimeout) {
-		cliParser = cliParserParam;
-		args = argsParam;
-		this.host = hostParam;
-		this.port = portParam;
-		this.commonAddr = commonAddrParam;
-		this.startDtRetries = startDtRetries;
-		this.connectionTimeout = connectionTimeout;
-		this.messageFragmentTimeout = messageFragmentTimeout;
-
-
+	public IecClient(Connection connection) {
+		this.connection = connection;
 	}
 
-	public void spinUpClient() {
+	public void spinUpClient(EventListener eventListener) {
 		try {
-			cliParser.parseArguments(args);
-			InetAddress address = InetAddress.getByName(host.getValue());
-			connection = new ClientConnectionBuilder(address).setMessageFragmentTimeout(messageFragmentTimeout.getValue()).setConnectionTimeout(connectionTimeout.getValue())
-					.setPort(port.getValue()).build();
-
-			Runtime.getRuntime().addShutdownHook(new Thread(() -> connection.close()));
-
-			for (int i = 1; i <= startDtRetries.getValue(); i++) {
+			connection.open();
+			for (int i = 1; i <= START_DT_RETRIES; i++) {
 				try {
-					connection.startDataTransfer(new ClientEventListener());
+					connection.startDataTransfer(eventListener);
 					break;
 				} catch (IOException e) {
-					if (i == startDtRetries.getValue()) {
+					if (i == START_DT_RETRIES) {
 						connection.close();
 						return;
 					}
@@ -83,15 +62,25 @@ public class IecClient {
 		Runnable hourlyTask = () -> {
 			System.out.println("Syncronizing clocks...");
 			try {
-				connection.synchronizeClocks(commonAddr.getValue(), new IeTime56(System.currentTimeMillis()));
+				connection.synchronizeClocks(0, new IeTime56(System.currentTimeMillis()));
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		};
-		scheduler.scheduleAtFixedRate(hourlyTask, 1, 1, TimeUnit.SECONDS);
+		scheduler.scheduleAtFixedRate(hourlyTask, 1, 5, TimeUnit.SECONDS);
 	}
 
-	public Connection getConnection() {
-		return connection;
+	public <T> boolean sendValue(ValueHolder<T> valueHolder, NeTable neTable) throws IOException {
+		switch (neTable.getAsduType()) {
+		case M_ME_TF_1:
+			// 36 - Measured value, short floating point number with time tag CP56Time2a
+			connection.send(ActivePowerUtils.buildActivePowerAsdu((Integer) valueHolder.getValue(), 0, connection));
+			break;
+		default:
+			System.out.println("Unsupported ASDU type: " + neTable.getAsduType());
+		}
+
+		return false;
 	}
+
 }

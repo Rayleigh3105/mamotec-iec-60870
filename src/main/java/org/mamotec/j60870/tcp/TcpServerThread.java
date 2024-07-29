@@ -18,7 +18,7 @@
  * along with j60870.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package org.mamotec.j60870;
+package org.mamotec.j60870.tcp;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -26,19 +26,19 @@ import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-class ServerThread implements Runnable {
+class TcpServerThread implements Runnable {
 
     private final ServerSocket serverSocket;
-    private final ConnectionSettings settings;
+    private final TcpConnectionSettings settings;
     private final int maxConnections;
-    private final ServerEventListener serverSapListener;
+    private final TcpServerEventListener serverSapListener;
     private final List<String> allowedClientIps;
     private final ExecutorService executor;
     private volatile boolean stopServer = false;
     private int numConnections = 0;
 
-    ServerThread(ServerSocket serverSocket, ConnectionSettings settings, int maxConnections,
-                 ServerEventListener serverSapListener, ExecutorService exec, List<String> allowedClientIps) {
+    TcpServerThread(ServerSocket serverSocket, TcpConnectionSettings settings, int maxConnections,
+                 TcpServerEventListener serverSapListener, ExecutorService exec, List<String> allowedClientIps) {
         this.serverSocket = serverSocket;
         this.settings = settings;
         this.maxConnections = maxConnections;
@@ -119,30 +119,30 @@ class ServerThread implements Runnable {
     private class ConnectionHandler implements Runnable {
 
         private final Socket socket;
-        private final ServerThread serverThread;
+        private final TcpServerThread tcpServerThread;
 
-        public ConnectionHandler(Socket socket, ServerThread serverThread) {
+        public ConnectionHandler(Socket socket, TcpServerThread tcpServerThread) {
             this.socket = socket;
-            this.serverThread = serverThread;
+            this.tcpServerThread = tcpServerThread;
         }
 
         @Override
         public void run() {
             Thread.currentThread().setName("ConnectionHandler");
-            Connection serverConnection;
+            TcpConnection serverTcpConnection;
             try {
-                serverConnection = new Connection(socket, serverThread, settings);
+                serverTcpConnection = new TcpConnection(socket, tcpServerThread, settings);
                 // first set listener before any communication can happen
-                serverConnection.setConnectionListener(serverSapListener.setConnectionEventListenerBeforeStart());
-                serverConnection.start();
+                serverTcpConnection.setConnectionListener(serverSapListener.setConnectionEventListenerBeforeStart());
+                serverTcpConnection.start();
             } catch (IOException e) {
-                synchronized (ServerThread.this) {
+                synchronized (TcpServerThread.this) {
                     numConnections--;
                 }
                 serverSapListener.connectionAttemptFailed(e);
                 return;
             }
-            serverSapListener.connectionIndication(serverConnection);
+            serverSapListener.connectionIndication(serverTcpConnection);
         }
     }
 

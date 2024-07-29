@@ -3,16 +3,21 @@ package org.mamotec.common.enums;
 public enum ModbusAction {
 
 	// Boolean value
-	READ_COIL,
-	WRITE_COIL,
+	READ_COIL(Boolean.class),
+	WRITE_COIL(Boolean.class),
 
-	// Single 16-bit value
-	READ_HOLDING_REGISTER,
-	WRITE_HOLDING_REGISTER,
+	READ_HOLDING_REGISTER(Integer.class),
+	READ_HOLDING_REGISTER_FLOAT(Float.class),
+	WRITE_HOLDING_REGISTER(Integer.class),
+	WRITE_HOLDING_REGISTER_FLOAT(Float.class);
 
-	// Multiple 32-bit values
-	READ_INPUT_REGISTER,
-	WRITE_INPUT_REGISTER
+	private final Class<?> type;
 
+	ModbusAction(Class<?> returnType) {
+		this.type = returnType;
+	}
 
+	public Class<?> getReturnType() {
+		return type;
+	}
 }

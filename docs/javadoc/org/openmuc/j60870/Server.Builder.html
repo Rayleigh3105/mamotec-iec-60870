@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>org.mamotec.j60870.Server.Builder</li>
+<li>org.mamotec.j60870.tcp.TcpServer.Builder</li>
 </ul>
 </li>
 </ul>
@@ -138,7 +138,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public static class <span class="typeNameLabel">Server.Builder</span>
 extends java.lang.Object</pre>
-<div class="block">The server builder which builds a 60870 server instance.</div>
+<div class="block">The tcpServer builder which builds a 60870 tcpServer instance.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="Server.html#builder()"><code>Server.builder()</code></a></dd>
@@ -167,7 +167,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="Server.html" title="class in org.mamotec.j60870">Server</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#build()">build</a></span>()</code></th>
 <td class="colLast">
-<div class="block">To start/activate the server call <a href="Server.html#start(org.openmuc.j60870.ServerEventListener)"><code>Server.start(ServerEventListener)</code></a> on the returned server.</div>
+<div class="block">To start/activate the tcpServer call <a href="Server.html#start(org.openmuc.j60870.ServerEventListener)"><code>Server.start(ServerEventListener)</code></a> on the returned tcpServer.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -229,7 +229,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxIdleTime(int)">setMaxIdleTime</a></span>&#8203;(int&nbsp;time_t3)</code></th>
 <td class="colLast">
-<div class="block">Sets the maximum time in ms that the connection may be idle before sending a test frame.</div>
+<div class="block">Sets the maximum time in ms that the tcpConnection may be idle before sending a test frame.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -245,7 +245,7 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxTimeNoAckReceived(int)">setMaxTimeNoAckReceived</a></span>&#8203;(int&nbsp;time_t1)</code></th>
 <td class="colLast">
 <div class="block">Sets the maximum time in ms that no acknowledgement has been received (for I-Frames or Test-Frames) before
- actively closing the connection.</div>
+ actively closing the tcpConnection.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
@@ -260,7 +260,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>T</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxUnconfirmedIPdusReceived(int)">setMaxUnconfirmedIPdusReceived</a></span>&#8203;(int&nbsp;maxNum)</code></th>
 <td class="colLast">
-<div class="block">Sets the number of unacknowledged I format APDUs received before the connection will automatically send an S
+<div class="block">Sets the number of unacknowledged I format APDUs received before the tcpConnection will automatically send an S
  format APDU to confirm them.</div>
 </td>
 </tr>
@@ -275,7 +275,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="Server.Builder.html" title="class in org.mamotec.j60870">Server.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPort(int)">setPort</a></span>&#8203;(int&nbsp;port)</code></th>
 <td class="colLast">
-<div class="block">Sets the TCP port that the server will listen on.</div>
+<div class="block">Sets the TCP port that the tcpServer will listen on.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
@@ -328,7 +328,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setPort</h4>
 <pre class="methodSignature">public&nbsp;<a href="Server.Builder.html" title="class in org.mamotec.j60870">Server.Builder</a>&nbsp;setPort&#8203;(int&nbsp;port)</pre>
-<div class="block">Sets the TCP port that the server will listen on. IEC 60870-5-104 usually uses port 2404.</div>
+<div class="block">Sets the TCP port that the tcpServer will listen on. IEC 60870-5-104 usually uses port 2404.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>port</code> - the port</dd>
@@ -440,7 +440,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>build</h4>
 <pre class="methodSignature">public&nbsp;<a href="Server.html" title="class in org.mamotec.j60870">Server</a>&nbsp;build()</pre>
-<div class="block">To start/activate the server call <a href="Server.html#start(org.openmuc.j60870.ServerEventListener)"><code>Server.start(ServerEventListener)</code></a> on the returned server.</div>
+<div class="block">To start/activate the tcpServer call <a href="Server.html#start(org.openmuc.j60870.ServerEventListener)"><code>Server.start(ServerEventListener)</code></a> on the returned tcpServer.</div>
 </li>
 </ul>
 <a id="setCotFieldLength(int)">
@@ -505,14 +505,14 @@ extends java.lang.Object</pre>
 <h4>setMaxTimeNoAckReceived</h4>
 <pre class="methodSignature">public&nbsp;T&nbsp;setMaxTimeNoAckReceived&#8203;(int&nbsp;time_t1)</pre>
 <div class="block">Sets the maximum time in ms that no acknowledgement has been received (for I-Frames or Test-Frames) before
- actively closing the connection. This timeout is called t1 by the standard.<br>
+ actively closing the tcpConnection. This timeout is called t1 by the standard.<br>
  Default is 15s, minimum is 1s, maximum is 255s.<br>
  t1 (maxTimeNoAckReceived) has to be greater then t2 (maxTimeNoAckSent) and t1 has to be smaller then t3
  (maxIdleTime) (t1 &gt; t2 and t1 &lt; t3)</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>time_t1</code> - the maximum time in ms that no acknowledgement has been received before actively closing the
-            connection.</dd>
+            tcpConnection.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
 </dl>
@@ -545,13 +545,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setMaxIdleTime</h4>
 <pre class="methodSignature">public&nbsp;T&nbsp;setMaxIdleTime&#8203;(int&nbsp;time_t3)</pre>
-<div class="block">Sets the maximum time in ms that the connection may be idle before sending a test frame. This timeout is called
+<div class="block">Sets the maximum time in ms that the tcpConnection may be idle before sending a test frame. This timeout is called
  t3 by the standard.<br>
  Default is 20s, minimum is 1s, maximum is 172800s (48h).<br>
  t3 (maxIdleTime) has to be bigger then t1 (maxTimeNoAckReceived), t3 &gt; t1.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>time_t3</code> - the maximum time in ms that the connection may be idle before sending a test frame.</dd>
+<dd><code>time_t3</code> - the maximum time in ms that the tcpConnection may be idle before sending a test frame.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>
 </dl>
@@ -582,12 +582,12 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setMaxUnconfirmedIPdusReceived</h4>
 <pre class="methodSignature">public&nbsp;T&nbsp;setMaxUnconfirmedIPdusReceived&#8203;(int&nbsp;maxNum)</pre>
-<div class="block">Sets the number of unacknowledged I format APDUs received before the connection will automatically send an S
+<div class="block">Sets the number of unacknowledged I format APDUs received before the tcpConnection will automatically send an S
  format APDU to confirm them. This parameter is called w by the standard. Default is 8, minimum is 1, maximum is
  32767.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>maxNum</code> - the number of unacknowledged I format APDUs received before the connection will automatically send an
+<dd><code>maxNum</code> - the number of unacknowledged I format APDUs received before the tcpConnection will automatically send an
             S format APDU to confirm them.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>this builder</dd>

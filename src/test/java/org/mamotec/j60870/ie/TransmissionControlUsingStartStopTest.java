@@ -25,6 +25,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mamotec.j60870.*;
 import org.mamotec.j60870.internal.ExtendedDataInputStream;
+import org.mamotec.j60870.tcp.TcpConnection;
+import org.mamotec.j60870.tcp.TcpConnectionEventListener;
+import org.mamotec.j60870.tcp.TcpServer;
+import org.mamotec.j60870.tcp.TcpServerEventListener;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -34,15 +38,15 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.*;
-import static org.mamotec.j60870.IecClientServerITest.getAvailablePort;
+import static org.mamotec.j60870.IecClientTcpServerITest.getAvailablePort;
 
 public class TransmissionControlUsingStartStopTest {
 
-    Server serverSap;
-    Connection clientConnection;
-    Connection serverConnection;
-    ClientConnectionListenerImpl clientConnectionListener;
-    ServerConnectionListenerImpl serverConnectionListener;
+    TcpServer tcpServerSap;
+    TcpConnection clientTcpConnection;
+    TcpConnection serverTcpConnection;
+    ClientTcpConnectionListenerImpl clientConnectionListener;
+    ServerTcpConnectionListenerImpl serverConnectionListener;
     IOException clientStoppedCause;
     IOException serverStoppedCause;
     boolean newASduCalled;
@@ -52,24 +56,24 @@ public class TransmissionControlUsingStartStopTest {
     public void initConnection() throws IOException, InterruptedException {
         int port = getAvailablePort();
         newASduCalled = false;
-        clientConnectionListener = new ClientConnectionListenerImpl();
-        serverConnectionListener = new ServerConnectionListenerImpl();
-        ServerListenerImpl serverListener = new ServerListenerImpl();
+        clientConnectionListener = new ClientTcpConnectionListenerImpl();
+        serverConnectionListener = new ServerTcpConnectionListenerImpl();
+        TcpServerListenerImpl serverListener = new TcpServerListenerImpl();
         connectionWaitLatch = new CountDownLatch(1);
-        serverSap = Server.builder().setPort(port).build();
-        serverSap.start(serverListener);
-        clientConnection = new ClientConnectionBuilder("127.0.0.1")
+        tcpServerSap = TcpServer.builder().setPort(port).build();
+        tcpServerSap.start(serverListener);
+        clientTcpConnection = new ClientConnectionBuilder("127.0.0.1")
                 .setPort(port)
                 .setReservedASduTypeDecoder(new ReservedASduTypeDecoderImpl())
                 .build();
-        clientConnection.setConnectionListener(clientConnectionListener);
+        clientTcpConnection.setConnectionListener(clientConnectionListener);
         connectionWaitLatch.await();
     }
 
     @After
     public void exitConnection() {
-        clientConnection.close();
-        serverSap.stop();
+        clientTcpConnection.close();
+        tcpServerSap.stop();
     }
 
     /***
@@ -78,13 +82,13 @@ public class TransmissionControlUsingStartStopTest {
     @Test
     public void receiveIorSFramesInStoppedConnectionState()
             throws InterruptedException, IOException, NoSuchFieldException, IllegalAccessException {
-        Field field = Connection.class.getDeclaredField("stopped");
+        Field field = TcpConnection.class.getDeclaredField("stopped");
         field.setAccessible(true);
-        field.set(clientConnection, false);
-        clientConnection.interrogation(1, CauseOfTransmission.ACTIVATION, new IeQualifierOfInterrogation(20));
+        field.set(clientTcpConnection, false);
+        clientTcpConnection.interrogation(1, CauseOfTransmission.ACTIVATION, new IeQualifierOfInterrogation(20));
         Thread.sleep(1000);
-        assertTrue(serverConnection.isClosed());
-        assertTrue(clientConnection.isClosed());
+        assertTrue(serverTcpConnection.isClosed());
+        assertTrue(clientTcpConnection.isClosed());
         assertFalse(newASduCalled);
         assertEquals(serverStoppedCause.getClass(), IOException.class);
         assertTrue(serverStoppedCause.getMessage().contains("message while STOPDT state"));
@@ -98,15 +102,15 @@ public class TransmissionControlUsingStartStopTest {
     @Test
     public void receiveIorSFramesInStoppedConnectionStateAfterStartAndStop()
             throws InterruptedException, IOException, NoSuchFieldException, IllegalAccessException {
-        clientConnection.startDataTransfer(clientConnectionListener);
-        clientConnection.stopDataTransfer();
-        Field field = Connection.class.getDeclaredField("stopped");
+        clientTcpConnection.startDataTransfer(clientConnectionListener);
+        clientTcpConnection.stopDataTransfer();
+        Field field = TcpConnection.class.getDeclaredField("stopped");
         field.setAccessible(true);
-        field.set(clientConnection, false); // overwrite to send illegal message anyway
-        clientConnection.interrogation(1, CauseOfTransmission.ACTIVATION, new IeQualifierOfInterrogation(20));
+        field.set(clientTcpConnection, false); // overwrite to send illegal message anyway
+        clientTcpConnection.interrogation(1, CauseOfTransmission.ACTIVATION, new IeQualifierOfInterrogation(20));
         Thread.sleep(1000);
-        assertTrue(serverConnection.isClosed());
-        assertTrue(clientConnection.isClosed());
+        assertTrue(serverTcpConnection.isClosed());
+        assertTrue(clientTcpConnection.isClosed());
         assertFalse(newASduCalled);
         assertEquals(serverStoppedCause.getClass(), IOException.class);
         assertTrue(serverStoppedCause.getMessage().contains("message while STOPDT state"));
@@ -114,20 +118,20 @@ public class TransmissionControlUsingStartStopTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void throwExceptionOnSendInStoppedConnectionStateBeforeStart() throws IOException {
-        clientConnection.interrogation(1, CauseOfTransmission.ACTIVATION, new IeQualifierOfInterrogation(20));
+        clientTcpConnection.interrogation(1, CauseOfTransmission.ACTIVATION, new IeQualifierOfInterrogation(20));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void throwExceptionOnSendInStoppedConnectionStateAfterStop() throws IOException {
-        clientConnection.startDataTransfer(clientConnectionListener);
-        clientConnection.stopDataTransfer();
-        clientConnection.interrogation(1, CauseOfTransmission.ACTIVATION, new IeQualifierOfInterrogation(20));
+        clientTcpConnection.startDataTransfer(clientConnectionListener);
+        clientTcpConnection.stopDataTransfer();
+        clientTcpConnection.interrogation(1, CauseOfTransmission.ACTIVATION, new IeQualifierOfInterrogation(20));
     }
 
     @Test
     public void sendNoneStandardASdu() throws IOException, InterruptedException {
-        clientConnection.startDataTransfer(clientConnectionListener);
-        serverConnection.send(new ASdu(ASduType.PRIVATE_136,
+        clientTcpConnection.startDataTransfer(clientConnectionListener);
+        serverTcpConnection.send(new ASdu(ASduType.PRIVATE_136,
                         false,
                         1,
                         CauseOfTransmission.SPONTANEOUS,
@@ -167,52 +171,52 @@ public class TransmissionControlUsingStartStopTest {
         }
     }
 
-    private class ClientConnectionListenerImpl implements ConnectionEventListener {
+    private class ClientTcpConnectionListenerImpl implements TcpConnectionEventListener {
 
         @Override
-        public void newASdu(Connection connection, ASdu aSdu) {
+        public void newASdu(TcpConnection tcpConnection, ASdu aSdu) {
             newASduCalled = true;
         }
 
         @Override
-        public void connectionClosed(Connection connection, IOException cause) {
+        public void connectionClosed(TcpConnection tcpConnection, IOException cause) {
             clientStoppedCause = cause;
         }
 
         @Override
-        public void dataTransferStateChanged(Connection connection, boolean stopped) {
+        public void dataTransferStateChanged(TcpConnection tcpConnection, boolean stopped) {
 
         }
     }
 
-    private class ServerConnectionListenerImpl implements ConnectionEventListener {
+    private class ServerTcpConnectionListenerImpl implements TcpConnectionEventListener {
 
         @Override
-        public void newASdu(Connection connection, ASdu aSdu) {
+        public void newASdu(TcpConnection tcpConnection, ASdu aSdu) {
             newASduCalled = true;
         }
 
         @Override
-        public void connectionClosed(Connection connection, IOException cause) {
+        public void connectionClosed(TcpConnection tcpConnection, IOException cause) {
             serverStoppedCause = cause;
         }
 
         @Override
-        public void dataTransferStateChanged(Connection connection, boolean stopped) {
+        public void dataTransferStateChanged(TcpConnection tcpConnection, boolean stopped) {
 
         }
     }
 
-    private class ServerListenerImpl implements ServerEventListener {
+    private class TcpServerListenerImpl implements TcpServerEventListener {
 
         @Override
-        public ConnectionEventListener setConnectionEventListenerBeforeStart() {
+        public TcpConnectionEventListener setConnectionEventListenerBeforeStart() {
             return serverConnectionListener;
         }
 
         @Override
-        public void connectionIndication(Connection connection) {
-            serverConnection = connection;
+        public void connectionIndication(TcpConnection tcpConnection) {
+            serverTcpConnection = tcpConnection;
             connectionWaitLatch.countDown();
         }
 

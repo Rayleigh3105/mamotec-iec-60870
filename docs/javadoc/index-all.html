@@ -148,11 +148,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ClientConnectionBuilder.html#build()">build()</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></dt>
 <dd>
-<div class="block">Connects to the server.</div>
+<div class="block">Connects to the tcpServer.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Server.Builder.html#build()">build()</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Server.Builder.html" title="class in org.mamotec.j60870">Server.Builder</a></dt>
 <dd>
-<div class="block">To start/activate the server call <a href="org/openmuc/j60870/Server.html#start(org.openmuc.j60870.ServerEventListener)"><code>Server.start(ServerEventListener)</code></a> on the returned server.</div>
+<div class="block">To start/activate the tcpServer call <a href="org/openmuc/j60870/Server.html#start(org.openmuc.j60870.ServerEventListener)"><code>Server.start(ServerEventListener)</code></a> on the returned tcpServer.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Server.html#builder()">builder()</a></span> - Static method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Server.html" title="class in org.mamotec.j60870">Server</a></dt>
 <dd>&nbsp;</dd>
@@ -264,21 +264,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><a href="org/openmuc/j60870/ClientConnectionBuilder.html" title="class in org.mamotec.j60870"><span class="typeNameLink">ClientConnectionBuilder</span></a> - Class in <a href="org/openmuc/j60870/package-summary.html">org.mamotec.j60870</a></dt>
 <dd>
-<div class="block">The iecClient connection builder is used to connect to IEC 60870-5-104 servers.</div>
+<div class="block">The iecClient tcpConnection builder is used to connect to IEC 60870-5-104 servers.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ClientConnectionBuilder.html#%3Cinit%3E(java.lang.String)">ClientConnectionBuilder(String)</a></span> - Constructor for class org.mamotec.j60870.<a href="org/openmuc/j60870/ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ClientConnectionBuilder.html#%3Cinit%3E(java.net.InetAddress)">ClientConnectionBuilder(InetAddress)</a></span> - Constructor for class org.mamotec.j60870.<a href="org/openmuc/j60870/ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></dt>
 <dd>
-<div class="block">Creates a iecClient connection builder that can be used to connect to the given address.</div>
+<div class="block">Creates a iecClient tcpConnection builder that can be used to connect to the given address.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Connection.html#close()">close()</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Connection.html" title="class in org.mamotec.j60870">Connection</a></dt>
 <dd>
-<div class="block">Will close the TCP connection if it's still open and free any resources of this connection.</div>
+<div class="block">Will close the TCP tcpConnection if it's still open and free any resources of this tcpConnection.</div>
 </dd>
 <dt><a href="org/openmuc/j60870/Connection.html" title="class in org.mamotec.j60870"><span class="typeNameLink">Connection</span></a> - Class in <a href="org/openmuc/j60870/package-summary.html">org.mamotec.j60870</a></dt>
 <dd>
-<div class="block">Represents an open connection to a specific 60870 server.</div>
+<div class="block">Represents an open tcpConnection to a specific 60870 tcpServer.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ServerEventListener.html#connectionAttemptFailed(java.io.IOException)">connectionAttemptFailed(IOException)</a></span> - Method in interface org.mamotec.j60870.<a href="org/openmuc/j60870/ServerEventListener.html" title="interface in org.mamotec.j60870">ServerEventListener</a></dt>
 <dd>&nbsp;</dd>
@@ -288,7 +288,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><a href="org/openmuc/j60870/ConnectionEventListener.html" title="interface in org.mamotec.j60870"><span class="typeNameLink">ConnectionEventListener</span></a> - Interface in <a href="org/openmuc/j60870/package-summary.html">org.mamotec.j60870</a></dt>
 <dd>
-<div class="block">The listener interface for receiving incoming ASDUs and connection closed events.</div>
+<div class="block">The listener interface for receiving incoming ASDUs and tcpConnection closed events.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ServerEventListener.html#connectionIndication(org.openmuc.j60870.Connection)">connectionIndication(Connection)</a></span> - Method in interface org.mamotec.j60870.<a href="org/openmuc/j60870/ServerEventListener.html" title="interface in org.mamotec.j60870">ServerEventListener</a></dt>
 <dd>&nbsp;</dd>
@@ -1029,7 +1029,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Connection.html#isClosed()">isClosed()</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Connection.html" title="class in org.mamotec.j60870">Connection</a></dt>
 <dd>
-<div class="block">Returns true if connection is closed else false.</div>
+<div class="block">Returns true if tcpConnection is closed else false.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ie/IeSingleCommand.html#isCommandStateOn()">isCommandStateOn()</a></span> - Method in class org.mamotec.j60870.ie.<a href="org/openmuc/j60870/ie/IeSingleCommand.html" title="class in org.mamotec.j60870.ie">IeSingleCommand</a></dt>
 <dd>&nbsp;</dd>
@@ -1815,11 +1815,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>&nbsp;</dd>
 <dt><a href="org/openmuc/j60870/Server.html" title="class in org.mamotec.j60870"><span class="typeNameLink">Server</span></a> - Class in <a href="org/openmuc/j60870/package-summary.html">org.mamotec.j60870</a></dt>
 <dd>
-<div class="block">The server is used to start listening for IEC 60870-5-104 iecClient connections.</div>
+<div class="block">The tcpServer is used to start listening for IEC 60870-5-104 iecClient connections.</div>
 </dd>
 <dt><a href="org/openmuc/j60870/Server.Builder.html" title="class in org.mamotec.j60870"><span class="typeNameLink">Server.Builder</span></a> - Class in <a href="org/openmuc/j60870/package-summary.html">org.mamotec.j60870</a></dt>
 <dd>
-<div class="block">The server builder which builds a 60870 server instance.</div>
+<div class="block">The tcpServer builder which builds a 60870 tcpServer instance.</div>
 </dd>
 <dt><a href="org/openmuc/j60870/ServerEventListener.html" title="interface in org.mamotec.j60870"><span class="typeNameLink">ServerEventListener</span></a> - Interface in <a href="org/openmuc/j60870/package-summary.html">org.mamotec.j60870</a></dt>
 <dd>&nbsp;</dd>
@@ -1846,15 +1846,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ServerEventListener.html#setConnectionEventListenerBeforeStart()">setConnectionEventListenerBeforeStart()</a></span> - Method in interface org.mamotec.j60870.<a href="org/openmuc/j60870/ServerEventListener.html" title="interface in org.mamotec.j60870">ServerEventListener</a></dt>
 <dd>
-<div class="block">Use this function to set the connection event listener before the connection is started.</div>
+<div class="block">Use this function to set the tcpConnection event listener before the tcpConnection is started.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Connection.html#setConnectionListener(org.openmuc.j60870.ConnectionEventListener)">setConnectionListener(ConnectionEventListener)</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Connection.html" title="class in org.mamotec.j60870">Connection</a></dt>
 <dd>
-<div class="block">Sets connection listener to be notified of incoming ASDUs and disconnect events.</div>
+<div class="block">Sets tcpConnection listener to be notified of incoming ASDUs and disconnect events.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ClientConnectionBuilder.html#setConnectionTimeout(int)">setConnectionTimeout(int)</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></dt>
 <dd>
-<div class="block">Sets connection time out t0, in milliseconds.<br>
+<div class="block">Sets tcpConnection time out t0, in milliseconds.<br>
  t0 (connectionTimeout) must be between 1000ms and 255000ms.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ClientConnectionBuilder.html#setLocalAddress(java.net.InetAddress,int)">setLocalAddress(InetAddress, int)</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></dt>
@@ -1883,7 +1883,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Server.Builder.html#setPort(int)">setPort(int)</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Server.Builder.html" title="class in org.mamotec.j60870">Server.Builder</a></dt>
 <dd>
-<div class="block">Sets the TCP port that the server will listen on.</div>
+<div class="block">Sets the TCP port that the tcpServer will listen on.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ClientConnectionBuilder.html#setReservedASduTypeDecoder(org.openmuc.j60870.ReservedASduTypeDecoder)">setReservedASduTypeDecoder(ReservedASduTypeDecoder)</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></dt>
 <dd>
@@ -1915,7 +1915,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/ClientConnectionBuilder.html#setSocketFactory(javax.net.SocketFactory)">setSocketFactory(SocketFactory)</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/ClientConnectionBuilder.html" title="class in org.mamotec.j60870">ClientConnectionBuilder</a></dt>
 <dd>
-<div class="block">Set the socket factory to used to create the socket for the connection.</div>
+<div class="block">Set the socket factory to used to create the socket for the tcpConnection.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Connection.html#singleCommand(int,org.openmuc.j60870.CauseOfTransmission,int,org.openmuc.j60870.ie.IeSingleCommand)">singleCommand(int, CauseOfTransmission, int, IeSingleCommand)</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Connection.html" title="class in org.mamotec.j60870">Connection</a></dt>
 <dd>
@@ -1937,7 +1937,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Connection.html#startDataTransfer(org.openmuc.j60870.ConnectionEventListener)">startDataTransfer(ConnectionEventListener)</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Connection.html" title="class in org.mamotec.j60870">Connection</a></dt>
 <dd>
-<div class="block">Starts a connection.</div>
+<div class="block">Starts a tcpConnection.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/openmuc/j60870/Server.html#stop()">stop()</a></span> - Method in class org.mamotec.j60870.<a href="org/openmuc/j60870/Server.html" title="class in org.mamotec.j60870">Server</a></dt>
 <dd>

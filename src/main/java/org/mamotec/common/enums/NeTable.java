@@ -2,10 +2,12 @@ package org.mamotec.common.enums;
 
 import org.mamotec.j60870.ASduType;
 
-public enum NeModbusTable {
+public enum NeTable {
 
 	// @formatter:off
 	DUMMY(0, Unit.NONE, AccessType.READ, ASduType.M_DP_TB_1, ModbusAction.READ_HOLDING_REGISTER),
+	DUMMY_2(2, Unit.NONE, AccessType.READ, ASduType.M_DP_TB_1, ModbusAction.READ_HOLDING_REGISTER_FLOAT),
+	DUMMY_3(3, Unit.NONE, AccessType.WRITE, ASduType.M_DP_TB_1, ModbusAction.WRITE_COIL),
 	SWITCH_POSITION(1, Unit.NONE, AccessType.READ, ASduType.M_DP_TB_1, ModbusAction.READ_COIL),
 	EQUIPMENT_MALFUNCTION(10, Unit.NONE, AccessType.READ, ASduType.M_SP_TB_1, ModbusAction.READ_COIL),
 	SWITCH_CASE(11, Unit.NONE, AccessType.READ, ASduType.M_SP_TB_1, ModbusAction.READ_COIL),
@@ -17,14 +19,14 @@ public enum NeModbusTable {
 	E_GRID_DEPTH_LOCATION(19, Unit.NONE, AccessType.READ, ASduType.M_SP_TB_1, ModbusAction.READ_COIL),
 
 	// Vorgabe Einspeise-/Blindleistungsmanagement
-	SPEC_ACTIVE_POWER_EZA1(111, Unit.PERCENT, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_INPUT_REGISTER),
-	SPEC_ACTIVE_POWER_EZA2(112, Unit.PERCENT, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_INPUT_REGISTER),
-	SPEC_ACTIVE_POWER_EZA3(113, Unit.PERCENT, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_INPUT_REGISTER),
-	SPEC_ACTIVE_POWER_EZA4(114, Unit.PERCENT, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_INPUT_REGISTER),
-	SPEC_POWER_FACTOR(115, Unit.NONE, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_INPUT_REGISTER),
+	SPEC_ACTIVE_POWER_EZA1(111, Unit.PERCENT, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_HOLDING_REGISTER),
+	SPEC_ACTIVE_POWER_EZA2(112, Unit.PERCENT, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_HOLDING_REGISTER),
+	SPEC_ACTIVE_POWER_EZA3(113, Unit.PERCENT, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_HOLDING_REGISTER),
+	SPEC_ACTIVE_POWER_EZA4(114, Unit.PERCENT, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_HOLDING_REGISTER),
+	SPEC_POWER_FACTOR(115, Unit.NONE, AccessType.WRITE, ASduType.C_SE_NC_1, ModbusAction.WRITE_HOLDING_REGISTER),
 
 	// Measurements
-	VOLTAGE_L1_L2_NVP(41, Unit.VOLT, AccessType.READ, ASduType.M_ME_TF_1, ModbusAction.READ_COIL),
+	VOLTAGE_L1_L2_NVP(5, Unit.VOLT, AccessType.READ, ASduType.M_ME_TF_1, ModbusAction.READ_HOLDING_REGISTER),
 	CURRENT_L2_NVP(42, Unit.AMPERE, AccessType.READ, ASduType.M_ME_TF_1, ModbusAction.READ_COIL),
 	ACTIVE_POWER_NVP(43, Unit.WATT, AccessType.READ, ASduType.M_ME_TF_1, ModbusAction.READ_COIL),
 	REACTIVE_POWER_NVP(44, Unit.WATT, AccessType.READ, ASduType.M_ME_TF_1, ModbusAction.READ_COIL),
@@ -64,7 +66,7 @@ public enum NeModbusTable {
 
 	private final ModbusAction modbusAction;
 
-	NeModbusTable(int register, Unit unit, AccessType modbusAccessType, ASduType asduType, ModbusAction modbusAction) {
+	NeTable(int register, Unit unit, AccessType modbusAccessType, ASduType asduType, ModbusAction modbusAction) {
 		this.register = register;
 		this.unit = unit;
 		this.modbusAccessType = modbusAccessType;

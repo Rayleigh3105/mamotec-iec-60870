@@ -18,12 +18,12 @@
  * along with j60870.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package org.mamotec.j60870;
+package org.mamotec.j60870.serial;
 
 import java.io.IOException;
 import java.util.EventListener;
 
-public interface ServerEventListener extends EventListener {
+public interface SerialServerEventListener extends EventListener {
 
     /**
      * Use this function to set the connection event listener before the connection is started. This eliminates the
@@ -31,11 +31,11 @@ public interface ServerEventListener extends EventListener {
      *
      * @return the ConnectionEventListener that will be set for a connection before the connection starts.
      */
-    default ConnectionEventListener setConnectionEventListenerBeforeStart() {
+    default SerialConnectionEventListener setConnectionEventListenerBeforeStart() {
         return null;
     }
 
-    void connectionIndication(Connection connection);
+    void connectionIndication(SerialConnection serialConnection);
 
     /**
      * This function is only called when an IOException in ServerSocket.accept() occurred which was not forced using

@@ -18,7 +18,9 @@
  * along with j60870.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package org.mamotec.j60870;
+package org.mamotec.j60870.tcp;
+
+import org.mamotec.j60870.ReservedASduTypeDecoder;
 
 import javax.net.ServerSocketFactory;
 import java.io.IOException;
@@ -30,7 +32,7 @@ import java.util.concurrent.Executors;
 /**
  * The server is used to start listening for IEC 60870-5-104 client connections.
  */
-public class Server {
+public class TcpServer {
 
     private final int port;
     private final InetAddress bindAddr;
@@ -38,18 +40,18 @@ public class Server {
     private final ServerSocketFactory serverSocketFactory;
     private final int maxConnections;
     private final List<String> allowedClientIps;
-    private final ConnectionSettings settings;
-    private ServerThread serverThread;
+    private final TcpConnectionSettings settings;
+    private TcpServerThread tcpServerThread;
     private ExecutorService exec;
 
-    private Server(Builder builder) {
+    private TcpServer(Builder builder) {
         port = builder.port;
         bindAddr = builder.bindAddr;
         backlog = builder.backlog;
         serverSocketFactory = builder.serverSocketFactory;
         maxConnections = builder.maxConnections;
         allowedClientIps = builder.allowedClientIps;
-        settings = new ConnectionSettings(builder.settings);
+        settings = new TcpConnectionSettings(builder.settings);
     }
 
     public static Builder builder() {
@@ -57,7 +59,7 @@ public class Server {
     }
 
     public boolean isStopped() {
-        return serverThread == null;
+        return tcpServerThread == null;
     }
 
     /**
@@ -67,43 +69,43 @@ public class Server {
      *                 stopped listening.
      * @throws IOException if any kind of error occurs while creating the server socket.
      */
-    public void start(ServerEventListener listener) throws IOException {
-        ConnectionSettings.incremntConnectionsCounter();
+    public void start(TcpServerEventListener listener) throws IOException {
+        TcpConnectionSettings.incremntConnectionsCounter();
         if (this.settings.useSharedThreadPool()) {
-            this.exec = ConnectionSettings.getThreadPool();
+            this.exec = TcpConnectionSettings.getThreadPool();
         } else {
             this.exec = Executors.newCachedThreadPool();
         }
-        serverThread = new ServerThread(serverSocketFactory.createServerSocket(port, backlog, bindAddr), settings,
+        tcpServerThread = new TcpServerThread(serverSocketFactory.createServerSocket(port, backlog, bindAddr), settings,
                 maxConnections, listener, exec, allowedClientIps);
-        this.exec.execute(this.serverThread);
+        this.exec.execute(this.tcpServerThread);
     }
 
     /**
      * Stop listening for new connections. Existing connections are not touched.
      */
     public void stop() {
-        if (serverThread == null) {
+        if (tcpServerThread == null) {
             return;
         }
 
-        serverThread.stopServer();
+        tcpServerThread.stopServer();
 
         if (this.settings.useSharedThreadPool()) {
-            ConnectionSettings.decrementConnectionsCounter();
+            TcpConnectionSettings.decrementConnectionsCounter();
         } else {
             this.exec.shutdown();
         }
 
-        serverThread = null;
+        tcpServerThread = null;
     }
 
     /**
      * The server builder which builds a 60870 server instance.
      *
-     * @see Server#builder()
+     * @see TcpServer#builder()
      */
-    public static class Builder extends CommonBuilder<Builder, Server> {
+    public static class Builder extends TcpBuilder<Builder, TcpServer> {
 
         private int port = 2404;
         private InetAddress bindAddr = null;
@@ -197,11 +199,11 @@ public class Server {
         }
 
         /**
-         * To start/activate the server call {@link Server#start(ServerEventListener)} on the returned server.
+         * To start/activate the server call {@link TcpServer#start(TcpServerEventListener)} on the returned server.
          */
         @Override
-        public Server build() {
-            return new Server(this);
+        public TcpServer build() {
+            return new TcpServer(this);
         }
 
     }

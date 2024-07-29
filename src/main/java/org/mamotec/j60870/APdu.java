@@ -21,13 +21,16 @@
 package org.mamotec.j60870;
 
 import org.mamotec.j60870.internal.ExtendedDataInputStream;
+import org.mamotec.j60870.serial.SerialConnectionSettings;
+import org.mamotec.j60870.tcp.TcpConnectionSettings;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.text.MessageFormat;
 
-class APdu {
+public class APdu {
 
     private static final int CONTROL_FIELDS_LENGTH = 4;
     /**
@@ -55,7 +58,7 @@ class APdu {
     }
 
     @SuppressWarnings("resource")
-    public static APdu decode(Socket socket, ConnectionSettings settings) throws IOException {
+    public static APdu decode(Socket socket, TcpConnectionSettings settings) throws IOException {
         socket.setSoTimeout(0);
 
         ExtendedDataInputStream is = new ExtendedDataInputStream(socket.getInputStream());
@@ -85,7 +88,37 @@ class APdu {
             default:
                 return new APdu(0, 0, apciType, null);
         }
+    }
 
+    @SuppressWarnings("resource")
+    public static APdu decode(InputStream inputStream, SerialConnectionSettings settings) throws IOException {
+
+        ExtendedDataInputStream is = new ExtendedDataInputStream(inputStream);
+
+        if (is.readByte() != START_FLAG) {
+            throw new IOException("Message does not start with START flag (0x68). Broken connection.");
+        }
+
+
+        int length = readApduLength(is);
+
+        byte[] aPduControlFields = readControlFields(is);
+
+        ApciType apciType = ApciType.apciTypeFor(aPduControlFields[0]);
+        switch (apciType) {
+        case I_FORMAT:
+            int sendSeqNum = seqNumFrom(aPduControlFields[0], aPduControlFields[1]);
+            int receiveSeqNum = seqNumFrom(aPduControlFields[2], aPduControlFields[3]);
+
+            int aSduLength = length - CONTROL_FIELDS_LENGTH;
+
+            return new APdu(sendSeqNum, receiveSeqNum, apciType, ASdu.decode(is, settings, aSduLength));
+        case S_FORMAT:
+            return new APdu(0, seqNumFrom(aPduControlFields[2], aPduControlFields[3]), apciType, null);
+
+        default:
+            return new APdu(0, 0, apciType, null);
+        }
     }
 
     private static int seqNumFrom(byte b1, byte b2) {
@@ -115,7 +148,43 @@ class APdu {
         buffer[5] = 0x00;
     }
 
-    public int encode(byte[] buffer, ConnectionSettings settings) {
+    public int encode(byte[] buffer, TcpConnectionSettings settings) {
+
+        buffer[0] = START_FLAG;
+
+        int length = CONTROL_FIELDS_LENGTH;
+
+        if (apciType == ApciType.I_FORMAT) {
+            buffer[2] = (byte) (sendSeqNum << 1);
+            buffer[3] = (byte) (sendSeqNum >> 7);
+            writeReceiveSeqNumTo(buffer);
+
+            length += aSdu.encode(buffer, 6, settings);
+        } else if (apciType == ApciType.STARTDT_ACT) {
+            buffer[2] = 0x07;
+            setV3To5zero(buffer);
+        } else if (apciType == ApciType.STARTDT_CON) {
+            buffer[2] = 0x0b;
+            setV3To5zero(buffer);
+        } else if (apciType == ApciType.STOPDT_ACT) {
+            buffer[2] = 0x13;
+            setV3To5zero(buffer);
+        } else if (apciType == ApciType.STOPDT_CON) {
+            buffer[2] = 0x23;
+            setV3To5zero(buffer);
+        } else if (apciType == ApciType.S_FORMAT) {
+            buffer[2] = 0x01;
+            buffer[3] = 0x00;
+            writeReceiveSeqNumTo(buffer);
+        }
+
+        buffer[1] = (byte) length;
+
+        return length + 2;
+
+    }
+
+    public int encode(byte[] buffer, SerialConnectionSettings settings) {
 
         buffer[0] = START_FLAG;
 

@@ -22,7 +22,7 @@ package org.mamotec.j60870;
 
 import java.util.concurrent.PriorityBlockingQueue;
 
-class TimeoutManager implements Runnable {
+public class TimeoutManager implements Runnable {
 
     private static final int INITIAL_QUE_CAPACITY = 4;
     private final PriorityBlockingQueue<TimeoutTask> queue;

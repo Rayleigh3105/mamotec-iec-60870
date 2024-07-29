@@ -18,7 +18,9 @@
  * along with j60870.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package org.mamotec.j60870;
+package org.mamotec.j60870.tcp;
+
+import org.mamotec.j60870.ASdu;
 
 import java.io.IOException;
 import java.util.EventListener;
@@ -26,32 +28,32 @@ import java.util.EventListener;
 /**
  * The listener interface for receiving incoming ASDUs and connection closed events. The class that is interested in
  * incoming ASDUs implements this interface. The object of that class is registered as a listener through the
- * {@link Connection#startDataTransfer(ConnectionEventListener)} method. Incoming ASDUs are queued so that
- * {@link #newASdu(Connection connection, ASdu)} is never called simultaneously for the same connection.
+ * {@link TcpConnection#startDataTransfer(TcpConnectionEventListener)} method. Incoming ASDUs are queued so that
+ * {@link #newASdu(TcpConnection connection, ASdu)} is never called simultaneously for the same connection.
  */
-public interface ConnectionEventListener extends EventListener {
+public interface TcpConnectionEventListener extends EventListener {
 
     /**
      * Invoked when a new ASDU arrives.
      *
      * @param aSdu the ASDU that arrived.
      */
-    void newASdu(Connection connection, ASdu aSdu);
+    void newASdu(TcpConnection tcpConnection, ASdu aSdu);
 
     /**
      * Invoked when an IOException occurred while listening for incoming ASDUs. An IOException implies that the
-     * {@link Connection} that feeds this listener was automatically closed and can no longer be used to send commands
+     * {@link TcpConnection} that feeds this listener was automatically closed and can no longer be used to send commands
      * or receive ASDUs.
      *
      * @param cause the exception that occurred.
      */
-    void connectionClosed(Connection connection, IOException cause);
+    void connectionClosed(TcpConnection tcpConnection, IOException cause);
 
     /**
      * Informs when the state of data transfer changed.
      *
      * @param stopped true if data transfer stopped, false if data transfer started
      */
-    void dataTransferStateChanged(Connection connection, boolean stopped);
+    void dataTransferStateChanged(TcpConnection tcpConnection, boolean stopped);
 
 }

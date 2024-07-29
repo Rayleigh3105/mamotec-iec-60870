@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>org.mamotec.j60870.Server</li>
+<li>org.mamotec.j60870.tcp.TcpServer</li>
 </ul>
 </li>
 </ul>
@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">Server</span>
 extends java.lang.Object</pre>
-<div class="block">The server is used to start listening for IEC 60870-5-104 iecClient connections.</div>
+<div class="block">The tcpServer is used to start listening for IEC 60870-5-104 iecClient connections.</div>
 </li>
 </ul>
 </div>
@@ -159,7 +159,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Server.Builder.html" title="class in org.mamotec.j60870">Server.Builder</a></span></code></th>
 <td class="colLast">
-<div class="block">The server builder which builds a 60870 server instance.</div>
+<div class="block">The tcpServer builder which builds a 60870 tcpServer instance.</div>
 </td>
 </tr>
 </table>
@@ -257,10 +257,10 @@ extends java.lang.Object</pre>
 <div class="block">Starts a new thread that listens on the configured port. This method is non-blocking.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>listener</code> - the ServerConnectionListener that will be notified when remote clients are connecting or the server
+<dd><code>listener</code> - the ServerConnectionListener that will be notified when remote clients are connecting or the tcpServer
             stopped listening.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code> - if any kind of error occurs while creating the server socket.</dd>
+<dd><code>java.io.IOException</code> - if any kind of error occurs while creating the tcpServer socket.</dd>
 </dl>
 </li>
 </ul>

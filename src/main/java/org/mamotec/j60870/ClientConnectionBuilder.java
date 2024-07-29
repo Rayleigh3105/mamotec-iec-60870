@@ -20,6 +20,12 @@
  */
 package org.mamotec.j60870;
 
+import org.mamotec.j60870.serial.SerialBuilder;
+import org.mamotec.j60870.serial.SerialConnection;
+import org.mamotec.j60870.tcp.TcpBuilder;
+import org.mamotec.j60870.tcp.TcpConnection;
+import org.mamotec.j60870.tcp.TcpConnectionSettings;
+
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
@@ -42,7 +48,7 @@ import java.net.UnknownHostException;
  * communication.
  * </p>
  */
-public class ClientConnectionBuilder extends CommonBuilder<ClientConnectionBuilder, Connection> {
+public class ClientConnectionBuilder extends TcpBuilder<ClientConnectionBuilder, TcpConnection> {
 
     private static final int DEFAULT_PORT = 2404;
 
@@ -144,14 +150,14 @@ public class ClientConnectionBuilder extends CommonBuilder<ClientConnectionBuild
     }
 
     /**
-     * Connects to the server. The TCP/IP connection is build up and a {@link Connection} object is returned that can be
+     * Connects to the server. The TCP/IP connection is build up and a {@link TcpConnection} object is returned that can be
      * used to communicate with the server.
      *
-     * @return the {@link Connection} object that can be used to communicate with the server.
+     * @return the {@link TcpConnection} object that can be used to communicate with the server.
      * @throws IOException if any kind of error occurs during connection build up.
      */
     @Override
-    public Connection build() throws IOException {
+    public TcpConnection build() throws IOException {
         Socket socket = socketFactory.createSocket();
         socket.setSoTimeout(settings.getMessageFragmentTimeout());
 
@@ -159,9 +165,9 @@ public class ClientConnectionBuilder extends CommonBuilder<ClientConnectionBuild
             socket.bind(new InetSocketAddress(localAddr, localPort));
         }
         socket.connect(new InetSocketAddress(address, port), settings.getConnectionTimeout());
-        Connection connection = new Connection(socket, null, new ConnectionSettings(settings));
-        connection.start();
-        return connection;
+        TcpConnection tcpConnection = new TcpConnection(socket, null, new TcpConnectionSettings(settings));
+        tcpConnection.start();
+        return tcpConnection;
     }
 
 }

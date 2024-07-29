@@ -1,6 +1,6 @@
 v1.6.4 17-Jan-2024
 ------------------
-- added internal pending state for correct connection state behavior
+- added internal pending state for correct tcpConnection state behavior
 - added ReservedASduTypeDecoder to settings for possible future definitions of reserved range <= 127
 
 v1.6.3 15-Nov-2023
@@ -11,25 +11,25 @@ v1.6.3 15-Nov-2023
 v1.6.2 24-Oct-2023
 ------------------
 - fixed dataTransferStateChanged not triggered when data transfer goes into the stopped state
-- newAsdu method is triggered even if isStopped=true on first connection
+- newAsdu method is triggered even if isStopped=true on first tcpConnection
 - added method setConnectionEventListenerBeforeStart() to ServerEventListener to make sure a listener is set before
-  connection
+  tcpConnection
 
 v1.6.1 20-July-2023
 -------------------
 - fixed not waiting for missing S-Frame from master when sending StoDTCon
-- fixed no TESTFR after initial connection
-- fixed connection closed when receiving reserved ASDU
+- fixed no TESTFR after initial tcpConnection
+- fixed tcpConnection closed when receiving reserved ASDU
 - fixed sending S-Format for already confirmed messages
 
 v1.6.0 23-June-2023
 -------------------
 - removed deprecated methods:
-  * org.mamotec.j60870.Connection#waitForStartDT
-  * org.mamotec.j60870.Connection#startDataTransfer(ConnectionEventListener listener, int timeout),
-    replaced by org.mamotec.j60870.Connection#startDataTransfer(ConnectionEventListener listener)
+  * org.mamotec.j60870.tcp.TcpConnection#waitForStartDT
+  * org.mamotec.j60870.tcp.TcpConnection#startDataTransfer(ConnectionEventListener listener, int timeout),
+    replaced by org.mamotec.j60870.tcp.TcpConnection#startDataTransfer(ConnectionEventListener listener)
 - fixed missing S-frame confirmation while StopDT
-- fixes missing org.mamotec.j60870.ConnectionEventListener#connectionClosed(Connection connection, IOException) event while StopDT state
+- fixes missing org.mamotec.j60870.tcp.TcpConnectionEventListener#connectionClosed(Connection tcpConnection, IOException) event while StopDT state
 - added check for t2 < t1 and t3 > t1
 - updated junit to 4.13.2, because of CVE-2020-15250
 - CLI app:
@@ -39,14 +39,14 @@ v1.6.0 23-June-2023
 v1.5.0 02-Aug-2022
 ------------------
 - set minimum Java version to 1.8
-- added org.mamotec.j60870.ConnectionEventListener#dataTransferStateChanged(Connection, boolean) it
+- added org.mamotec.j60870.tcp.TcpConnectionEventListener#dataTransferStateChanged(Connection, boolean) it
   notifies if STARTDT ACT or STOPDT ACT was handled
 - added sendConfirmation with Cause of transmission parameter
-- added server connection setting for a IP whitelist  
+- added tcpServer tcpConnection setting for a IP whitelist
 - added getter for remote and local address
 - added sendActivationTermination for easier interrogation sequence
 - removed javax dependency
-- fixed not closing if max number of connection reached bug
+- fixed not closing if max number of tcpConnection reached bug
   thanks to Konstantinos Ntermitzoglou from inaccess
 - CLI app: 
  * added Counter Interrogation Command in console iecClient
@@ -60,16 +60,16 @@ v1.4.0 19-Jun-2020
   * added sendStopDataTransfer()
 - added parameter k (set maximum number of outstanding IPDuS)
 - added setConnectionTimeout (t0)
-- added org.mamotec.j60870.Connection#sendResponse with station address parameter
+- added org.mamotec.j60870.tcp.TcpConnection#sendResponse with station address parameter
 - set methods to deprecated
-  * org.mamotec.j60870.Connection#waitForStartDT, will be removed
-  * org.mamotec.j60870.Connection#startDataTransfer(ConnectionEventListener listener, int timeout),
-    will be replaced by org.mamotec.j60870.Connection#startDataTransfer(ConnectionEventListener listener)
+  * org.mamotec.j60870.tcp.TcpConnection#waitForStartDT, will be removed
+  * org.mamotec.j60870.tcp.TcpConnection#startDataTransfer(ConnectionEventListener listener, int timeout),
+    will be replaced by org.mamotec.j60870.tcp.TcpConnection#startDataTransfer(ConnectionEventListener listener)
 - fixed TimeoutTask not working after start bug
 - fixed continue sending while waiting for acknowledgement
 - CLI app
   * added STARTDT and STOPDT
-  * added set connection timeout (t0)
+  * added set tcpConnection timeout (t0)
 
 v1.3.1 11-Jun-2019
 ------------------
@@ -81,7 +81,7 @@ v1.3.0 29-Mar-2019
 - moved IE objects to separate package: org.mamotec.j60870.ie
 - renamed TypeId to ApduType
 - Builder: call build() instead of connect
-- reduced the number of active threads of a connection
+- reduced the number of active threads of a tcpConnection
 - added option for setting SO timeout
 - fixed wrong APCI parsing
 - fixed IeBinaryCounterReading bugs
@@ -92,7 +92,7 @@ v1.3.0 29-Mar-2019
   * CLI app is a separate project now
   * added single commands
   * added set S0 timeout
-  * added option for connection retries
+  * added option for tcpConnection retries
 
 v1.2.1 11-Oct-2017
 ------------------
@@ -107,9 +107,9 @@ v1.1.1 04-Oct-2016
 ------------------
 - replaced fixed thread pool by cached thread pool so that unused
   threads are closed
-- ASDU notification correctly closed when connection is closed thanks
+- ASDU notification correctly closed when tcpConnection is closed thanks
   to Mr. Tellenbach
-- Client no longer closes connection if data is received before
+- Client no longer closes tcpConnection if data is received before
   START_DT CON message, but data is discarded instead.
 - improved normalized value and binary state information element
   classes, but did not change API behaviour
@@ -127,7 +127,7 @@ v1.0.0 24-Feb-2016
 ------------------
 - fixed bug when creating multiple parallel connections using
   the same ClientSap
-- fixed a synchronization problem in the server implementation
+- fixed a synchronization problem in the tcpServer implementation
 - fixed toString() method of IeTime56 thanks to Jan Gall from Bosch
 
 v0.9 19-Nov-2014
@@ -139,7 +139,7 @@ v0.9 19-Nov-2014
 v0.8 07-Aug-2014
 ----------------
 - merged ClientConnection and ServerConnection to a single Connection
-  class, to allow reverse communication for server
+  class, to allow reverse communication for tcpServer
 - make Connection functions thread safe
 - removed slf4j dependency
 

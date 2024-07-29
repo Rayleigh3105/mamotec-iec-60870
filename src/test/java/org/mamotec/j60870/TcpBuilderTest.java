@@ -24,15 +24,16 @@ import junitparams.JUnitParamsRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mamotec.j60870.Server.Builder;
+import org.mamotec.j60870.tcp.TcpServer;
+import org.mamotec.j60870.tcp.TcpServer.Builder;
 
 @RunWith(JUnitParamsRunner.class)
-public class CommonBuilderTest {
+public class TcpBuilderTest {
     private Builder builder;
 
     @Before
     public void init() {
-        builder = Server.builder();
+        builder = TcpServer.builder();
     }
 
     public void setTime(int t1, int t2, int t3) {

@@ -28,11 +28,12 @@ repositories {
 dependencies {
     implementation 'org.json:json:20231013'
     implementation 'com.ghgande:j2mod:2.5.0'
+    implementation 'com.fazecast:jSerialComm:2.9.3'
     testImplementation group: "junit", name: "junit", version: "4.13.2"
 }
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 
 sourceSets {

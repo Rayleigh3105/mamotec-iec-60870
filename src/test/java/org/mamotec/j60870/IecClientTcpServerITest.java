@@ -27,6 +27,10 @@ import org.mamotec.j60870.ie.IeBinaryCounterReading.Flag;
 import org.mamotec.j60870.ie.IeDoubleCommand.DoubleCommandState;
 import org.mamotec.j60870.ie.IeDoublePointWithQuality.DoublePointInformation;
 import org.mamotec.j60870.ie.IeSingleProtectionEvent.EventState;
+import org.mamotec.j60870.tcp.TcpConnection;
+import org.mamotec.j60870.tcp.TcpConnectionEventListener;
+import org.mamotec.j60870.tcp.TcpServer;
+import org.mamotec.j60870.tcp.TcpServerEventListener;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -38,14 +42,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.Assert.*;
 
 @FixMethodOrder(MethodSorters.JVM)
-public class IecClientServerITest {
+public class IecClientTcpServerITest {
 
     private static final int MIN_PORT_NUMBER = 2024;
     private static final int MAX_PORT_NUMBER = 65535;
     private static final Random RANDOM = new Random();
     private static final int PORT = getAvailablePort();
 
-    Server serverSap;
+    TcpServer tcpServerSap;
     int counter;
     int serverCounter;
     int counter2;
@@ -94,34 +98,34 @@ public class IecClientServerITest {
         clientTimestamp = 0;
         serverTimestamp = 0;
         exception = null;
-        serverSap = null;
+        tcpServerSap = null;
         isClosed = new AtomicBoolean(true);
     }
 
     @After
     public void close() {
-        if (serverSap != null) {
-            serverSap.stop();
+        if (tcpServerSap != null) {
+            tcpServerSap.stop();
         }
     }
 
     @Test
     public void testClientServerMultiThread() throws Exception {
-        serverSap = Server.builder().setPort(PORT).setMaxNumOfOutstandingIPdus(32_767).build();
-        serverSap.start(new ServerListenerMultiThreadImpl());
+        tcpServerSap = TcpServer.builder().setPort(PORT).setMaxNumOfOutstandingIPdus(32_767).build();
+        tcpServerSap.start(new TcpServerListenerMultiThreadImpl());
 
         try {
-            Connection clientConnection = new ClientConnectionBuilder("127.0.0.1").setPort(PORT).build();
+            TcpConnection clientTcpConnection = new ClientConnectionBuilder("127.0.0.1").setPort(PORT).build();
             isClosed.set(false);
-            clientConnection.startDataTransfer(new ConnectionListenerMultiThreadImpl());
+            clientTcpConnection.startDataTransfer(new TcpConnectionListenerMultiThreadImpl());
             int commonAddress = 1;
-            clientConnection.interrogation(commonAddress, CauseOfTransmission.ACTIVATION,
+            clientTcpConnection.interrogation(commonAddress, CauseOfTransmission.ACTIVATION,
                     new IeQualifierOfInterrogation(20));
             while (!isClosed.get()) {
                 Thread.sleep(1);
                 System.out.println(isClosed);
             }
-            clientConnection.close();
+            clientTcpConnection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,32 +135,32 @@ public class IecClientServerITest {
     @Test
     public void testClientServerCom() throws Exception {
         int port = getAvailablePort();
-        serverSap = Server.builder().setPort(port).build();
-        serverSap.start(new ServerListenerImpl());
+        tcpServerSap = TcpServer.builder().setPort(port).build();
+        tcpServerSap.start(new TcpServerListenerImpl());
 
-        try (Connection clientConnection = new ClientConnectionBuilder("127.0.0.1").setPort(port).build()) {
+        try (TcpConnection clientTcpConnection = new ClientConnectionBuilder("127.0.0.1").setPort(port).build()) {
 
-            clientConnection.startDataTransfer(new ConnectionListenerImpl());
+            clientTcpConnection.startDataTransfer(new TcpConnectionListenerImpl());
 
             clientTimestamp = System.currentTimeMillis();
 
             int commonAddress = 2;
-            clientConnection.singleCommand(Util.convertToCommonAddress(63, 203), CauseOfTransmission.ACTIVATION, 1,
+            clientTcpConnection.singleCommand(Util.convertToCommonAddress(63, 203), CauseOfTransmission.ACTIVATION, 1,
                     new IeSingleCommand(true, 3, true));
 
-            clientConnection.synchronizeClocks(commonAddress, new IeTime56(System.currentTimeMillis()));
+            clientTcpConnection.synchronizeClocks(commonAddress, new IeTime56(System.currentTimeMillis()));
 
-            clientConnection.doubleCommandWithTimeTag(commonAddress, CauseOfTransmission.ACTIVATION, 2,
+            clientTcpConnection.doubleCommandWithTimeTag(commonAddress, CauseOfTransmission.ACTIVATION, 2,
                     new IeDoubleCommand(DoubleCommandState.NOT_PERMITTED_A, 3, true),
                     new IeTime56(System.currentTimeMillis()));
 
-            clientConnection.setNormalizedValueCommand(commonAddress, CauseOfTransmission.ACTIVATION, 3,
+            clientTcpConnection.setNormalizedValueCommand(commonAddress, CauseOfTransmission.ACTIVATION, 3,
                     new IeNormalizedValue(30000), new IeQualifierOfSetPointCommand(3, false));
 
-            clientConnection.interrogation(commonAddress, CauseOfTransmission.ACTIVATION,
+            clientTcpConnection.interrogation(commonAddress, CauseOfTransmission.ACTIVATION,
                     new IeQualifierOfInterrogation(20));
 
-            clientConnection.send(
+            clientTcpConnection.send(
                     new ASdu(ASduType.M_SP_NA_1, false, CauseOfTransmission.SPONTANEOUS, false, false, 0, commonAddress,
                             new InformationObject(1,
                                     new InformationElement[][]{
@@ -165,7 +169,7 @@ public class IecClientServerITest {
                                     {new IeSinglePointWithQuality(false, false, false, false, false)}})));
 
             Thread.sleep(500);
-            clientConnection.close();
+            clientTcpConnection.close();
 
             assertEquals(17, counter);
             assertEquals(17, counter2);
@@ -180,14 +184,14 @@ public class IecClientServerITest {
     @Test
     public void testDataTransferStateChanged() throws Exception {
         int port = getAvailablePort();
-        serverSap = Server.builder().setPort(port).build();
-        serverSap.start(new ServerListenerImpl());
-        try (Connection clientConnection = new ClientConnectionBuilder("127.0.0.1").setPort(port).build()) {
-            ConnectionListenerImpl listener = new ConnectionListenerImpl();
-            clientConnection.startDataTransfer(listener);
-            clientConnection.stopDataTransfer();
+        tcpServerSap = TcpServer.builder().setPort(port).build();
+        tcpServerSap.start(new TcpServerListenerImpl());
+        try (TcpConnection clientTcpConnection = new ClientConnectionBuilder("127.0.0.1").setPort(port).build()) {
+            TcpConnectionListenerImpl listener = new TcpConnectionListenerImpl();
+            clientTcpConnection.startDataTransfer(listener);
+            clientTcpConnection.stopDataTransfer();
         } finally {
-            serverSap.stop();
+            tcpServerSap.stop();
         }
         Thread.sleep(1000);
         assertEquals(1, CDTSC_started.get());
@@ -196,10 +200,10 @@ public class IecClientServerITest {
         assertEquals(1, SDTSC_stopped.get());
     }
 
-    private class ServerReceiver implements ConnectionEventListener {
+    private class ServerReceiver implements TcpConnectionEventListener {
 
         @Override
-        public void newASdu(Connection connection, ASdu aSdu) {
+        public void newASdu(TcpConnection tcpConnection, ASdu aSdu) {
 
             serverCounter++;
 
@@ -219,7 +223,7 @@ public class IecClientServerITest {
                     assertTrue(singleCommand.isSelect());
                     assertEquals(3, singleCommand.getQualifier());
 
-                    connection.send(new ASdu(ASduType.C_SC_NA_1, false, CauseOfTransmission.ACTIVATION_CON, false,
+                    tcpConnection.send(new ASdu(ASduType.C_SC_NA_1, false, CauseOfTransmission.ACTIVATION_CON, false,
                             false, 0, aSdu.getCommonAddress(), new InformationObject(0, new InformationElement[][]{{singleCommand}})));
 
                     System.out.println("Server: answer Single Command - END");
@@ -239,7 +243,7 @@ public class IecClientServerITest {
                             aSdu.getCommonAddress(), new InformationObject(0,
                             new InformationElement[][]{{new IeTime56(serverTimestamp)}}));
 
-                    connection.send(aSdu);
+                    tcpConnection.send(aSdu);
 
                     System.out.println("Server: answer clock synchronisation - END");
 
@@ -255,7 +259,7 @@ public class IecClientServerITest {
                     assertTrue(doubleCommand.isSelect());
                     assertEquals(3, doubleCommand.getQualifier());
 
-                    connection.send(new ASdu(ASduType.C_DC_TA_1, false, CauseOfTransmission.ACTIVATION_CON, false,
+                    tcpConnection.send(new ASdu(ASduType.C_DC_TA_1, false, CauseOfTransmission.ACTIVATION_CON, false,
                             false, 0, aSdu.getCommonAddress(), aSdu.getInformationObjects()));
 
                     System.out.println("Server: answer Double Command with time tag - End");
@@ -264,7 +268,7 @@ public class IecClientServerITest {
 
                     System.out.println("Server: answer set-point normalized value command");
 
-                    connection.send(new ASdu(ASduType.C_SE_NA_1, false, CauseOfTransmission.ACTIVATION_CON, false,
+                    tcpConnection.send(new ASdu(ASduType.C_SE_NA_1, false, CauseOfTransmission.ACTIVATION_CON, false,
                             false, 0, aSdu.getCommonAddress(), aSdu.getInformationObjects()));
 
                     System.out.println("Server: answer set-point normalized value command - End");
@@ -275,7 +279,7 @@ public class IecClientServerITest {
 
                     assertEquals(ASduType.C_IC_NA_1, aSdu.getTypeIdentification());
 
-                    connection.send(new ASdu(ASduType.C_IC_NA_1, false, CauseOfTransmission.ACTIVATION_CON, false,
+                    tcpConnection.send(new ASdu(ASduType.C_IC_NA_1, false, CauseOfTransmission.ACTIVATION_CON, false,
                             false, 0, aSdu.getCommonAddress(), new InformationObject(0,
                             new InformationElement[][]{{new IeQualifierOfInterrogation(20)}})));
 
@@ -289,7 +293,7 @@ public class IecClientServerITest {
 
                     System.out.println("Server: 1");
 
-                    connection.send(new ASdu(ASduType.M_SP_NA_1, false, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_SP_NA_1, false, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{
@@ -298,7 +302,7 @@ public class IecClientServerITest {
                                     {new IeSinglePointWithQuality(false, false, false, false, false)}})));
 
                     System.out.println("Server: 2");
-                    connection
+                    tcpConnection
                             .send(new ASdu(ASduType.M_SP_NA_1, true, CauseOfTransmission.SPONTANEOUS, false, false, 0,
                                     aSdu.getCommonAddress(),
                                     new InformationObject(1, new InformationElement[][]{
@@ -306,7 +310,7 @@ public class IecClientServerITest {
                                             {new IeSinglePointWithQuality(false, false, false, false, false)}})));
 
                     System.out.println("Server: 3");
-                    connection.send(new ASdu(ASduType.M_SP_TA_1, false, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_SP_TA_1, false, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{
@@ -318,7 +322,7 @@ public class IecClientServerITest {
                                                     new IeTime24(60000)}})));
 
                     System.out.println("Server: 4");
-                    connection.send(new ASdu(ASduType.M_DP_NA_1, false, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_DP_NA_1, false, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{
@@ -326,7 +330,7 @@ public class IecClientServerITest {
                                                     true)}})));
 
                     System.out.println("Server: 5");
-                    connection.send(new ASdu(ASduType.M_ST_NA_1, true, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_ST_NA_1, true, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{
@@ -340,7 +344,7 @@ public class IecClientServerITest {
                                                     new IeQuality(true, true, true, true, true)}})));
 
                     System.out.println("Server: 6");
-                    connection.send(new ASdu(ASduType.M_BO_NA_1, true, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_BO_NA_1, true, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{
@@ -350,14 +354,14 @@ public class IecClientServerITest {
                                                     new IeQuality(true, true, true, true, true)}})));
 
                     System.out.println("Server: 7");
-                    connection.send(new ASdu(ASduType.M_ME_NA_1, true, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_ME_NA_1, true, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1, new InformationElement[][]{
                                     {new IeNormalizedValue(-32768), new IeQuality(true, true, true, true, true)},
                                     {new IeNormalizedValue(0), new IeQuality(true, true, true, true, true)}})));
 
                     System.out.println("Server: 8");
-                    connection.send(new ASdu(ASduType.M_ME_NB_1, true, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_ME_NB_1, true, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1, new InformationElement[][]{
                                     {new IeScaledValue(-32768), new IeQuality(true, true, true, true, true)},
@@ -365,14 +369,14 @@ public class IecClientServerITest {
                                     {new IeScaledValue(-5), new IeQuality(true, true, true, true, true)}})));
 
                     System.out.println("Server: 9");
-                    connection.send(new ASdu(ASduType.M_ME_NC_1, true, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_ME_NC_1, true, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1, new InformationElement[][]{
                                     {new IeShortFloat(-32768.2f), new IeQuality(true, true, true, true, true)},
                                     {new IeShortFloat(10.5f), new IeQuality(true, true, true, true, true)}})));
 
                     System.out.println("Server: 10");
-                    connection.send(new ASdu(ASduType.M_IT_NA_1, true, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_IT_NA_1, true, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{{new IeBinaryCounterReading(-300, 5, Flag.CARRY,
@@ -380,7 +384,7 @@ public class IecClientServerITest {
                                             {new IeBinaryCounterReading(-300, 4)}})));
 
                     System.out.println("Server: 11");
-                    connection.send(new ASdu(ASduType.M_EP_TA_1, false, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_EP_TA_1, false, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{{
@@ -394,7 +398,7 @@ public class IecClientServerITest {
                                             new IeTime16(300), new IeTime24(400)}})));
 
                     System.out.println("Server: 12");
-                    connection.send(new ASdu(ASduType.M_EP_TB_1, false, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_EP_TB_1, false, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{
@@ -403,7 +407,7 @@ public class IecClientServerITest {
                                                     new IeTime16(300), new IeTime24(400)}})));
 
                     System.out.println("Server: 13");
-                    connection.send(new ASdu(ASduType.M_PS_NA_1, false, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_PS_NA_1, false, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(),
                             new InformationObject(1,
                                     new InformationElement[][]{{new IeStatusAndStatusChanges(0xff0000ff),
@@ -412,12 +416,12 @@ public class IecClientServerITest {
                     Thread.sleep(200);
 
                     System.out.println("Server: 14");
-                    connection.send(new ASdu(ASduType.M_ME_ND_1, false, CauseOfTransmission.SPONTANEOUS, false,
+                    tcpConnection.send(new ASdu(ASduType.M_ME_ND_1, false, CauseOfTransmission.SPONTANEOUS, false,
                             false, 0, aSdu.getCommonAddress(), new InformationObject(1,
                             new InformationElement[][]{{new IeNormalizedValue(3)}})));
 
                     System.out.println("Server: 15");
-                    connection
+                    tcpConnection
                             .send(new ASdu(ASduType.M_SP_TB_1, false, CauseOfTransmission.SPONTANEOUS, false, false, 0,
                                     aSdu.getCommonAddress(),
                                     new InformationObject(1,
@@ -426,7 +430,7 @@ public class IecClientServerITest {
                                                     new IeTime56(serverTimestamp)}})));
 
                     System.out.println("Server: 16");
-                    connection
+                    tcpConnection
                             .send(new ASdu(ASduType.M_IT_TB_1, false, CauseOfTransmission.SPONTANEOUS, false, false, 0,
                                     aSdu.getCommonAddress(),
                                     new InformationObject(1,
@@ -435,7 +439,7 @@ public class IecClientServerITest {
                                                             Flag.COUNTER_ADJUSTED),
                                                     new IeTime56(serverTimestamp)}})));
                     System.out.println("Server: 17");
-                    connection.send(new ASdu(ASduType.PRIVATE_136, false, 1, CauseOfTransmission.SPONTANEOUS,
+                    tcpConnection.send(new ASdu(ASduType.PRIVATE_136, false, 1, CauseOfTransmission.SPONTANEOUS,
                             false, false, 0, aSdu.getCommonAddress(), new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9}));
                 }
 
@@ -446,11 +450,11 @@ public class IecClientServerITest {
         }
 
         @Override
-        public void connectionClosed(Connection connection, IOException e) {
+        public void connectionClosed(TcpConnection tcpConnection, IOException e) {
         }
 
         @Override
-        public void dataTransferStateChanged(Connection connection, boolean stopped) {
+        public void dataTransferStateChanged(TcpConnection tcpConnection, boolean stopped) {
             if (!stopped) {
                 SDTSC_started.incrementAndGet();
             } else {
@@ -460,16 +464,16 @@ public class IecClientServerITest {
 
     }
 
-    private class ServerReceiverMultiThread implements ConnectionEventListener {
+    private class ServerReceiverMultiThread implements TcpConnectionEventListener {
         private static final int AMOUNT_OF_THREADS_REPLY = 1;
         private static final int AMOUNT_OF_MESSAGES = 10;
 
         @Override
-        public void newASdu(Connection connection, final ASdu aSdu) {
+        public void newASdu(TcpConnection tcpConnection, final ASdu aSdu) {
             if (aSdu.getTypeIdentification() == ASduType.C_IC_NA_1
                     && aSdu.getCauseOfTransmission() == CauseOfTransmission.ACTIVATION) {
                 try {
-                    connection.sendConfirmation(aSdu);
+                    tcpConnection.sendConfirmation(aSdu);
 
                     for (int thread = 0; thread < AMOUNT_OF_THREADS_REPLY; thread++) {
                         new Thread() {
@@ -478,8 +482,8 @@ public class IecClientServerITest {
                                 try {
                                     for (int msg = 0; msg < AMOUNT_OF_MESSAGES; msg++) {
                                         System.out
-                                                .println("connection.isClosed() " + connection.isClosed());
-                                        connection.send(new ASdu(ASduType.M_SP_NA_1, false,
+                                                .println("connection.isClosed() " + tcpConnection.isClosed());
+                                        tcpConnection.send(new ASdu(ASduType.M_SP_NA_1, false,
                                                 CauseOfTransmission.SPONTANEOUS, false, false, 0,
                                                 aSdu.getCommonAddress(),
                                                 new InformationObject(1,
@@ -502,30 +506,30 @@ public class IecClientServerITest {
                     e.printStackTrace();
                 }
             }
-            connection.close();
+            tcpConnection.close();
         }
 
         @Override
-        public void connectionClosed(Connection connection, IOException e) {
+        public void connectionClosed(TcpConnection tcpConnection, IOException e) {
             e.printStackTrace();
             exception = e;
         }
 
         @Override
-        public void dataTransferStateChanged(Connection connection, boolean stopped) {
+        public void dataTransferStateChanged(TcpConnection tcpConnection, boolean stopped) {
         }
 
     }
 
-    private class ServerListenerMultiThreadImpl implements ServerEventListener {
+    private class TcpServerListenerMultiThreadImpl implements TcpServerEventListener {
 
         @Override
-        public ConnectionEventListener setConnectionEventListenerBeforeStart() {
+        public TcpConnectionEventListener setConnectionEventListenerBeforeStart() {
             return new ServerReceiverMultiThread();
         }
 
         @Override
-        public void connectionIndication(Connection connection) {
+        public void connectionIndication(TcpConnection tcpConnection) {
         }
 
         @Override
@@ -538,15 +542,15 @@ public class IecClientServerITest {
 
     }
 
-    private class ServerListenerImpl implements ServerEventListener {
+    private class TcpServerListenerImpl implements TcpServerEventListener {
 
         @Override
-        public ConnectionEventListener setConnectionEventListenerBeforeStart() {
+        public TcpConnectionEventListener setConnectionEventListenerBeforeStart() {
             return new ServerReceiver();
         }
 
         @Override
-        public void connectionIndication(Connection connection) {
+        public void connectionIndication(TcpConnection tcpConnection) {
         }
 
         @Override
@@ -559,31 +563,31 @@ public class IecClientServerITest {
 
     }
 
-    private class ConnectionListenerMultiThreadImpl implements ConnectionEventListener {
+    private class TcpConnectionListenerMultiThreadImpl implements TcpConnectionEventListener {
 
         @Override
-        public void newASdu(Connection connection, ASdu aSdu) {
+        public void newASdu(TcpConnection tcpConnection, ASdu aSdu) {
             System.out.println(aSdu);
             // noop
         }
 
         @Override
-        public void connectionClosed(Connection connection, IOException e) {
+        public void connectionClosed(TcpConnection tcpConnection, IOException e) {
             System.out.println("CLOSED");
             isClosed.set(true);
             // e.printStackTrace();
         }
 
         @Override
-        public void dataTransferStateChanged(Connection connection, boolean stopped) {
+        public void dataTransferStateChanged(TcpConnection tcpConnection, boolean stopped) {
         }
 
     }
 
-    private class ConnectionListenerImpl implements ConnectionEventListener {
+    private class TcpConnectionListenerImpl implements TcpConnectionEventListener {
 
         @Override
-        public void newASdu(Connection connection, ASdu aSdu) {
+        public void newASdu(TcpConnection tcpConnection, ASdu aSdu) {
 
             if (aSdu.getCauseOfTransmission() == CauseOfTransmission.ACTIVATION_CON) {
                 return;
@@ -861,13 +865,13 @@ public class IecClientServerITest {
         }
 
         @Override
-        public void connectionClosed(Connection connection, IOException e) {
+        public void connectionClosed(TcpConnection tcpConnection, IOException e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
 
         @Override
-        public void dataTransferStateChanged(Connection connection, boolean stopped) {
+        public void dataTransferStateChanged(TcpConnection tcpConnection, boolean stopped) {
             if (!stopped) {
                 CDTSC_started.incrementAndGet();
             } else {
