@@ -171,10 +171,9 @@ public class SerialConnection implements AutoCloseable {
 
 	public void open() throws IOException {
 
-
-		serialExecutor = new SerialExecutor(executor);
 		this.timeoutManager = new TimeoutManager();
 		this.executor = Executors.newCachedThreadPool();
+		serialExecutor = new SerialExecutor(executor);
 		this.executor.execute(this.timeoutManager);
 
 		if (serialPort.openPort()) {
