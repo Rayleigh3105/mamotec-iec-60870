@@ -58,12 +58,10 @@ import org.mamotec.j60870.ie.IeTime16;
 import org.mamotec.j60870.ie.IeTime56;
 import org.mamotec.j60870.ie.InformationElement;
 import org.mamotec.j60870.ie.InformationObject;
+import org.mamotec.j60870.internal.ExtendedDataInputStream;
 import org.mamotec.j60870.internal.SerialExecutor;
 import org.mamotec.j60870.tcp.TcpConnectionSettings;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -91,6 +89,7 @@ import java.util.concurrent.TimeUnit;
  * </p>
  */
 public class SerialConnection implements AutoCloseable {
+
 	private static final byte[] TESTFR_CON_BUFFER = new byte[] { 0x68, 0x04, (byte) 0x83, 0x00, 0x00, 0x00 };
 
 	private static final byte[] TESTFR_ACT_BUFFER = new byte[] { 0x68, 0x04, (byte) 0x43, 0x00, 0x00, 0x00 };
@@ -178,15 +177,21 @@ public class SerialConnection implements AutoCloseable {
 
 		if (serialPort.openPort()) {
 			System.out.println("Port is open: " + settings.getPortName());
-			is = serialPort.getInputStream();
-			os = new DataOutputStream(new BufferedOutputStream(serialPort.getOutputStream()));
+			os = serialPort.getOutputStream();
 		} else {
 			throw new IOException("Failed to open serial port " + settings.getPortName());
 		}
 
+		is = serialPort.getInputStream();
+
 		ConnectionReader connectionReader = new ConnectionReader();
 		connectionReader.start();
 
+	}
+
+	public void send(byte[] data) throws IOException {
+		os.write(data);
+		os.flush();
 	}
 
 	public void start(SerialServerEventListener listener) throws IOException {
@@ -333,7 +338,7 @@ public class SerialConnection implements AutoCloseable {
 	public void start() {
 
 		ConnectionReader connectionReader = new ConnectionReader();
-		connectionReader.start();
+		//connectionReader.start();
 
 		this.maxTimeNoTestConReceived = new MaxTimeNoAckReceivedTimer();
 		this.maxTimeNoAckReceived = new MaxTimeNoAckReceivedTimer();
@@ -540,35 +545,15 @@ public class SerialConnection implements AutoCloseable {
 		if (closed) {
 			throw new IOException("connection closed");
 		}
-		if (stopped) {
-			throw new IllegalArgumentException("May not send ASdu, data transfer is stopped.");
-		}
 
 		acknowledgedReceiveSequenceNumber = receiveSequenceNumber;
-		APdu requestAPdu = new APdu(sendSequenceNumber, receiveSequenceNumber, ApciType.I_FORMAT, aSdu);
 
 		int oldSendSequenceNumber = sendSequenceNumber;
 		sendSequenceNumber = (sendSequenceNumber + 1) % (1 << 15); // 32768 = 2^15
 
-		// check for sendSequenceNumber overflow
-		if (oldSendSequenceNumber > sendSequenceNumber) {
-			sendSFormatPdu();
-		}
-
-/*
-        if (this.maxTimeNoAckSentTimer.isPlanned()) {
-            this.maxTimeNoAckSentTimer.cancel();
-        }
-
-        if (!this.maxTimeNoAckReceived.isPlanned()) {
-            this.timeoutManager.addTimerTask(this.maxTimeNoAckReceived);
-        }
-*/
-
-		int length = requestAPdu.encode(buffer, settings);
+		int length = aSdu.encode(buffer, 4, settings);
 		os.write(buffer, 0, length);
 		os.flush();
-		resetMaxIdleTimeTimer();
 	}
 
 	private void resetMaxIdleTimeTimer() {
@@ -1259,57 +1244,14 @@ public class SerialConnection implements AutoCloseable {
 
 			try {
 				while (true) {
-					final APdu aPdu = APdu.decode(is, settings);
-					synchronized (SerialConnection.this) {
 
-						switch (aPdu.getApciType()) {
-						case I_FORMAT:
-							closeIfStopped(aPdu.getApciType());
-							handleIFrame(aPdu);
-							break;
-						case S_FORMAT:
-							closeIfStopped(aPdu.getApciType());
-							handleReceiveSequenceNumber(aPdu.getReceiveSeqNumber());
-							if (stopDtOutstandingSFormatTimer != null) {
-								stopDtOutstandingSFormatTimer.executeManually();
-							}
-							break;
-						case STARTDT_CON:
-							if (startDtConSignal != null) {
-								startDtConSignal.countDown();
-							}
-							break;
-						case STARTDT_ACT:
-							handleStartDtAct();
-							if (startDtActSignal != null) {
-								startDtActSignal.countDown();
-							}
-							break;
-						case TESTFR_ACT:
-							sendTestFrameCon();
-							break;
-						case TESTFR_CON:
-							maxTimeNoTestConReceived.cancel();
-							break;
-						case STOPDT_CON:
-							if (stopDtConSignal != null) {
-								stopDtConSignal.countDown();
-							}
-							break;
-						case STOPDT_ACT:
-							handleStopDtAct();
-							break;
-						default:
-							// should not occur.
-							throw new IOException("Got unexpected message with APCI Type: " + aPdu.getApciType());
-						}
-						resetMaxIdleTimeTimer();
-					}
+					ExtendedDataInputStream extendedDataInputStream = new ExtendedDataInputStream(is);
+
+					System.out.println("Reading data...");
+					System.out.println("Available: " + is.available());
+					System.out.println("test: " + extendedDataInputStream.toString());
+
 				}
-			} catch (EOFException e) {
-				closedIOException = new EOFException("Connection was closed by remote.");
-			} catch (IOException e) {
-				closedIOException = e;
 			} catch (Exception e) {
 				closedIOException = new IOException("Unexpected Exception.", e);
 			} finally {
@@ -1326,6 +1268,5 @@ public class SerialConnection implements AutoCloseable {
 				}
 			}
 		}
-
 	}
 }

@@ -27,7 +27,10 @@ import org.mamotec.j60870.serial.SerialConnectionSettings;
 import org.mamotec.j60870.tcp.TcpConnectionSettings;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.text.MessageFormat;
+
+import static org.mamotec.j60870.APdu.readControlFields;
 
 /**
  * The application service data unit (ASDU). The ASDU is the payload of the application protocol data unit (APDU). Its
@@ -63,7 +66,10 @@ public class ASdu {
     private final InformationObject[] informationObjects;
     private final byte[] privateInformation;
     private final int sequenceLength;
-
+    /**
+     * START flag of an ASdu.
+     */
+    private static final byte START_FLAG = 0x68;
     /**
      * Use this constructor to create standardized ASDUs.
      *
@@ -130,7 +136,7 @@ public class ASdu {
         this.sequenceLength = sequenceLength;
     }
 
-    static ASdu decode(ExtendedDataInputStream is, TcpConnectionSettings settings, int aSduLength) throws IOException {
+    public static ASdu decode(ExtendedDataInputStream is, TcpConnectionSettings settings, int aSduLength) throws IOException {
 
         int typeIdCode = is.readUnsignedByte();
 
@@ -318,7 +324,50 @@ public class ASdu {
         return privateInformation;
     }
 
-    int encode(byte[] buffer, int i, TcpConnectionSettings settings) {
+    public static byte[] encodeASDU(int typeId, int sq, int cot, int asduAddress, int ioa, byte[] data) {
+        int dataLength = 13 + data.length; // Fixlänge + Datenlänge
+        ByteBuffer buffer = ByteBuffer.allocate(dataLength + 6); // Header + Daten + Prüfsumme + Endzeichen
+
+        // Header
+        buffer.put((byte) 0x68);  // Start Byte 1
+        buffer.put((byte) dataLength);  // Blocklänge
+        buffer.put((byte) dataLength);  // Blocklänge (Kopie)
+        buffer.put((byte) 0x68);  // Start Byte 2
+
+        // Steuerfeld
+        buffer.put((byte) 0x00);  // Beispielhaftes Steuerfeld, kann angepasst werden
+        buffer.put((byte) 0x00);  // Fortsetzung Steuerfeld
+
+        // Typidentifikation und ASDU spezifische Felder
+        buffer.put((byte) typeId);  // Typidentifikation
+        buffer.put((byte) ((sq << 7) | 0x01));  // SQ + Anzahl der Objekte
+        buffer.put((byte) cot);  // Ursache der Übertragung
+        buffer.put((byte) 0x00);  // Ursprungsadresse, hier auf 0 gesetzt
+        buffer.putShort((short) asduAddress);  // ASDU Adresse
+
+        // Informationsobjekt Adresse
+        buffer.putShort((short) ioa);  // IOA Adresse
+        buffer.put((byte) 0x00);  // IOA Erweiterung falls notwendig
+
+        // Daten
+        buffer.put(data);  // Die eigentlichen Daten
+
+        // Prüfsumme und Endzeichen
+        buffer.put(calculateChecksum(buffer.array()));  // Einfaches Beispiel für eine Prüfsumme
+        buffer.put((byte) 0x16);  // Endzeichen
+
+        return buffer.array();
+    }
+
+    private static byte calculateChecksum(byte[] data) {
+        byte sum = 0;
+        for (byte b : data) {
+            sum += b;
+        }
+        return (byte) (sum & 0xFF);  // Einfacher Modulo 256 Checksumme
+    }
+
+    public int encode(byte[] buffer, int i, TcpConnectionSettings settings) {
 
         int origi = i;
 
@@ -364,7 +413,12 @@ public class ASdu {
         return i - origi;
     }
 
-    int encode(byte[] buffer, int i, SerialConnectionSettings settings) {
+    public int encode(byte[] buffer, int i, SerialConnectionSettings settings) {
+        buffer[0] = START_FLAG;
+        buffer[1] = 0xd;
+        buffer[2] = 0xd;
+        buffer[3] = START_FLAG;
+
 
         int origi = i;
 

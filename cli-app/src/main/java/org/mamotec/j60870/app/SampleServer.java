@@ -159,7 +159,7 @@ public class SampleServer {
                             log("Got interrogation command (100). Will send scaled measured values.");
                             connection.sendConfirmation(aSdu);
                             // example GI response values
-                            connection.send(new ASdu(ASduType.M_ME_NB_1, true, CauseOfTransmission.INTERROGATED_BY_STATION,
+                            connection.send( new ASdu(ASduType.M_ME_NB_1, true, CauseOfTransmission.INTERROGATED_BY_STATION,
                                     false, false, 0, aSdu.getCommonAddress(),
                                     new InformationObject(1, new InformationElement[][]{
                                             {new IeScaledValue(-32768), new IeQuality(false, false, false, false, false)},

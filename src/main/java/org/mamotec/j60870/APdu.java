@@ -95,11 +95,11 @@ public class APdu {
 
         ExtendedDataInputStream is = new ExtendedDataInputStream(inputStream);
 
-        if (is.readByte() != START_FLAG) {
+
+        if (is.read() != START_FLAG) {
             System.out.println("Message does not start with START flag (0x68). Broken connection.");
             throw new IOException("Message does not start with START flag (0x68). Broken connection.");
         }
-
 
         int length = readApduLength(is);
 
@@ -137,7 +137,7 @@ public class APdu {
         return length;
     }
 
-    private static byte[] readControlFields(DataInputStream is) throws IOException {
+    public static byte[] readControlFields(DataInputStream is) throws IOException {
         byte[] aPduControlFields = new byte[CONTROL_FIELDS_LENGTH];
         is.readFully(aPduControlFields);
         return aPduControlFields;
@@ -261,7 +261,7 @@ public class APdu {
         STARTDT_CON,
         STARTDT_ACT;
 
-        private static ApciType apciTypeFor(byte controlField1) {
+        public static ApciType apciTypeFor(byte controlField1) {
             if ((controlField1 & 0x01) == 0) {
                 return ApciType.I_FORMAT;
             }

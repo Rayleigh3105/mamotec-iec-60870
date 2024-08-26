@@ -46,4 +46,8 @@ public class SerialConnectionImpl implements Connection {
 		serialConnection.send(aSdu);
 	}
 
+	public void send(byte[] data) throws IOException {
+		serialConnection.send(data);
+	}
+
 }
