@@ -29,6 +29,13 @@ dependencies {
     implementation 'org.json:json:20231013'
     implementation 'com.ghgande:j2mod:2.5.0'
     implementation 'com.fazecast:jSerialComm:2.9.3'
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+
+    // Add SLF4J binding for your logging framework, e.g., Logback
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
     testImplementation group: "junit", name: "junit", version: "4.13.2"
 }
 

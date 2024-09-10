@@ -22,36 +22,17 @@ package org.mamotec.j60870.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-
 class SerialServerThread implements Runnable {
 
 	private final SerialPort serialPort;
 
 	private final SerialConnectionSettings settings;
 
-	private final int maxConnections;
-
-	private final SerialServerEventListener serverSapListener;
-
-	private final List<String> allowedClientIps;
-
-	private final ExecutorService executor;
-
 	private volatile boolean stopServer = false;
 
-	private int numConnections = 0;
-
-	SerialServerThread(SerialPort serialPort, SerialConnectionSettings settings, int maxConnections, SerialServerEventListener serverSapListener, ExecutorService exec,
-			List<String> allowedClientIps) {
+	SerialServerThread(SerialPort serialPort, SerialConnectionSettings settings) {
 		this.serialPort = serialPort;
 		this.settings = settings;
-		this.maxConnections = maxConnections;
-		this.serverSapListener = serverSapListener;
-		this.executor = exec;
-		this.allowedClientIps = allowedClientIps;
 	}
 
 	@Override
@@ -59,39 +40,12 @@ class SerialServerThread implements Runnable {
 		Thread.currentThread().setName("ServerThread");
 
 		try {
-			serialPort.openPort();
-			serialPort.setComPortParameters(settings.getBaudRate(), 8, 1, SerialPort.EVEN_PARITY);
-			serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 0, 0);
-
 			while (!stopServer) {
 				if (serialPort.bytesAvailable() > 0) {
 					byte[] readBuffer = new byte[serialPort.bytesAvailable()];
 					int numRead = serialPort.readBytes(readBuffer, readBuffer.length);
 					// Verarbeiten Sie die gelesenen Daten
 
-				}
-
-				if (allowedClientIps != null ) {
-					serialPort.closePort();
-					continue;
-				}
-
-				boolean startConnection = false;
-
-				synchronized (this) {
-					if (numConnections < maxConnections) {
-						numConnections++;
-						startConnection = true;
-					}
-				}
-
-				if (startConnection) {
-					ConnectionHandler connectionHandler = new ConnectionHandler(serialPort, this);
-					executor.execute(connectionHandler);
-				} else {
-					serverSapListener.connectionAttemptFailed(
-							new IOException("Maximum number of connections reached. Ignoring connection request. Maximum number of connections: " + maxConnections));
-					serialPort.closePort();
 				}
 
 			}
@@ -102,11 +56,7 @@ class SerialServerThread implements Runnable {
 		}
 	}
 
-	void connectionClosedSignal() {
-		synchronized (this) {
-			numConnections--;
-		}
-	}
+
 
 	/**
 	 * Stops listening for new connections. Existing connections are not touched.
@@ -115,37 +65,6 @@ class SerialServerThread implements Runnable {
 		stopServer = true;
 		if (serialPort.isOpen()) {
 			serialPort.closePort();
-		}
-	}
-
-	private class ConnectionHandler implements Runnable {
-
-		private final SerialPort serialPort;
-
-		private final SerialServerThread tcpServerThread;
-
-		public ConnectionHandler(SerialPort port, SerialServerThread tcpServerThread) {
-			this.serialPort = port;
-			this.tcpServerThread = tcpServerThread;
-		}
-
-		@Override
-		public void run() {
-			Thread.currentThread().setName("ConnectionHandler");
-			SerialConnection serverSerialConnection;
-			try {
-				serverSerialConnection = new SerialConnection(settings);
-				// first set listener before any communication can happen
-				serverSerialConnection.setConnectionListener(serverSapListener.setConnectionEventListenerBeforeStart());
-				serverSerialConnection.start();
-			} catch (IOException e) {
-				synchronized (SerialServerThread.this) {
-					numConnections--;
-				}
-				serverSapListener.connectionAttemptFailed(e);
-				return;
-			}
-			serverSapListener.connectionIndication(serverSerialConnection);
 		}
 	}
 

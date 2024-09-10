@@ -20,8 +20,6 @@
  */
 package org.mamotec.j60870;
 
-import org.mamotec.j60870.serial.SerialBuilder;
-import org.mamotec.j60870.serial.SerialConnection;
 import org.mamotec.j60870.tcp.TcpBuilder;
 import org.mamotec.j60870.tcp.TcpConnection;
 import org.mamotec.j60870.tcp.TcpConnectionSettings;

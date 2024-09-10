@@ -2,12 +2,16 @@ package org.mamotec.responder.modbus;
 
 import com.ghgande.j2mod.modbus.io.ModbusTCPTransaction;
 import com.ghgande.j2mod.modbus.net.TCPMasterConnection;
+import lombok.extern.slf4j.Slf4j;
 import org.mamotec.common.enums.NeTable;
 import org.mamotec.common.type.ValueHolder;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
+@Slf4j
 public class ModbusTcpClient {
+
 	public static final int UNIT = 32;
 
 	private final TCPMasterConnection connection;
@@ -18,13 +22,20 @@ public class ModbusTcpClient {
 
 	private final ModbusWriteService writeService;
 
-	public ModbusTcpClient(String modbusTcpIp) throws Exception {
+	public ModbusTcpClient(String modbusTcpIp) throws UnknownHostException {
 		InetAddress address = InetAddress.getByName(modbusTcpIp);
 		connection = new TCPMasterConnection(address);
-		connection.setPort(502); // Standard-Modbus-TCP-Port
-		connection.connect();
+		connection.setPort(502);
 		readService = new ModbusReadService(connection, transaction, UNIT);
 		writeService = new ModbusWriteService(connection, transaction, UNIT);
+	}
+
+	public void connect() throws Exception {
+		connection.connect();
+
+		if (connection.isConnected()) {
+			log.info("Connected to Modbus TCP server: {}", connection.getAddress());
+		}
 	}
 
 	public <T> ValueHolder<T> read(NeTable neTable) {
@@ -39,5 +50,9 @@ public class ModbusTcpClient {
 		if (connection != null && connection.isConnected()) {
 			connection.close();
 		}
+	}
+
+	public boolean isConnected() {
+		return connection.isConnected();
 	}
 }

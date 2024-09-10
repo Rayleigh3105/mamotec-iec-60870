@@ -10,7 +10,7 @@ import java.util.EventListener;
  */
 public interface Connection {
 
-	void open() throws IOException;
+	void open() throws IOException, InterruptedException;
 
 	void close() throws IOException;
 

@@ -90,38 +90,6 @@ public class APdu {
         }
     }
 
-    @SuppressWarnings("resource")
-    public static APdu decode(InputStream inputStream, SerialConnectionSettings settings) throws IOException {
-
-        ExtendedDataInputStream is = new ExtendedDataInputStream(inputStream);
-
-
-        if (is.read() != START_FLAG) {
-            System.out.println("Message does not start with START flag (0x68). Broken connection.");
-            throw new IOException("Message does not start with START flag (0x68). Broken connection.");
-        }
-
-        int length = readApduLength(is);
-
-        byte[] aPduControlFields = readControlFields(is);
-
-        ApciType apciType = ApciType.apciTypeFor(aPduControlFields[0]);
-        switch (apciType) {
-        case I_FORMAT:
-            int sendSeqNum = seqNumFrom(aPduControlFields[0], aPduControlFields[1]);
-            int receiveSeqNum = seqNumFrom(aPduControlFields[2], aPduControlFields[3]);
-
-            int aSduLength = length - CONTROL_FIELDS_LENGTH;
-
-            return new APdu(sendSeqNum, receiveSeqNum, apciType, ASdu.decode(is, settings, aSduLength));
-        case S_FORMAT:
-            return new APdu(0, seqNumFrom(aPduControlFields[2], aPduControlFields[3]), apciType, null);
-
-        default:
-            return new APdu(0, 0, apciType, null);
-        }
-    }
-
     private static int seqNumFrom(byte b1, byte b2) {
         return ((b1 & 0xfe) >> 1) + ((b2 & 0xff) << 7);
     }

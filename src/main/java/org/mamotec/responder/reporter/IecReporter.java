@@ -1,46 +1,64 @@
 package org.mamotec.responder.reporter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mamotec.common.enums.AccessType;
 import org.mamotec.common.enums.NeTable;
+import org.mamotec.common.threshhold.Threshold;
 import org.mamotec.common.type.ValueHolder;
 import org.mamotec.responder.client.IecClient;
 import org.mamotec.responder.modbus.ModbusTcpClient;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.Arrays.stream;
 import static org.mamotec.common.enums.NeTable.values;
 
+@Slf4j
 public class IecReporter {
 
-	public static final String MODBUS_TCP_IP = "127.0.0.1";
-
-	private final List<NeTable> readRegister = new ArrayList<>();
+	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 	private final IecClient iecGateway;
 
-	public  IecReporter(IecClient iecGateway) {
+	private final ModbusTcpClient modbusTcpClient;
+
+	private final int millis;
+
+	public IecReporter(IecClient iecGateway, ModbusTcpClient modbusTcpClient, int intervalInSeconds) {
 		this.iecGateway = iecGateway;
-		readRegister.addAll(stream(values()).filter(neTable -> neTable.getModbusAccessType().equals(AccessType.READ)).toList());
+		this.modbusTcpClient = modbusTcpClient;
+		this.millis = intervalInSeconds;
+	}
+
+	public void startReporting() {
+		scheduler.scheduleAtFixedRate(this::doReport, 0, millis, TimeUnit.MILLISECONDS);
 	}
 
 	public void doReport() {
-		ModbusTcpClient tcpClient;
-
+		ArrayList<NeTable> readRegister = new ArrayList<>(stream(values()).filter(neTable -> neTable.getModbusAccessType().equals(AccessType.READ)).toList());
+		log.info("Reading {} tables", readRegister.size());
 		try {
-			tcpClient = new ModbusTcpClient(MODBUS_TCP_IP);
-
-			ModbusTcpClient modbusServer = tcpClient;
 			readRegister.forEach(neTable -> {
 				// Read table from Modbus Server
-				ValueHolder<Object> holder = modbusServer.read(neTable);
+				ValueHolder<Object> holder = modbusTcpClient.read(neTable);
+
+				// Save the last measured value
+				Object lastValue = neTable.getLastMeasuredValue();
+				neTable.setLastMeasuredValue(holder.getValue());
+
+				// Check thresholds
+				for (Threshold threshold : neTable.getThresholds()) {
+					if (lastValue != null && threshold.check((Number) holder.getValue(), (Number) lastValue)) {
+						log.warn("Threshold exceeded for {}: {}", neTable, holder.getValue());
+					}
+				}
 
 				// Send command via IEC Client
-				boolean isSent = false;
+				boolean isSent;
 				try {
 					isSent = iecGateway.sendValue(holder, neTable);
 				} catch (IOException e) {
@@ -48,21 +66,15 @@ public class IecReporter {
 				}
 
 				if (isSent) {
-					log("Value sent successfully: " + holder.getValue());
+					log.info("Value sent successfully: {}", holder.getValue());
 				} else {
-					log("Failed to send value: " + holder.getValue());
+					log.info("Failed to send value: {}", holder.getValue());
 				}
 			});
 
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			log.error("Error in doReport: {}", e.getMessage());
 		}
 
 	}
-
-	private void log(String message) {
-		String time = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS ").format(new Date());
-		System.out.println(time + message);
-	}
-
 }
