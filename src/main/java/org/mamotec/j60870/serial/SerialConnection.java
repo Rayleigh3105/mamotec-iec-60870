@@ -71,11 +71,15 @@ import java.util.concurrent.TimeUnit;
 @Getter
 public class SerialConnection implements AutoCloseable {
 
+	public static final byte[] STATUS = new byte[] { 0x10, 0x0b, 0x01, 0x0C, 0x16 };
+
 	private static final byte[] TESTFR_CON_BUFFER = new byte[] { 0x68, 0x04, (byte) 0x83, 0x00, 0x00, 0x00 };
 
 	private static final byte[] STARTDT_ACT_BUFFER = new byte[] { 0x68, 0x04, 0x07, 0x00, 0x00, 0x00 };
 
 	private static final byte[] STARTDT_CON_BUFFER = new byte[] { 0x10, 0x00, 0x01, 0x01, 0x16 };
+
+	public static final byte[] ACK = new byte[] { 0x10, 0x00, 0x01, 0x01, 0x16 };
 
 	private static final byte[] STOPDT_CON_BUFFER = new byte[] { 0x68, 0x04, 0x23, 0x00, 0x00, 0x00 };
 
@@ -136,21 +140,23 @@ public class SerialConnection implements AutoCloseable {
 	}
 
 	public void open() {
-/*
-		this.send(STATUS);
 
-		Thread.sleep(2000);
+        try {
+            this.send(STATUS);
 
-		this.handleStartDtAct();
+            Thread.sleep(2000);
 
-		Thread.sleep(2000);
+            this.handleStartDtAct();
 
-		ASdu aSdu50 = new ASdu(ASduType.C_SE_NC_1, false, CauseOfTransmission.SPONTANEOUS, false, false, 0, 1,
-				new InformationObject(111, new InformationElement[][] { { new IeShortFloat(32F), new IeQualifierOfSetPointCommand(0, true) } }));
-		this.send(aSdu50);
-*/
+            Thread.sleep(2000);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-	}
+
+    }
 
 	public void send(byte[] data) throws IOException {
 		synchronized (this) {

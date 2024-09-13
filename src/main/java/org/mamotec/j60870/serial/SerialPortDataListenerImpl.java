@@ -4,6 +4,7 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.mamotec.Responder;
 import org.mamotec.j60870.ASdu;
 import org.mamotec.j60870.internal.ExtendedDataInputStream;
 
@@ -32,7 +33,7 @@ public class SerialPortDataListenerImpl implements SerialPortDataListener {
 			return;
 		}
 
-		byte[] newData = event.getReceivedData();
+        byte[] newData = event.getReceivedData();
 
 		InputStream inputStream = new ByteArrayInputStream(newData);
 
@@ -46,7 +47,7 @@ public class SerialPortDataListenerImpl implements SerialPortDataListener {
 			if (startByte == 0x68) {
 				ASdu.decode(extendedDataInputStream, settings, 3);
 			} else if (startByte == 0x10) {
-				processSingleByteFrame(extendedDataInputStream, startByte);
+				processSingleByteFrame(extendedDataInputStream, event);
 			} else {
 				// Unbekanntes Startbyte
 				log.info("Unbekanntes Startbyte: {}", String.format("0x%02X", startByte));
@@ -57,22 +58,23 @@ public class SerialPortDataListenerImpl implements SerialPortDataListener {
 
 	}
 
-	private void processSingleByteFrame(ExtendedDataInputStream inputStream, int startByte) throws IOException {
+	private void processSingleByteFrame(ExtendedDataInputStream inputStream, SerialPortEvent event) throws IOException {
 		// Lese das Kontrollfeld
 		int controlField = inputStream.readUnsignedByte();
 
 		// Verarbeitung des Kontrollfeldes, um den Typ des Einzelbyte-Frames zu bestimmen
 		switch (controlField) {
 		case 0x49:
-			log.info("Empfangen: ACK");
-			break;
-		case 0x0B:
-			log.info("Empfangen: NACK");
-			break;
-		case 0x0F:
 			log.info("Empfangen: Request for Link Status");
-
+			event.getSerialPort().getOutputStream().write(SerialConnection.STATUS);
+			event.getSerialPort().getOutputStream().flush();
 			break;
+		case 0x40:
+			log.info("Empfangen: Request of remote link");
+			event.getSerialPort().getOutputStream().write(SerialConnection.ACK);
+			event.getSerialPort().getOutputStream().flush();
+			break;
+
 		default:
 			log.info("Unbekanntes Kontrollfeld: {}", String.format("0x%02X", controlField));
 			break;

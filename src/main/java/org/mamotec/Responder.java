@@ -21,8 +21,6 @@ import org.mamotec.responder.modbus.ModbusTcpClient;
 import org.mamotec.thread.IecThread;
 import org.mamotec.thread.SerialConnectionReadThread;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
 
 /**
  * A client/master application to access IEC 60870-5-104 servers/slaves.
@@ -30,8 +28,6 @@ import java.net.UnknownHostException;
 @Slf4j
 @Getter
 public class Responder {
-
-	private static final byte[] STATUS = new byte[] { (byte) 0xE5 };
 
 	// Serial connection parameters
 	private static final StringCliParameter baudRate = new CliParameterBuilder("-br").setMandatory().buildStringParameter("baudrate");
@@ -65,13 +61,7 @@ public class Responder {
 
 		doPreconditions();
 
-		try {
-			ASdu aSdu50 = new ASdu(ASduType.C_SE_NC_1, false, CauseOfTransmission.SPONTANEOUS, false, false, 0, 1,
-					new InformationObject(111, new InformationElement[][] { { new IeShortFloat(32F), new IeQualifierOfSetPointCommand(0, true) } }));
-			serialConnection.send(aSdu50);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		//serialConnection.open();
 
 		// Thread 1: Serial Connection Read
 		SerialConnectionReadThread serialConnectionTask = new SerialConnectionReadThread(serialConnection);
@@ -80,9 +70,9 @@ public class Responder {
 		// Thread 2: IEC Client and Reporter
 		IecThread iecThread = new IecThread(serialConnection, modbusTcpClient);
 		Thread iecThreadThread = new Thread(iecThread);
-/*
+
 		serialConnectionThread.start();
-		iecThreadThread.start();*/
+		//iecThreadThread.start();
 	}
 
 	private static void doPreconditions() {
